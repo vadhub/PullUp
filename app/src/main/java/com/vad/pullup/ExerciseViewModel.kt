@@ -20,4 +20,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun saveCount() = viewModelScope.launch {
         repository.writeExercise()
     }
+
+    fun getExerciseByDay(day: Int) = viewModelScope.launch {
+        repository.getPlanOfDay(day)
+    }
 }
