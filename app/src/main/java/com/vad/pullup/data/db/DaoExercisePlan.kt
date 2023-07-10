@@ -1,4 +1,4 @@
-package com.vad.pullup.data
+package com.vad.pullup.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
