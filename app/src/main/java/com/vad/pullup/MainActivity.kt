@@ -8,6 +8,9 @@ import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.vad.pullup.data.Configuration
+import com.vad.pullup.data.ExerciseRepository
 
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -15,10 +18,24 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var sensorManager : SensorManager? = null
     private var lastUpdate: Long = 0
 
+    lateinit var configuration: Configuration
+    lateinit var exerciseViewModel: ExerciseViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        configuration = Configuration(this)
+
+        val factory = ExerciseViewModelFactory(ExerciseRepository((application as App).database.exerciseDao()))
+        exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
+
+        if (!configuration.getFirstStart()) {
+            configuration.saveFirstStart(true)
+            configuration.saveDay(1)
+        } else {
+
+        }
 
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
@@ -26,8 +43,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
             SensorManager.SENSOR_DELAY_NORMAL);
         lastUpdate=System.currentTimeMillis();
-
-
 
     }
 

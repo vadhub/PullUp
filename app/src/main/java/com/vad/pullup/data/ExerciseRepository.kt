@@ -1,22 +1,16 @@
 package com.vad.pullup.data
 
-class ExerciseRepository {
+import com.vad.pullup.data.db.DaoExercisePlan
+import com.vad.pullup.data.db.Exercise
 
-    fun getPlanOfDay(day: Int) {
+class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
-    }
+    suspend fun getPlanOfDay(day: Int) = daoExercisePlan.getExerciseOnPlanFromDay(day)
 
-    fun getAllExercise() {
+    suspend fun getAllExercise() = daoExercisePlan.getAllExercise()
 
-    }
+    suspend fun writeExercise(exercise: Exercise) = daoExercisePlan.insertExercise(exercise)
 
-    fun writeExercise() {
-
-    }
-
-    fun updateExercise() {
-
-    }
-
+    suspend fun updateExercise(exercise: Exercise) = daoExercisePlan.updateExercise(exercise)
 
 }
