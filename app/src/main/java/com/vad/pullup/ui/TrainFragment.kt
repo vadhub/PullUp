@@ -10,6 +10,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.vad.pullup.R
 import com.vad.pullup.data.BaseFragment
+import com.vad.pullup.data.db.Exercise
+import java.sql.Date
 
 class TrainFragment : BaseFragment() {
 
@@ -33,8 +35,15 @@ class TrainFragment : BaseFragment() {
         imageButtonAdd = view.findViewById(R.id.increase) as ImageButton
         imageButtonRemove = view.findViewById(R.id.decrease) as ImageButton
 
+        var exercise = Exercise(0, 0, 0, Date(0))
+
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             textViewCount.text = "$it"
+            exercise = Exercise(0, exercise.state, it, exercise.date)
+        }
+
+        exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
+            exercise = Exercise(0, it.state, it.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.getExerciseByDay(configuration.getDay())
@@ -48,7 +57,7 @@ class TrainFragment : BaseFragment() {
         }
 
         buttonDone.setOnClickListener {
-            exerciseViewModel.saveCount()
+            exerciseViewModel.saveCount(exercise)
         }
 
     }
