@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         if (!configuration.getFirstStart()) {
             configuration.saveFirstStart(true)
+            exerciseViewModel.setProgram()
             configuration.saveDay(1)
         } else {
 

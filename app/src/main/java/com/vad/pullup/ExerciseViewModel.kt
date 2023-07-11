@@ -10,9 +10,12 @@ import kotlinx.coroutines.launch
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
-
     var countOfRepeat: MutableLiveData<Int> = MutableLiveData()
     var exercisePlan: MutableLiveData<ExercisePlan> = MutableLiveData()
+
+    fun setProgram() = viewModelScope.launch {
+        repository.setAllProgram()
+    }
 
     fun increaseCount(count: Int) = countOfRepeat.postValue(count+1)
 
