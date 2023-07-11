@@ -12,6 +12,9 @@ interface DaoExercisePlan {
     suspend fun getExerciseOnPlanFromDay(day: Int): ExercisePlan
 
     @Insert
+    suspend fun insertExerciseProgram(exerciseProgram: ExercisePlan)
+
+    @Insert
     suspend fun insertExercise(exercise: Exercise)
 
     @Update

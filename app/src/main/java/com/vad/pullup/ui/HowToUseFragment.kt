@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.vad.pullup.R
+import com.vad.pullup.data.BaseFragment
 
-class HowToUseFragment : Fragment() {
+class HowToUseFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
