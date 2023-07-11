@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.vad.pullup.R
+import com.vad.pullup.data.BaseFragment
 
-class StatisticFragment : Fragment() {
+class StatisticFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
