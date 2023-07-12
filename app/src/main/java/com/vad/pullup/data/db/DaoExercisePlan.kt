@@ -9,7 +9,7 @@ import androidx.room.Update
 interface DaoExercisePlan {
 
     @Query("SELECT * FROM exercise_plan WHERE day = :day")
-    suspend fun getExerciseOnPlanFromDay(day: Int): ExercisePlan
+    suspend fun getExerciseOnPlanFromDay(day: Int): List<ExercisePlan>
 
     @Insert
     suspend fun insertExerciseProgram(exerciseProgram: ExercisePlan)
