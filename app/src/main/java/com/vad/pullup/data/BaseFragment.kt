@@ -2,8 +2,10 @@ package com.vad.pullup.data
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.vad.pullup.App
 import com.vad.pullup.ExerciseViewModel
-import com.vad.pullup.MainActivity
+import com.vad.pullup.ExerciseViewModelFactory
 
 open class BaseFragment : Fragment() {
 
@@ -12,8 +14,9 @@ open class BaseFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        configuration = (requireActivity() as MainActivity).configuration
-        exerciseViewModel = (requireActivity() as MainActivity).exerciseViewModel
+        configuration = Configuration(context)
+        val factory = ExerciseViewModelFactory(ExerciseRepository((requireActivity().application as App).database.exerciseDao()))
+        exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
     }
 
 }

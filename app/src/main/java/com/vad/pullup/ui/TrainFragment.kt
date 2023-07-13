@@ -1,6 +1,7 @@
 package com.vad.pullup.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,17 @@ class TrainFragment : BaseFragment() {
         imageButtonAdd = view.findViewById(R.id.increase) as ImageButton
         imageButtonRemove = view.findViewById(R.id.decrease) as ImageButton
 
+        val stateFirst = view.findViewById(R.id.firstTask) as TextView
+        val stateSecond = view.findViewById(R.id.secondTask) as TextView
+        val stateThird = view.findViewById(R.id.thirdTask) as TextView
+        val stateFourth = view.findViewById(R.id.fourthTask) as TextView
+        val stateFifth = view.findViewById(R.id.fifthTask) as TextView
+
         var exercise = Exercise(0, 0, 0, Date(0))
+        val indicator = IndicatorState(stateFirst, stateSecond, stateThird, stateFourth, stateFifth)
+
+        exerciseViewModel.getExerciseByDay(configuration.getDay())
+        exerciseViewModel.getListOfCountExercise(configuration.getDay())
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             textViewCount.text = "$it"
@@ -43,10 +54,13 @@ class TrainFragment : BaseFragment() {
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
-            exercise = Exercise(0, it.state, it.count, Date(System.currentTimeMillis()))
+            exercise = Exercise(0, it[0].state, it[0].count, Date(System.currentTimeMillis()))
         }
 
-        exerciseViewModel.getExerciseByDay(configuration.getDay())
+        exerciseViewModel.listCount.observe(viewLifecycleOwner) {
+            Log.d("##1", it.toTypedArray().contentToString())
+            indicator.setStates(it)
+        }
 
         imageButtonAdd.setOnClickListener {
             exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())

@@ -9,6 +9,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.vad.pullup.data.Configuration
 import com.vad.pullup.data.ExerciseRepository
 
@@ -17,9 +19,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var sensorManager : SensorManager? = null
     private var lastUpdate: Long = 0
+    private lateinit var navController: NavController
 
-    lateinit var configuration: Configuration
-    lateinit var exerciseViewModel: ExerciseViewModel
+    private lateinit var configuration: Configuration
+    private lateinit var exerciseViewModel: ExerciseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +37,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             configuration.saveFirstStart(true)
             exerciseViewModel.setProgram()
             configuration.saveDay(1)
-        } else {
-
         }
 
-        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
-        sensorManager?.registerListener(this,
-            sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-            SensorManager.SENSOR_DELAY_NORMAL);
-        lastUpdate=System.currentTimeMillis();
+        navController = navHostFragment.navController
+
+//        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+//
+//        sensorManager?.registerListener(this,
+//            sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+//            SensorManager.SENSOR_DELAY_NORMAL);
+//        lastUpdate=System.currentTimeMillis();
 
     }
 
