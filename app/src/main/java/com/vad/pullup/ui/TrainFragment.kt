@@ -1,6 +1,7 @@
 package com.vad.pullup.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,9 @@ class TrainFragment : BaseFragment() {
         var exercise = Exercise(0, 0, 0, Date(0))
         val indicator = IndicatorState(stateFirst, stateSecond, stateThird, stateFourth, stateFifth)
 
+        exerciseViewModel.getExerciseByDay(configuration.getDay())
+        exerciseViewModel.getListOfCountExercise(configuration.getDay())
+
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             textViewCount.text = "$it"
             exercise = Exercise(0, exercise.state, it, exercise.date)
@@ -54,10 +58,9 @@ class TrainFragment : BaseFragment() {
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
+            Log.d("##1", it.toTypedArray().contentToString())
             indicator.setStates(it)
         }
-
-        exerciseViewModel.getExerciseByDay(configuration.getDay())
 
         imageButtonAdd.setOnClickListener {
             exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())
