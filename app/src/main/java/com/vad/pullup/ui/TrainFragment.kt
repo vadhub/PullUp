@@ -49,12 +49,12 @@ class TrainFragment : BaseFragment() {
         exerciseViewModel.getListOfCountExercise(configuration.getDay())
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
-            textViewCount.text = "$it"
             exercise = Exercise(0, exercise.state, it, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
-            exercise = Exercise(0, it[0].state, it[0].count, Date(System.currentTimeMillis()))
+            textViewCount.text = "${it.count}"
+            exercise = Exercise(0, it.state, it.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
