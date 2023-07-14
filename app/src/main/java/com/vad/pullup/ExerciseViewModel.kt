@@ -23,7 +23,9 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         repository.setAllProgram()
     }
 
-    fun increaseCount(count: Int) = countOfRepeat.postValue(count+1)
+    fun increaseCount(count: Int) {
+        countOfRepeat.postValue(count+1)
+    }
 
     fun decreaseCount(count: Int) {
         if (count > 0) countOfRepeat.postValue(count-1)
