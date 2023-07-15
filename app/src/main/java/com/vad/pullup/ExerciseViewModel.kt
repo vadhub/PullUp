@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
+    private var timerHandle: Timer? = null
     private var state = 0
     private var switchTimer = true
     private var listOfCount: List<Int> = listOf()
@@ -41,8 +42,13 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         changeTimeout.postValue(switchTimer)
 
         if (switchTimer) {
-            timer.postValue(Timer(10_000))
+            if (timerHandle == null) {
+                timerHandle = Timer(10_000)
+            }
+            timer.postValue(timerHandle!!)
         } else {
+            timerHandle?.cancelTimer()
+            timerHandle = null
             switchState()
         }
 
