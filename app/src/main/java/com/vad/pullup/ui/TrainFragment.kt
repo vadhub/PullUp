@@ -11,16 +11,20 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.vad.pullup.R
 import com.vad.pullup.data.BaseFragment
+import com.vad.pullup.data.Timer
+import com.vad.pullup.data.TimerHandler
 import com.vad.pullup.data.db.Exercise
 import java.sql.Date
+import java.util.concurrent.TimeUnit
 
-class TrainFragment : BaseFragment() {
+class TrainFragment : BaseFragment(), TimerHandler {
 
     private lateinit var progressBar: ProgressBar
     private lateinit var buttonDone: Button
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
+    private lateinit var timer: Timer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +67,19 @@ class TrainFragment : BaseFragment() {
             indicator.setStates(it)
         }
 
+        exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
+            if (it) {
+                buttonDone.text = "finish"
+            } else {
+                buttonDone.text = "done"
+            }
+        }
+        exerciseViewModel.timer.observe(viewLifecycleOwner) {
+            timer = it
+            timer.setTimerHandler(this)
+            timer.startTimer()
+        }
+
         imageButtonAdd.setOnClickListener {
             exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())
         }
@@ -75,6 +92,20 @@ class TrainFragment : BaseFragment() {
             exerciseViewModel.saveCount(exercise)
         }
 
+    }
+
+    override fun showTime(time: Long) {
+
+        val mTime = String.format("%02d:%02d",
+            TimeUnit.MILLISECONDS.toMinutes(time),
+            TimeUnit.MILLISECONDS.toSeconds(time) -
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)))
+
+        textViewCount.text = mTime
+    }
+
+    override fun finishTime() {
+        exerciseViewModel.switchState()
     }
 
 }

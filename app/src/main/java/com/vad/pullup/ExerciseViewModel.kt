@@ -5,19 +5,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ExerciseRepository
+import com.vad.pullup.data.Timer
 import com.vad.pullup.data.db.Exercise
 import com.vad.pullup.data.db.ExercisePlan
 import kotlinx.coroutines.launch
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
+    private var timerHandle: Timer? = null
     private var state = 0
+    private var switchTimer = true
     private var listOfCount: List<Int> = listOf()
     private var listOfExercise: List<ExercisePlan> = listOf()
 
     val countOfRepeat: MutableLiveData<Int> = MutableLiveData()
     val exercisePlan: MutableLiveData<ExercisePlan> = MutableLiveData()
     val listCount: MutableLiveData<List<Int>> = MutableLiveData()
+    val changeTimeout: MutableLiveData<Boolean> = MutableLiveData()
+    val timer: MutableLiveData<Timer> = MutableLiveData()
 
     fun setProgram() = viewModelScope.launch {
         repository.setAllProgram()
@@ -33,6 +38,24 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun saveCount(exercise: Exercise) = viewModelScope.launch {
 //        repository.writeExercise(exercise)
+
+        changeTimeout.postValue(switchTimer)
+
+        if (switchTimer) {
+            if (timerHandle == null) {
+                timerHandle = Timer(10_000)
+            }
+            timer.postValue(timerHandle!!)
+        } else {
+            timerHandle?.cancelTimer()
+            timerHandle = null
+            switchState()
+        }
+
+        switchTimer = !switchTimer
+    }
+
+    fun switchState() {
         if (listOfCount.size - 1 > state) state++
         exercisePlan.postValue(listOfExercise[state])
     }
