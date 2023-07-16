@@ -92,6 +92,10 @@ class TrainFragment : BaseFragment(), TimerHandler {
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
+        exerciseViewModel.finish.observe(viewLifecycleOwner) {
+            configuration.saveDay(configuration.getDay()+1)
+        }
+
         imageButtonAdd.setOnClickListener {
             exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())
         }

@@ -24,6 +24,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val changeTimeout: MutableLiveData<Boolean> = MutableLiveData()
     val timer: MutableLiveData<Timer> = MutableLiveData()
     val stateLiveData: MutableLiveData<Int> = MutableLiveData()
+    val finish: MutableLiveData<Boolean> = MutableLiveData()
 
     fun setProgram() = viewModelScope.launch {
         repository.setAllProgram()
@@ -50,7 +51,13 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     }
 
     fun switchState() {
-        if (listOfCount.size - 1 > state) state++
+
+        if (listOfCount.size - 1 > state) {
+            state++
+        } else {
+            finish.postValue(true)
+        }
+
         exercisePlan.postValue(listOfExercise[state])
         stateLiveData.postValue(state)
     }
