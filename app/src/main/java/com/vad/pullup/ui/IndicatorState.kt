@@ -1,13 +1,17 @@
 package com.vad.pullup.ui
 
+import android.content.Context
+import android.widget.ImageView
 import android.widget.TextView
+import com.vad.pullup.R
 
 class IndicatorState(
     private val state1: TextView,
     private val state2: TextView,
     private val state3: TextView,
     private val state4: TextView,
-    private val state5: TextView
+    private val state5: TextView,
+    private val context: Context
     ) {
 
     fun setStates(listState: List<Int>) {
@@ -16,6 +20,17 @@ class IndicatorState(
         state3.text = "${listState[2]}"
         state4.text = "${listState[3]}"
         state5.text = "${listState[4]}"
+    }
+
+    fun setIndicateRest(firstRest: ImageView, secondRest: ImageView, thirdRest: ImageView, fourthRest: ImageView, round: Int) {
+
+        when (round) {
+            1 -> firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+            2 -> secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+            3 -> thirdRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+            4 -> fourthRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+        }
+
     }
 
 }
