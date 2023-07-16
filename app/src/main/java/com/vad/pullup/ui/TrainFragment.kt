@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.vad.pullup.R
@@ -24,7 +25,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
-    private lateinit var timer: Timer
+    private var timer: Timer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +47,13 @@ class TrainFragment : BaseFragment(), TimerHandler {
         val stateFourth = view.findViewById(R.id.fourthTask) as TextView
         val stateFifth = view.findViewById(R.id.fifthTask) as TextView
 
+        val firstRest = view.findViewById(R.id.firstFree) as ImageView
+        val secondRest = view.findViewById(R.id.secondFree) as ImageView
+        val thirdRest = view.findViewById(R.id.thirdFree) as ImageView
+        val fourthRest = view.findViewById(R.id.fourthFree) as ImageView
+
         var exercise = Exercise(0, 0, 0, Date(0))
-        val indicator = IndicatorState(stateFirst, stateSecond, stateThird, stateFourth, stateFifth)
+        val indicator = IndicatorState(stateFirst, stateSecond, stateThird, stateFourth, stateFifth, thisContext)
 
         exerciseViewModel.getExerciseByDay(configuration.getDay())
         exerciseViewModel.getListOfCountExercise(configuration.getDay())
@@ -74,10 +80,20 @@ class TrainFragment : BaseFragment(), TimerHandler {
                 buttonDone.text = "done"
             }
         }
+
         exerciseViewModel.timer.observe(viewLifecycleOwner) {
+            timer = null
             timer = it
-            timer.setTimerHandler(this)
-            timer.startTimer()
+            timer?.setTimerHandler(this)
+            timer?.startTimer()
+        }
+
+        exerciseViewModel.stateLiveData.observe(viewLifecycleOwner) {
+            indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
+        }
+
+        exerciseViewModel.finish.observe(viewLifecycleOwner) {
+            configuration.saveDay(configuration.getDay()+1)
         }
 
         imageButtonAdd.setOnClickListener {
@@ -106,6 +122,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
     override fun finishTime() {
         exerciseViewModel.switchState()
+        buttonDone.text = "done"
     }
 
 }
