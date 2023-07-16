@@ -40,26 +40,16 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun saveCount(exercise: Exercise) = viewModelScope.launch {
 //        repository.writeExercise(exercise)
 
-        changeTimeout.postValue(switchTimer)
+        if (listOfCount.size - 2 > state) {
+            changeTimeout.postValue(switchTimer)
 
-        Log.d("1", "$switchTimer")
+            timerHandle = Timer(10_000)
 
-        if (switchTimer) {
-            if (timerHandle == null) {
-                timerHandle = Timer(10_000)
-            }
             timer.postValue(timerHandle!!)
-        } else {
-            timerHandle?.cancelTimer()
-            timerHandle = null
-            switchState()
         }
-
     }
 
     fun switchState() {
-        Log.d("1", "$switchTimer")
-        switchTimer = !switchTimer
         if (listOfCount.size - 1 > state) state++
         exercisePlan.postValue(listOfExercise[state])
         stateLiveData.postValue(state)

@@ -25,7 +25,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
-    private lateinit var timer: Timer
+    private var timer: Timer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,10 +80,12 @@ class TrainFragment : BaseFragment(), TimerHandler {
                 buttonDone.text = "done"
             }
         }
+
         exerciseViewModel.timer.observe(viewLifecycleOwner) {
+            timer = null
             timer = it
-            timer.setTimerHandler(this)
-            timer.startTimer()
+            timer?.setTimerHandler(this)
+            timer?.startTimer()
         }
 
         exerciseViewModel.stateLiveData.observe(viewLifecycleOwner) {
