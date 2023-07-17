@@ -15,9 +15,6 @@ data class Exercise(
     @ColumnInfo(name = "id_")
     val idExercise: Int,
 
-    @ColumnInfo(name = "state")
-    val state: Int,
-
     @ColumnInfo(name = "count")
     val count: Int,
 

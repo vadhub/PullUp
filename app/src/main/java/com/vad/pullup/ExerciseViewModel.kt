@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ExerciseRepository
+import com.vad.pullup.data.Repeat
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.db.Exercise
 import com.vad.pullup.data.db.ExercisePlan
@@ -26,8 +27,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val stateLiveData: MutableLiveData<Int> = MutableLiveData()
     val finish: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun setProgram() = viewModelScope.launch {
-        repository.setAllProgram()
+    fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
+        repository.setAllProgram(listRepeat)
     }
 
     fun increaseCount(count: Int) {
@@ -70,5 +71,9 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun getExerciseByDay(day: Int) = viewModelScope.launch {
         listOfExercise = repository.getPlanOfDay(day)
         exercisePlan.postValue(listOfExercise[state])
+    }
+
+    fun deleteAllProgram() = viewModelScope.launch {
+        repository.delete()
     }
 }

@@ -52,7 +52,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
         val thirdRest = view.findViewById(R.id.thirdFree) as ImageView
         val fourthRest = view.findViewById(R.id.fourthFree) as ImageView
 
-        var exercise = Exercise(0, 0, 0, Date(0))
+        var exercise = Exercise(0, 0, Date(0))
         val indicator = IndicatorState(stateFirst, stateSecond, stateThird, stateFourth, stateFifth, thisContext)
 
         exerciseViewModel.getExerciseByDay(configuration.getDay())
@@ -60,12 +60,12 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             textViewCount.text = "$it"
-            exercise = Exercise(0, exercise.state, it, exercise.date)
+            exercise = Exercise(0, it, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
             textViewCount.text = "${it.count}"
-            exercise = Exercise(0, it.state, it.count, Date(System.currentTimeMillis()))
+            exercise = Exercise(0, it.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {

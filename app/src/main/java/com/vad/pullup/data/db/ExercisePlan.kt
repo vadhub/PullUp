@@ -11,12 +11,9 @@ data class ExercisePlan(
     @ColumnInfo(name = "id_exercise")
     val idExercise: Int,
 
-    @ColumnInfo(name = "state")
-    val state: Int,
-
     @ColumnInfo(name = "count")
     val count: Int,
 
-    @ColumnInfo(name = "day")
-    val day: Int
+    @ColumnInfo(name = "week")
+    val week: Int
     )
