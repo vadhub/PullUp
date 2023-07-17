@@ -20,4 +20,8 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
     suspend fun updateExercise(exercise: Exercise) = daoExercisePlan.updateExercise(exercise)
 
+    suspend fun delete() {
+        daoExercisePlan.deleteAll()
+    }
+
 }

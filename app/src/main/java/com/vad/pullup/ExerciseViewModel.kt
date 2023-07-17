@@ -72,4 +72,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         listOfExercise = repository.getPlanOfDay(day)
         exercisePlan.postValue(listOfExercise[state])
     }
+
+    fun deleteAllProgram() = viewModelScope.launch {
+        repository.delete()
+    }
 }

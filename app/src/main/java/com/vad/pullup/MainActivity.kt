@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
 
         if (!configuration.getFirstStart()) {
+            exerciseViewModel.deleteAllProgram()
             configuration.saveFirstStart(true)
 
             exerciseViewModel.setProgram(readCSVProgram())

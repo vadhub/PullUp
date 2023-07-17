@@ -1,6 +1,7 @@
 package com.vad.pullup.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -10,6 +11,9 @@ interface DaoExercisePlan {
 
     @Query("SELECT * FROM exercise_plan WHERE week = :week")
     suspend fun getExerciseOnPlanFromDay(week: Int): List<ExercisePlan>
+
+    @Query("DELETE FROM exercise_plan")
+    suspend fun deleteAll()
 
     @Insert
     suspend fun insertExerciseProgram(exerciseProgram: ExercisePlan)
