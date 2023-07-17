@@ -13,6 +13,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.vad.pullup.data.Configuration
 import com.vad.pullup.data.ExerciseRepository
+import com.vad.pullup.data.Repeat
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
+import java.io.BufferedReader
 
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -35,7 +39,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         if (!configuration.getFirstStart()) {
             configuration.saveFirstStart(true)
-            exerciseViewModel.setProgram()
+
+            exerciseViewModel.setProgram(readCSVProgram())
             configuration.saveDay(1)
         }
 
@@ -63,6 +68,26 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onPause() {
         super.onPause()
         sensorManager?.unregisterListener(this);
+    }
+
+    private fun readCSVProgram(): List<Repeat> {
+        val bufferReader = BufferedReader(assets.open("traini.csv").reader())
+        val csvParser = CSVParser.parse(
+            bufferReader,
+            CSVFormat.DEFAULT
+        )
+
+        val listRepeat = mutableListOf<Repeat>()
+        csvParser.forEach{
+            val repeat = Repeat(
+                week = it.get(0).toInt(),
+                count = it.get(1).toInt()
+            )
+
+            listRepeat.add(repeat)
+        }
+
+        return listRepeat
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
