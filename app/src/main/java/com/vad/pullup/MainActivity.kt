@@ -5,6 +5,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -34,22 +35,25 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         configuration = Configuration(this)
 
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
+        navController = navHostFragment.navController
+
         val factory = ExerciseViewModelFactory(ExerciseRepository((application as App).database.exerciseDao()))
         exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
 
         if (!configuration.getFirstStart()) {
             exerciseViewModel.deleteAllProgram()
             configuration.saveFirstStart(true)
-
             exerciseViewModel.setProgram(readCSVProgram())
-            configuration.saveDay(1)
+        } else {
+            navController.navigate(R.id.trainFragment)
         }
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-
-        navController = navHostFragment.navController
-
+        readCSVProgram().forEach {
+            Log.d( "onCreate: ", "${it.count} ${it.week}")
+        }
 //        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 //
 //        sensorManager?.registerListener(this,
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         )
 
         val listRepeat = mutableListOf<Repeat>()
-        csvParser.forEach{
+        csvParser.drop(1).forEach {
             val repeat = Repeat(
                 week = it.get(0).toInt(),
                 count = it.get(1).toInt()
