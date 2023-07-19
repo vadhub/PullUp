@@ -1,6 +1,5 @@
 package com.vad.pullup
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,7 @@ import com.vad.pullup.data.Timer
 import com.vad.pullup.data.db.Exercise
 import com.vad.pullup.data.db.ExercisePlan
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
@@ -63,13 +63,13 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         stateLiveData.postValue(state)
     }
 
-    fun getListOfCountExercise(day: Int) = viewModelScope.launch {
-        listOfCount = repository.getPlanOfDay(day).map { it.count }
+    fun getListOfCountExercise(week: Int) = viewModelScope.launch {
+        listOfCount = repository.getPlanOfWeek(week).map { it.count }
         listCount.postValue(listOfCount)
     }
 
-    fun getExerciseByDay(day: Int) = viewModelScope.launch {
-        listOfExercise = repository.getPlanOfDay(day)
+    fun getExerciseByWeek(week: Int) = viewModelScope.launch {
+        listOfExercise = repository.getPlanOfWeek(week)
         exercisePlan.postValue(listOfExercise[state])
     }
 

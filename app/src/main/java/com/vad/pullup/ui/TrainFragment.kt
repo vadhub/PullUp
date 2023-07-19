@@ -55,8 +55,8 @@ class TrainFragment : BaseFragment(), TimerHandler {
         var exercise = Exercise(0, 0, Date(0))
         val indicator = IndicatorState(stateFirst, stateSecond, stateThird, stateFourth, stateFifth, thisContext)
 
-        exerciseViewModel.getExerciseByDay(configuration.getDay())
-        exerciseViewModel.getListOfCountExercise(configuration.getDay())
+        exerciseViewModel.getExerciseByWeek(configuration.getDay() / 7)
+        exerciseViewModel.getListOfCountExercise(configuration.getDay() / 7)
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             textViewCount.text = "$it"
