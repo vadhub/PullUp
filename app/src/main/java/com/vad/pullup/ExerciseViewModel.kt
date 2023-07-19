@@ -10,6 +10,7 @@ import com.vad.pullup.data.Timer
 import com.vad.pullup.data.db.Exercise
 import com.vad.pullup.data.db.ExercisePlan
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
@@ -42,12 +43,16 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun saveCount(exercise: Exercise) = viewModelScope.launch {
 //        repository.writeExercise(exercise)
 
-        if (listOfCount.size - 2 > state) {
+        Log.d("##2", "$state")
+
+        if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
 
             timerHandle = Timer(10_000)
 
             timer.postValue(timerHandle!!)
+        } else {
+            finish.postValue(true)
         }
     }
 
@@ -55,21 +60,19 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
         if (listOfCount.size - 1 > state) {
             state++
-        } else {
-            finish.postValue(true)
         }
 
         exercisePlan.postValue(listOfExercise[state])
         stateLiveData.postValue(state)
     }
 
-    fun getListOfCountExercise(day: Int) = viewModelScope.launch {
-        listOfCount = repository.getPlanOfDay(day).map { it.count }
+    fun getListOfCountExercise(week: Int) = viewModelScope.launch {
+        listOfCount = repository.getPlanOfWeek(week).map { it.count }
         listCount.postValue(listOfCount)
     }
 
-    fun getExerciseByDay(day: Int) = viewModelScope.launch {
-        listOfExercise = repository.getPlanOfDay(day)
+    fun getExerciseByWeek(week: Int) = viewModelScope.launch {
+        listOfExercise = repository.getPlanOfWeek(week)
         exercisePlan.postValue(listOfExercise[state])
     }
 
