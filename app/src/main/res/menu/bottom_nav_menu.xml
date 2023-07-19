@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/statisticFragment"
+        android:icon="@drawable/baseline_show_chart_24"
+        android:title="statistic" />
+
+    <item
+        android:id="@+id/trainFragment"
+        android:icon="@drawable/baseline_sports_gymnastics_24"
+        android:title="training" />
+
+    <item
+        android:id="@+id/howToUseFragment"
+        android:icon="@drawable/baseline_info_24"
+        android:title="how to use" />
+</menu>

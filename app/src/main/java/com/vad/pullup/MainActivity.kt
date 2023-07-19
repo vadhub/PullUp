@@ -6,12 +6,15 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vad.pullup.data.Configuration
 import com.vad.pullup.data.ExerciseRepository
 import com.vad.pullup.data.Repeat
@@ -35,10 +38,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         configuration = Configuration(this)
 
+        val bottomMenu = findViewById<BottomNavigationView>(R.id.bottom_menu)
+
+        bottomMenu.selectedItemId = R.id.trainFragment
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
         navController = navHostFragment.navController
+
+        bottomMenu.setupWithNavController(navController)
 
         val factory = ExerciseViewModelFactory(ExerciseRepository((application as App).database.exerciseDao()))
         exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
@@ -49,6 +58,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             exerciseViewModel.setProgram(readCSVProgram())
         } else {
             Log.d("##12", "${configuration.getDay()}")
+            bottomMenu.visibility = View.VISIBLE
             navController.navigate(R.id.trainFragment)
         }
 
