@@ -93,6 +93,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
         }
 
         exerciseViewModel.finish.observe(viewLifecycleOwner) {
+            Log.d("#33", "$it 1")
             configuration.saveDay(configuration.getDay()+1)
         }
 

@@ -48,12 +48,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             configuration.saveFirstStart(true)
             exerciseViewModel.setProgram(readCSVProgram())
         } else {
+            Log.d("##12", "${configuration.getDay()}")
             navController.navigate(R.id.trainFragment)
         }
 
-        readCSVProgram().forEach {
-            Log.d( "onCreate: ", "${it.count} ${it.week}")
-        }
 //        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 //
 //        sensorManager?.registerListener(this,

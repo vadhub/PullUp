@@ -1,5 +1,6 @@
 package com.vad.pullup
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -42,12 +43,16 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun saveCount(exercise: Exercise) = viewModelScope.launch {
 //        repository.writeExercise(exercise)
 
-        if (listOfCount.size - 2 > state) {
+        Log.d("##2", "$state")
+
+        if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
 
             timerHandle = Timer(10_000)
 
             timer.postValue(timerHandle!!)
+        } else {
+            finish.postValue(true)
         }
     }
 
@@ -55,8 +60,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
         if (listOfCount.size - 1 > state) {
             state++
-        } else {
-            finish.postValue(true)
         }
 
         exercisePlan.postValue(listOfExercise[state])
