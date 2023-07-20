@@ -94,6 +94,11 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
         exerciseViewModel.finish.observe(viewLifecycleOwner) {
             Log.d("#33", "$it 1")
+            val finishDialog = FinishDialog()
+            val bundle = Bundle()
+            bundle.putInt("sum", it)
+            finishDialog.arguments = bundle
+            finishDialog.show(parentFragmentManager, "finish dialog")
             configuration.saveDay(configuration.getDay()+1)
         }
 
