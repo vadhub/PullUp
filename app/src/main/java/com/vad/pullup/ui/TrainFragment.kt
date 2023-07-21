@@ -54,7 +54,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
         val training = view.findViewById(R.id.status) as TextView
         val day = configuration.getDay()
-        training.text = "$day"
+        training.text = "Day $day"
 
         var exercise = Exercise(0, 0, Date(0))
         val indicator = IndicatorState(stateFirst, stateSecond, stateThird, stateFourth, stateFifth, thisContext)
@@ -63,7 +63,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
         exerciseViewModel.getListOfCountExercise(day / 7)
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
-            textViewCount.text = "Day $it"
+            textViewCount.text = "$it"
             exercise = Exercise(0, it, exercise.date)
         }
 
@@ -104,6 +104,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
             finishDialog.arguments = bundle
             finishDialog.show(parentFragmentManager, "finish dialog")
             configuration.saveDay(configuration.getDay()+1)
+            training.text = "Day ${configuration.getDay()}"
         }
 
         imageButtonAdd.setOnClickListener {
