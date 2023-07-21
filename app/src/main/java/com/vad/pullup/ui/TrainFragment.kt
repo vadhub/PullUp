@@ -1,5 +1,6 @@
 package com.vad.pullup.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +19,7 @@ import com.vad.pullup.data.db.Exercise
 import java.sql.Date
 import java.util.concurrent.TimeUnit
 
-class TrainFragment : BaseFragment(), TimerHandler {
+class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissListener {
 
     private lateinit var progressBar: ProgressBar
     private lateinit var buttonDone: Button
@@ -26,6 +27,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
     private var timer: Timer? = null
+    private var day = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +55,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
         val fourthRest = view.findViewById(R.id.fourthFree) as ImageView
 
         val training = view.findViewById(R.id.status) as TextView
-        val day = configuration.getDay()
+        day = configuration.getDay()
         training.text = "Day $day"
 
         var exercise = Exercise(0, 0, Date(0))
@@ -99,10 +101,12 @@ class TrainFragment : BaseFragment(), TimerHandler {
         exerciseViewModel.finish.observe(viewLifecycleOwner) {
             Log.d("#33", "$it 1")
             val finishDialog = FinishDialog()
+            val fragmentManager = parentFragmentManager
             val bundle = Bundle()
             bundle.putInt("sum", it)
             finishDialog.arguments = bundle
-            finishDialog.show(parentFragmentManager, "finish dialog")
+            finishDialog.setOnDismissListener(this)
+            finishDialog.show(fragmentManager, "finish dialog")
             configuration.saveDay(configuration.getDay()+1)
             training.text = "Day ${configuration.getDay()}"
         }
@@ -134,6 +138,10 @@ class TrainFragment : BaseFragment(), TimerHandler {
     override fun finishTime() {
         exerciseViewModel.switchState()
         buttonDone.text = "done"
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        Log.d("#313", "update")
     }
 
 }

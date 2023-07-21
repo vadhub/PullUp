@@ -1,5 +1,6 @@
 package com.vad.pullup.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,12 @@ import androidx.fragment.app.DialogFragment
 import com.vad.pullup.R
 
 class FinishDialog : DialogFragment() {
+
+    private var dismissListener: DialogInterface.OnDismissListener? = null
+
+    fun setOnDismissListener(dismissListener: DialogInterface.OnDismissListener) {
+        this.dismissListener = dismissListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +32,13 @@ class FinishDialog : DialogFragment() {
 
         result.text = "Your Result Sum: " + arguments?.getInt("sum")
 
-        button.setOnClickListener { dismiss() }
+        button.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dismissListener?.onDismiss(dialog)
     }
 }
