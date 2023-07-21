@@ -42,8 +42,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     }
 
     fun saveCount(exercise: Exercise) = viewModelScope.launch {
-//        repository.writeExercise(exercise)
 
+        repository.writeExercise(exercise)
         sum += exercise.count
 
         Log.d("##2", "$state")
