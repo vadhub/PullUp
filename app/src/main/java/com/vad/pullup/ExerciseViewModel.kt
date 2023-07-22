@@ -9,8 +9,9 @@ import com.vad.pullup.data.Repeat
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.db.Exercise
 import com.vad.pullup.data.db.ExercisePlan
+import com.vad.pullup.data.RepeatSum
 import kotlinx.coroutines.launch
-import java.time.DayOfWeek
+import java.sql.Date
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
@@ -28,6 +29,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val timer: MutableLiveData<Timer> = MutableLiveData()
     val stateLiveData: MutableLiveData<Int> = MutableLiveData()
     val finish: MutableLiveData<Int> = MutableLiveData()
+    val sumRepeat: MutableLiveData<List<RepeatSum>> = MutableLiveData()
 
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
@@ -51,7 +53,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
 
-            timerHandle = Timer(10_000)
+            timerHandle = Timer(3_000)
 
             timer.postValue(timerHandle!!)
         } else {
@@ -80,5 +82,9 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun deleteAllProgram() = viewModelScope.launch {
         repository.delete()
+    }
+
+    fun getSumRepeat() = viewModelScope.launch {
+        sumRepeat.postValue(repository.getSumRepeatGroupByDate())
     }
 }
