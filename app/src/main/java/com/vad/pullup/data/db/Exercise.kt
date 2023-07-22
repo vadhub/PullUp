@@ -15,9 +15,9 @@ data class Exercise(
     @ColumnInfo(name = "id_")
     val idExercise: Int,
 
-    @ColumnInfo(name = "count")
+    @ColumnInfo(name = "count_")
     val count: Int,
 
-    @ColumnInfo(name = "date")
+    @ColumnInfo(name = "date_")
     val date: Date
 )

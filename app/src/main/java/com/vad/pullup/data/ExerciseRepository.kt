@@ -22,4 +22,6 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
         daoExercisePlan.deleteAll()
     }
 
+    suspend fun getSumRepeatGroupByDate() = daoExercisePlan.sumGroupByDate()
+
 }
