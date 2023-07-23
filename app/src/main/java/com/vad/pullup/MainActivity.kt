@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             exerciseViewModel.setProgram(readCSVProgram())
         } else {
             Log.d("##12", "${configuration.getDay()}")
-            bottomMenu.visibility = View.VISIBLE
+            bottomMenu.visibility = View.GONE
             navController.navigate(R.id.trainFragment)
         }
 
