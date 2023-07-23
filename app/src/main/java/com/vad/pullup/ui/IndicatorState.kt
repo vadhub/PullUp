@@ -33,4 +33,11 @@ class IndicatorState(
 
     }
 
+    fun reset(firstRest: ImageView, secondRest: ImageView, thirdRest: ImageView, fourthRest: ImageView) {
+        firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_unchecked_24))
+        secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_unchecked_24))
+        thirdRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_unchecked_24))
+        fourthRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_unchecked_24))
+    }
+
 }

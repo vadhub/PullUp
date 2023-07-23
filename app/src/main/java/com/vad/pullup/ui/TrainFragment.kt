@@ -64,11 +64,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.getExerciseByWeek(day / 7)
         exerciseViewModel.getListOfCountExercise(day / 7)
-        exerciseViewModel.getSumRepeat()
-
-        exerciseViewModel.sumRepeat.observe(viewLifecycleOwner) {
-            Log.d("$1", it.toTypedArray().contentToString())
-        }
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             textViewCount.text = "$it"
@@ -82,6 +77,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
             Log.d("##1", it.toTypedArray().contentToString())
+            indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
             indicator.setStates(it)
         }
 
@@ -148,6 +144,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onDismiss(dialog: DialogInterface?) {
         Log.d("#313", "update")
+        exerciseViewModel.getExerciseByWeek(day / 7)
+        exerciseViewModel.getListOfCountExercise(day / 7)
     }
 
 }
