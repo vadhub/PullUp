@@ -45,13 +45,19 @@ class PreparationFragment : BaseFragment() {
         }
 
         buttonDone.setOnClickListener {
-            //first version
+            //2 version
             if (repeat.text.toString().toInt() < 10) {
                  configuration.saveDay(1)
             } else if (repeat.text.toString().toInt() in 11..14) {
-                configuration.saveDay(14)
+                configuration.saveDay(7*2)
             } else if (repeat.text.toString().toInt() in 14..20) {
-                configuration.saveDay(50)
+                configuration.saveDay(7*9)
+            } else if (repeat.text.toString().toInt() in 20..23) {
+                configuration.saveDay(7*15)
+            } else if (repeat.text.toString().toInt() in 23..26) {
+                configuration.saveDay(7*17)
+            } else if (repeat.text.toString().toInt() > 30) {
+                configuration.saveDay(7*29)
             }
             findNavController().navigate(R.id.action_preparationFragment_to_trainFragment)
         }
