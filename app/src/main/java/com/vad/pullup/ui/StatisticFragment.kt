@@ -27,6 +27,10 @@ class StatisticFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val chart = view.findViewById(R.id.chart) as LineChart
 
+        val yAxis = chart.axisLeft
+        yAxis.axisMinimum = 0f
+
+
         exerciseViewModel.getSumRepeat()
 
         exerciseViewModel.sumRepeat.observe(viewLifecycleOwner) { repeat ->
