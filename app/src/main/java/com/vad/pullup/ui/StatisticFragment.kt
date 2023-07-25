@@ -28,8 +28,10 @@ class StatisticFragment : BaseFragment() {
         val chart = view.findViewById(R.id.chart) as LineChart
 
         val yAxis = chart.axisLeft
-        yAxis.axisMinimum = 0f
+        yAxis.axisMinimum = 20f
 
+        chart.axisRight.textSize = 16f
+        yAxis.textSize = 16f
 
         exerciseViewModel.getSumRepeat()
 
@@ -38,6 +40,7 @@ class StatisticFragment : BaseFragment() {
 
             val dates = repeat.map { "${it.dateRepeat}" }
             val xAxis = chart.xAxis
+            xAxis.textSize = 16f
             xAxis.granularity = 1f
             xAxis.valueFormatter = IndexAxisValueFormatter(dates)
 
@@ -45,6 +48,7 @@ class StatisticFragment : BaseFragment() {
             val data = x.zip(repeat).map { Entry(it.first.toFloat(), it.second.countRepeat.toFloat()) }
 
             val dataSet = LineDataSet(data, "Statistic")
+            dataSet.valueTextSize = 16f
             val lineData = LineData(dataSet)
 
             chart.data = lineData
