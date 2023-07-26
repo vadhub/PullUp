@@ -29,6 +29,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private lateinit var imageButtonRemove: ImageButton
     private var timer: Timer? = null
     private var day = 0
+    private var timeoutChange = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,7 +84,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
             if (it) {
-                buttonDone.text = "finish"
+                buttonDone.text = "skip"
             } else {
                 buttonDone.text = "done"
             }
@@ -122,7 +123,15 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         buttonDone.setOnClickListener {
-            exerciseViewModel.saveCount(exercise)
+            Log.d("$44", "$timeoutChange")
+            if (timeoutChange) {
+                timer?.cancelTimer()
+                timer = null
+                finishTime()
+            } else {
+                exerciseViewModel.saveCount(exercise)
+                timeoutChange = true
+            }
         }
 
     }
@@ -140,6 +149,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun finishTime() {
         exerciseViewModel.switchState()
         buttonDone.text = "done"
+        timeoutChange = false
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
