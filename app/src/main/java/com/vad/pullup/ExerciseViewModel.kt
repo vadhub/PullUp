@@ -53,7 +53,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
 
-            timerHandle = Timer(3_000)
+            timerHandle = Timer(10_000)
 
             timer.postValue(timerHandle!!)
         } else {
