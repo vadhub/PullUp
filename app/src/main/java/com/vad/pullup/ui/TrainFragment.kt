@@ -2,6 +2,7 @@ package com.vad.pullup.ui
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +12,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
-import com.vad.pullup.data.BaseFragment
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.TimerHandler
 import com.vad.pullup.data.db.Exercise
 import java.sql.Date
-import java.util.Arrays
 import java.util.concurrent.TimeUnit
 
 class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissListener {
@@ -30,6 +30,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var timer: Timer? = null
     private var day = 0
     private var timeoutChange = false
+    private var maxProgress = 10
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +41,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         progressBar = view.findViewById(R.id.progressBar) as ProgressBar
+        progressBar.scaleX = -1f
+        progressBar.max = maxProgress
+
         buttonDone = view.findViewById(R.id.done) as Button
         textViewCount = view.findViewById(R.id.time) as TextView
         imageButtonAdd = view.findViewById(R.id.increase) as ImageButton
@@ -137,19 +141,16 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun showTime(time: Long) {
-
-        val mTime = String.format("%02d:%02d",
-            TimeUnit.MILLISECONDS.toMinutes(time),
-            TimeUnit.MILLISECONDS.toSeconds(time) -
-                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)))
-
-        textViewCount.text = mTime
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(time)
+        textViewCount.text = DateUtils.formatElapsedTime(seconds);
+        progressBar.progress = seconds.toInt()
     }
 
     override fun finishTime() {
         exerciseViewModel.switchState()
         buttonDone.text = "done"
         timeoutChange = false
+        progressBar.progress = maxProgress
     }
 
     override fun onDismiss(dialog: DialogInterface?) {

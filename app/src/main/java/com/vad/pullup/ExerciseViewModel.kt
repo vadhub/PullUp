@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ExerciseRepository
 import com.vad.pullup.data.Repeat
+import com.vad.pullup.data.RepeatSum
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.db.Exercise
 import com.vad.pullup.data.db.ExercisePlan
-import com.vad.pullup.data.RepeatSum
 import kotlinx.coroutines.launch
-import java.sql.Date
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
@@ -53,8 +52,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
 
-            timerHandle = Timer(3_000)
-
+            timerHandle = Timer(10_000)
             timer.postValue(timerHandle!!)
         } else {
             finish.postValue(sum)

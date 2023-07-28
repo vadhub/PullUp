@@ -1,7 +1,6 @@
 package com.vad.pullup.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.vad.pullup.R
-import com.vad.pullup.data.BaseFragment
-import com.vad.pullup.data.db.Exercise
+import com.vad.pullup.BaseFragment
 
 class PreparationFragment : BaseFragment() {
 

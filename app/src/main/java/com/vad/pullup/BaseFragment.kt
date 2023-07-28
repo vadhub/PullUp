@@ -1,11 +1,10 @@
-package com.vad.pullup.data
+package com.vad.pullup
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.vad.pullup.App
-import com.vad.pullup.ExerciseViewModel
-import com.vad.pullup.ExerciseViewModelFactory
+import com.vad.pullup.data.Configuration
+import com.vad.pullup.data.ExerciseRepository
 
 open class BaseFragment : Fragment() {
 

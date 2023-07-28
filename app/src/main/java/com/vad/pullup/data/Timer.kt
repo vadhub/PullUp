@@ -2,7 +2,7 @@ package com.vad.pullup.data
 
 import android.os.CountDownTimer
 
-class Timer(time: Long) {
+data class Timer(val time: Long) {
 
     private lateinit var handler: TimerHandler
     private lateinit var timer: CountDownTimer
@@ -24,7 +24,6 @@ class Timer(time: Long) {
 
             override fun onFinish() {
                 handler.finishTime()
-
             }
         }.start()
     }
