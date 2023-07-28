@@ -1,14 +1,12 @@
 package com.vad.pullup.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.vad.pullup.R
-import com.vad.pullup.data.BaseFragment
+import com.vad.pullup.BaseFragment
 
 class HowToUseFragment : BaseFragment() {
 
@@ -23,6 +21,5 @@ class HowToUseFragment : BaseFragment() {
         val viewPager = view.findViewById(R.id.viewPager) as ViewPager2
         val adapter = ViewPagerAdapter()
         viewPager.adapter = adapter
-
     }
 }
