@@ -30,7 +30,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var timer: Timer? = null
     private var day = 0
     private var timeoutChange = false
-    private var maxProgress = 10
+    private var time = 10_000L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +42,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         progressBar = view.findViewById(R.id.progressBar) as ProgressBar
         progressBar.scaleX = -1f
-        progressBar.max = maxProgress
+        setMaxProgressBar(time.toInt())
 
         buttonDone = view.findViewById(R.id.done) as Button
         textViewCount = view.findViewById(R.id.time) as TextView
@@ -119,11 +119,25 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         imageButtonAdd.setOnClickListener {
-            exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())
+            if (!timeoutChange) {
+                exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())
+            } else {
+                val tempTime = time+10_000
+                setTimer(true)
+                setMaxProgressBar(tempTime.toInt())
+            }
         }
 
         imageButtonRemove.setOnClickListener {
-            exerciseViewModel.decreaseCount(textViewCount.text.toString().toInt())
+            if (!timeoutChange) {
+                exerciseViewModel.decreaseCount(textViewCount.text.toString().toInt())
+            } else {
+                if (time > 2_000) {
+                    val tempTime = time-10_000
+                    setTimer(false)
+                    setMaxProgressBar(tempTime.toInt())
+                }
+            }
         }
 
         buttonDone.setOnClickListener {
@@ -146,11 +160,30 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         progressBar.progress = seconds.toInt()
     }
 
+    private fun setMaxProgressBar(time: Int) {
+        progressBar.max = time/1000
+    }
+
+    private fun setTimer(increase: Boolean) {
+        time = timer!!.time
+        timer?.cancelTimer()
+        timer = null
+        var change = 1
+
+        if (!increase) {
+            change *= -1
+        }
+
+        timer = Timer(time+10_000*change)
+        timer?.setTimerHandler(this)
+        timer?.startTimer()
+    }
+
     override fun finishTime() {
         exerciseViewModel.switchState()
         buttonDone.text = "done"
         timeoutChange = false
-        progressBar.progress = maxProgress
+        setMaxProgressBar(time.toInt())
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
