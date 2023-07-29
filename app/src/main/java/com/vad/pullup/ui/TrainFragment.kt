@@ -122,9 +122,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             if (!timeoutChange) {
                 exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())
             } else {
-                val tempTime = time+10_000
+                time += 10_000
                 setTimer(true)
-                setMaxProgressBar(tempTime.toInt())
+                setMaxProgressBar(time.toInt())
             }
         }
 
@@ -133,9 +133,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 exerciseViewModel.decreaseCount(textViewCount.text.toString().toInt())
             } else {
                 if (time > 2_000) {
-                    val tempTime = time-10_000
+                    time -= 10_000
                     setTimer(false)
-                    setMaxProgressBar(tempTime.toInt())
+                    setMaxProgressBar(time.toInt())
                 }
             }
         }
@@ -165,7 +165,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     private fun setTimer(increase: Boolean) {
-        time = timer!!.time
+        val time = timer!!.time
         timer?.cancelTimer()
         timer = null
         var change = 1
@@ -183,7 +183,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         exerciseViewModel.switchState()
         buttonDone.text = "done"
         timeoutChange = false
-        setMaxProgressBar(time.toInt())
+        Log.d("$55", "$time")
+        progressBar.progress = time.toInt()
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
