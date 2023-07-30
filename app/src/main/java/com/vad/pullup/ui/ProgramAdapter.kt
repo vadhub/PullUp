@@ -6,13 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vad.pullup.R
-import com.vad.pullup.data.ConverterProgram
 import com.vad.pullup.data.ProgramItem
-import com.vad.pullup.data.db.ExercisePlan
 
-class ProgramAdapter(listExercisePlan: List<ExercisePlan>) : RecyclerView.Adapter<ProgramAdapter.ProgramViewHolder>() {
-
-    private val listProgram = ConverterProgram.convertToListProgram(listExercisePlan, 30)
+class ProgramAdapter(private val listProgram: List<ProgramItem>) : RecyclerView.Adapter<ProgramAdapter.ProgramViewHolder>() {
 
     class ProgramViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

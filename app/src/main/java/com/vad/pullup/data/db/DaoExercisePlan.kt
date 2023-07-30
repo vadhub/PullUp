@@ -30,4 +30,7 @@ interface DaoExercisePlan {
     @Query("SELECT * FROM exercise")
     suspend fun getAllExercise(): List<Exercise>
 
+    @Query("SELECT * FROM exercise_plan")
+    suspend fun getAllProgram(): List<ExercisePlan>
+
 }

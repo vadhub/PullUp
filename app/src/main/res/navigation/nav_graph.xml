@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_trainFragment_to_howToUseFragment"
             app:destination="@id/howToUseFragment" />
+        <action
+            android:id="@+id/action_trainFragment_to_chooseProgramFragment"
+            app:destination="@id/chooseProgramFragment" />
     </fragment>
     <fragment
         android:id="@+id/howToUseFragment"
@@ -36,4 +39,8 @@
             android:id="@+id/action_preparationFragment_to_trainFragment"
             app:destination="@id/trainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/chooseProgramFragment"
+        android:name="com.vad.pullup.ui.ChooseProgramFragment"
+        android:label="ChooseProgramFragment" />
 </navigation>
