@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vad.pullup.data.ConverterProgram
 import com.vad.pullup.data.ExerciseRepository
+import com.vad.pullup.data.ProgramItem
 import com.vad.pullup.data.Repeat
 import com.vad.pullup.data.RepeatSum
 import com.vad.pullup.data.Timer
@@ -29,6 +31,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val stateLiveData: MutableLiveData<Int> = MutableLiveData()
     val finish: MutableLiveData<Int> = MutableLiveData()
     val sumRepeat: MutableLiveData<List<RepeatSum>> = MutableLiveData()
+    val allProgram: MutableLiveData<List<ProgramItem>> = MutableLiveData()
 
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
@@ -84,5 +87,9 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun getSumRepeat() = viewModelScope.launch {
         sumRepeat.postValue(repository.getSumRepeatGroupByDate())
+    }
+
+    fun getAllProgram() = viewModelScope.launch {
+        allProgram.postValue(ConverterProgram.convertToListProgram(repository.getAllProgram(), 30))
     }
 }

@@ -10,6 +10,8 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
         listRepeat.forEach { daoExercisePlan.insertExerciseProgram(ExercisePlan(0, it.count, it.week)) }
     }
 
+    suspend fun getAllProgram() = daoExercisePlan.getAllProgram()
+
     suspend fun getPlanOfWeek(week: Int) = daoExercisePlan.getExerciseOnPlanFromWeek(week)
 
     suspend fun getAllExercise() = daoExercisePlan.getAllExercise()

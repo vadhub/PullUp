@@ -12,6 +12,11 @@
         android:title="training" />
 
     <item
+        android:id="@+id/chooseProgramFragment"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="training" />
+
+    <item
         android:id="@+id/howToUseFragment"
         android:icon="@drawable/baseline_info_24"
         android:title="how to use" />
