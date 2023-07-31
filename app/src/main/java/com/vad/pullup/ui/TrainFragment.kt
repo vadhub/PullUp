@@ -113,12 +113,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             Log.d("timer", "${timer?.isStart != true}")
 
             Log.d("timer", "msg")
-            timer?.cancelTimer()
-            timer = null
-            timer = it
-            timer?.setTimerHandler(this)
-            timer?.startTimer()
-
         }
 
         exerciseViewModel.stateLiveData.observe(viewLifecycleOwner) {
@@ -143,7 +137,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 exerciseViewModel.increaseCount(textViewCount.text.toString().toInt())
             } else {
                 time += 10_000
-                setTimer(true)
+                exerciseViewModel.setTimer(true, this)
                 setMaxProgressBar(time.toInt())
             }
         }
@@ -154,7 +148,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             } else {
                 if (time > 2_000) {
                     time -= 10_000
-                    setTimer(false)
+                    exerciseViewModel.setTimer(false, this)
                     setMaxProgressBar(time.toInt())
                 }
             }
@@ -163,15 +157,34 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         buttonDone.setOnClickListener {
             Log.d("timeoutChange", "$timeoutChange")
             if (timeoutChange) {
-                timer?.cancelTimer()
-                timer = null
+                exerciseViewModel.skipTimer()
                 finishTime()
             } else {
-                exerciseViewModel.saveCount(exercise)
+                exerciseViewModel.saveCount(exercise, this)
                 timeoutChange = true
             }
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("destroy", "view")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("destroy", "destroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("detach", "detach")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("save", "state")
     }
 
     override fun showTime(time: Long) {
@@ -182,21 +195,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     private fun setMaxProgressBar(time: Int) {
         progressBar.max = time / 1000
-    }
-
-    private fun setTimer(increase: Boolean) {
-        val time = timer!!.time
-        timer?.cancelTimer()
-        timer = null
-        var change = 1
-
-        if (!increase) {
-            change *= -1
-        }
-
-        timer = Timer(time + 10_000 * change)
-        timer?.setTimerHandler(this)
-        timer?.startTimer()
     }
 
     override fun finishTime() {

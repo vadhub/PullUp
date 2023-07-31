@@ -10,6 +10,7 @@ import com.vad.pullup.data.ProgramItem
 import com.vad.pullup.data.Repeat
 import com.vad.pullup.data.RepeatSum
 import com.vad.pullup.data.Timer
+import com.vad.pullup.data.TimerHandler
 import com.vad.pullup.data.db.Exercise
 import com.vad.pullup.data.db.ExercisePlan
 import kotlinx.coroutines.launch
@@ -45,17 +46,22 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         if (count > 0) countOfRepeat.postValue(count-1)
     }
 
-    fun saveCount(exercise: Exercise) = viewModelScope.launch {
+    fun saveCount(exercise: Exercise, timerHandler: TimerHandler) = viewModelScope.launch {
 
         repository.writeExercise(exercise)
         sum += exercise.count
 
         Log.d("##saveCount", "$state")
 
+        timerHandle?.cancelTimer()
+        timerHandle = null
+
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
 
             timerHandle = Timer(30_000)
+            timerHandle!!.setTimerHandler(timerHandler)
+            timerHandle!!.startTimer()
             timer.postValue(timerHandle!!)
         } else {
             finish.postValue(sum)
@@ -92,4 +98,25 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun getAllProgram() = viewModelScope.launch {
         allProgram.postValue(ConverterProgram.convertToListProgram(repository.getAllProgram(), 30))
     }
+
+    fun setTimer(increase: Boolean, timerHandler: TimerHandler) {
+        val time = timerHandle?.time ?: 10_000
+        timerHandle?.cancelTimer()
+        timerHandle = null
+        var change = 1
+
+        if (!increase) {
+            change *= -1
+        }
+
+        timerHandle = Timer(time + 10_000 * change)
+        timerHandle?.setTimerHandler(timerHandler)
+        timerHandle?.startTimer()
+    }
+
+    fun skipTimer() {
+        timerHandle?.cancelTimer()
+        timerHandle = null
+    }
+
 }
