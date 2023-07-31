@@ -10,11 +10,15 @@ data class Timer(val time: Long) {
     private var timeLast = 0L
     private val interval = 100L
 
+    var isStart = false
+        private set
+
     fun setTimerHandler(handler: TimerHandler) {
         this.handler = handler
     }
 
     fun startTimer() {
+        isStart = true
         timer = object: CountDownTimer(timeStartFrom, interval) {
             override fun onTick(millisUntilFinished: Long) {
                 timeStartFrom = millisUntilFinished
@@ -29,6 +33,7 @@ data class Timer(val time: Long) {
     }
 
     fun cancelTimer(): Long {
+        isStart = false
         timer.cancel()
         return timeLast
     }
