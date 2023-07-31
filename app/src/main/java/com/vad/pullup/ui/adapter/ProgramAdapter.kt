@@ -1,4 +1,4 @@
-package com.vad.pullup.ui
+package com.vad.pullup.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View

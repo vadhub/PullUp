@@ -50,12 +50,12 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         repository.writeExercise(exercise)
         sum += exercise.count
 
-        Log.d("##2", "$state")
+        Log.d("##saveCount", "$state")
 
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
 
-            timerHandle = Timer(10_000)
+            timerHandle = Timer(30_000)
             timer.postValue(timerHandle!!)
         } else {
             finish.postValue(sum)
