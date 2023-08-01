@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.vad.pullup.R
 import com.vad.pullup.BaseFragment
+import com.vad.pullup.ui.adapter.ViewPagerAdapter
 
 class HowToUseFragment : BaseFragment() {
 
