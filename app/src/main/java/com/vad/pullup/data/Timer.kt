@@ -6,7 +6,10 @@ data class Timer(val time: Long) {
 
     private lateinit var handler: TimerHandler
     private lateinit var timer: CountDownTimer
-    private var timeStartFrom = time
+
+    var timeStartFrom = time
+        private set
+
     private var timeLast = 0L
     private val interval = 100L
 

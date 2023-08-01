@@ -30,6 +30,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var day = 0
     private var timeoutChange = false
     private var time = 30_000L
+    private var timer: Timer = Timer(time)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,10 +58,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         progressBar = view.findViewById(R.id.progressBar) as ProgressBar
         progressBar.scaleX = -1f
+        setMaxProgressBar(time.toInt())
 
-        if(savedInstanceState == null) {
+        if(savedInstanceState != null) {
             Log.d("onViewCreated", "saveinstance")
-            setMaxProgressBar(time.toInt())
+            if (savedInstanceState.getBoolean("isStart")) {
+                exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
+            }
         }
 
         buttonDone = view.findViewById(R.id.done) as Button
@@ -94,11 +98,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         )
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
+            Log.d("countOfRepeat", "countOfRepeat")
             textViewCount.text = "$it"
             exercise = Exercise(0, it, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
+            Log.d("exercisePlan", "exercisePlan")
             textViewCount.text = "${it.count}"
             exercise = Exercise(0, it.count, Date(System.currentTimeMillis()))
         }
@@ -109,6 +115,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
+            Log.d("changeTimeout","changeTimeout")
             if (it) {
                 buttonDone.text = "skip"
             } else {
@@ -119,9 +126,11 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         exerciseViewModel.timer.observe(viewLifecycleOwner) {
             Log.d("timer", "msg")
             Log.d("timer", "$it")
+            timer = it
         }
 
-        exerciseViewModel.stateLiveData.observe(viewLifecycleOwner) {
+        exerciseViewModel.repeat.observe(viewLifecycleOwner) {
+            Log.d("stateLiveData","stateLiveData")
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
@@ -192,6 +201,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d("save", "state")
+        outState.putLong("time", timer.timeStartFrom)
+        outState.putBoolean("isStart", timer.isStart)
     }
 
     override fun showTime(time: Long) {
