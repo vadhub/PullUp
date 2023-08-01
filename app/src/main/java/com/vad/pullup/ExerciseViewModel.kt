@@ -29,7 +29,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val listCount: MutableLiveData<List<Int>> = MutableLiveData()
     val changeTimeout: MutableLiveData<Boolean> = MutableLiveData()
     val timer: MutableLiveData<Timer> = MutableLiveData()
-    val stateLiveData: MutableLiveData<Int> = MutableLiveData()
+    val repeat: MutableLiveData<Int> = MutableLiveData()
     val finish: MutableLiveData<Int> = MutableLiveData()
     val sumRepeat: MutableLiveData<List<RepeatSum>> = MutableLiveData()
     val allProgram: MutableLiveData<List<ProgramItem>> = MutableLiveData()
@@ -58,11 +58,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
-
-            timerHandle = Timer(30_000)
-            timerHandle!!.setTimerHandler(timerHandler)
-            timerHandle!!.startTimer()
-            timer.postValue(timerHandle!!)
+            startTimer(30_000, timerHandler)
         } else {
             finish.postValue(sum)
         }
@@ -74,7 +70,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         }
 
         exercisePlan.postValue(listOfExercise[state])
-        stateLiveData.postValue(state)
+        repeat.postValue(state)
     }
 
     fun getListOfCountExercise(week: Int) = viewModelScope.launch {
@@ -117,6 +113,14 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun skipTimer() {
         timerHandle?.cancelTimer()
         timerHandle = null
+    }
+
+    fun startTimer(time: Long, timerHandler: TimerHandler) {
+        timerHandle?.cancelTimer()
+        timerHandle = Timer(time)
+        timerHandle!!.setTimerHandler(timerHandler)
+        timerHandle!!.startTimer()
+        timer.postValue(timerHandle!!)
     }
 
 }

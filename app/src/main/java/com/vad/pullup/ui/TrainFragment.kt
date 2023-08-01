@@ -27,16 +27,22 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
-    private var timer: Timer? = null
     private var day = 0
     private var timeoutChange = false
     private var time = 30_000L
+    private var timer: Timer = Timer(time)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("onCreate", "onCreate")
+
         day = configuration.getDay()
-        exerciseViewModel.getExerciseByWeek(day / 7)
-        exerciseViewModel.getListOfCountExercise(day / 7)
+
+        if (savedInstanceState == null) {
+            Log.d("onCreate", "saveinstance")
+            exerciseViewModel.getExerciseByWeek(day / 7)
+            exerciseViewModel.getListOfCountExercise(day / 7)
+        }
     }
 
     override fun onCreateView(
@@ -53,6 +59,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         progressBar = view.findViewById(R.id.progressBar) as ProgressBar
         progressBar.scaleX = -1f
         setMaxProgressBar(time.toInt())
+
+        if(savedInstanceState != null) {
+            Log.d("onViewCreated", "saveinstance")
+            if (savedInstanceState.getBoolean("isStart")) {
+                exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
+            }
+        }
 
         buttonDone = view.findViewById(R.id.done) as Button
         textViewCount = view.findViewById(R.id.time) as TextView
@@ -85,22 +98,24 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         )
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
+            Log.d("countOfRepeat", "countOfRepeat")
             textViewCount.text = "$it"
             exercise = Exercise(0, it, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
+            Log.d("exercisePlan", "exercisePlan")
             textViewCount.text = "${it.count}"
             exercise = Exercise(0, it.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
             Log.d("##list count", it.toTypedArray().contentToString())
-            indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
             indicator.setStates(it)
         }
 
         exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
+            Log.d("changeTimeout","changeTimeout")
             if (it) {
                 buttonDone.text = "skip"
             } else {
@@ -109,17 +124,18 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         exerciseViewModel.timer.observe(viewLifecycleOwner) {
-
-            Log.d("timer", "${timer?.isStart != true}")
-
             Log.d("timer", "msg")
+            Log.d("timer", "$it")
+            timer = it
         }
 
-        exerciseViewModel.stateLiveData.observe(viewLifecycleOwner) {
+        exerciseViewModel.repeat.observe(viewLifecycleOwner) {
+            Log.d("stateLiveData","stateLiveData")
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
         exerciseViewModel.finish.observe(viewLifecycleOwner) {
+            indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
             Log.d("#finish", "$it 1")
             val finishDialog = FinishDialog()
             val fragmentManager = parentFragmentManager
@@ -146,7 +162,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             if (!timeoutChange) {
                 exerciseViewModel.decreaseCount(textViewCount.text.toString().toInt())
             } else {
-                if (time > 2_000) {
+                if (time > 11_000) {
                     time -= 10_000
                     exerciseViewModel.setTimer(false, this)
                     setMaxProgressBar(time.toInt())
@@ -185,6 +201,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d("save", "state")
+        outState.putLong("time", timer.timeStartFrom)
+        outState.putBoolean("isStart", timer.isStart)
     }
 
     override fun showTime(time: Long) {
@@ -198,6 +216,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun finishTime() {
+        time = 30_000
         exerciseViewModel.switchState()
         buttonDone.text = "done"
         timeoutChange = false
