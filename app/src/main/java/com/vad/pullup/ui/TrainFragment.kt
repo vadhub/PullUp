@@ -62,7 +62,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         if(savedInstanceState != null) {
             Log.d("onViewCreated", "saveinstance")
+            timeoutChange = savedInstanceState.getBoolean("timeoutChange")
             if (savedInstanceState.getBoolean("isStart")) {
+                Log.d("onViewCreated", "isStart")
                 exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
             }
         }
@@ -203,6 +205,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         Log.d("save", "state")
         outState.putLong("time", timer.timeStartFrom)
         outState.putBoolean("isStart", timer.isStart)
+        outState.putBoolean("timeoutChange", timeoutChange)
+        exerciseViewModel.skipTimer()
     }
 
     override fun showTime(time: Long) {
