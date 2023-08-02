@@ -53,9 +53,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
         Log.d("##saveCount", "$state")
 
-        timerHandle?.cancelTimer()
-        timerHandle = null
-
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
             startTimer(30_000, timerHandler)
@@ -97,17 +94,13 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun setTimer(increase: Boolean, timerHandler: TimerHandler) {
         val time = timerHandle?.time ?: 10_000
-        timerHandle?.cancelTimer()
-        timerHandle = null
         var change = 1
 
         if (!increase) {
             change *= -1
         }
 
-        timerHandle = Timer(time + 10_000 * change)
-        timerHandle?.setTimerHandler(timerHandler)
-        timerHandle?.startTimer()
+        startTimer(time + 10_000 * change, timerHandler)
     }
 
     fun skipTimer() {
@@ -117,6 +110,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun startTimer(time: Long, timerHandler: TimerHandler) {
         timerHandle?.cancelTimer()
+        timerHandle = null
         timerHandle = Timer(time)
         timerHandle!!.setTimerHandler(timerHandler)
         timerHandle!!.startTimer()
