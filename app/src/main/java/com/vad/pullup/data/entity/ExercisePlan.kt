@@ -1,4 +1,4 @@
-package com.vad.pullup.data.db
+package com.vad.pullup.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

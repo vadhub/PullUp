@@ -16,7 +16,7 @@ import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.TimerHandler
-import com.vad.pullup.data.db.Exercise
+import com.vad.pullup.data.entity.Exercise
 import java.sql.Date
 import java.util.concurrent.TimeUnit
 

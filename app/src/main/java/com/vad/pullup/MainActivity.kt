@@ -7,8 +7,6 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vad.pullup.data.Configuration
 import com.vad.pullup.data.ExerciseRepository
-import com.vad.pullup.data.Repeat
+import com.vad.pullup.data.entity.Repeat
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.BufferedReader
