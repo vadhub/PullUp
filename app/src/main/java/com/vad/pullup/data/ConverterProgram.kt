@@ -1,6 +1,7 @@
 package com.vad.pullup.data
 
-import com.vad.pullup.data.db.ExercisePlan
+import com.vad.pullup.data.entity.ExercisePlan
+import com.vad.pullup.data.entity.ProgramItem
 
 class ConverterProgram {
 
@@ -22,6 +23,7 @@ class ConverterProgram {
 
                 listProgramItem.add(
                     ProgramItem(
+                        0,
                         i,
                         countArray[0],
                         countArray[1],

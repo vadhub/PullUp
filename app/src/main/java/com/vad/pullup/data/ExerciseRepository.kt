@@ -1,8 +1,10 @@
 package com.vad.pullup.data
 
 import com.vad.pullup.data.db.DaoExercisePlan
-import com.vad.pullup.data.db.Exercise
-import com.vad.pullup.data.db.ExercisePlan
+import com.vad.pullup.data.entity.Exercise
+import com.vad.pullup.data.entity.ExercisePlan
+import com.vad.pullup.data.entity.ProgramItem
+import com.vad.pullup.data.entity.Repeat
 
 class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
@@ -10,7 +12,7 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
         listRepeat.forEach { daoExercisePlan.insertExerciseProgram(ExercisePlan(0, it.count, it.week)) }
     }
 
-    suspend fun getAllProgram() = daoExercisePlan.getAllProgram()
+    private suspend fun getAllProgram() = daoExercisePlan.getAllProgram()
 
     suspend fun getPlanOfWeek(week: Int) = daoExercisePlan.getExerciseOnPlanFromWeek(week)
 
@@ -25,5 +27,14 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
     }
 
     suspend fun getSumRepeatGroupByDate() = daoExercisePlan.sumGroupByDate()
+
+    suspend fun setAllProgramItem() {
+        ConverterProgram.convertToListProgram(getAllProgram(), 30).forEach {
+            daoExercisePlan.insertProgramLineItem(it)
+        }
+    }
+
+    suspend fun getAllItemProgram(): List<ProgramItem> = daoExercisePlan.getAllProgramItem()
+
 
 }

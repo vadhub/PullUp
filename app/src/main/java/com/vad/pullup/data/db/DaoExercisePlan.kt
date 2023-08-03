@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.vad.pullup.data.RepeatSum
+import com.vad.pullup.data.entity.ProgramItem
+import com.vad.pullup.data.entity.Exercise
+import com.vad.pullup.data.entity.ExercisePlan
 
 @Dao
 interface DaoExercisePlan {
@@ -32,5 +34,11 @@ interface DaoExercisePlan {
 
     @Query("SELECT * FROM exercise_plan")
     suspend fun getAllProgram(): List<ExercisePlan>
+
+    @Insert
+    suspend fun insertProgramLineItem(programItem: ProgramItem)
+
+    @Query("SELECT * FROM program_item")
+    suspend fun getAllProgramItem(): List<ProgramItem>
 
 }
