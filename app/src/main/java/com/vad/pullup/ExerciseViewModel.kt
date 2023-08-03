@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ConverterProgram
 import com.vad.pullup.data.ExerciseRepository
-import com.vad.pullup.data.ProgramItem
-import com.vad.pullup.data.Repeat
-import com.vad.pullup.data.RepeatSum
+import com.vad.pullup.data.entity.ProgramItem
+import com.vad.pullup.data.entity.Repeat
+import com.vad.pullup.data.db.RepeatSum
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.TimerHandler
-import com.vad.pullup.data.db.Exercise
-import com.vad.pullup.data.db.ExercisePlan
+import com.vad.pullup.data.entity.Exercise
+import com.vad.pullup.data.entity.ExercisePlan
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
@@ -36,6 +37,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
+        repository.setAllProgramItem()
     }
 
     fun increaseCount(count: Int) {
@@ -88,8 +90,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         sumRepeat.postValue(repository.getSumRepeatGroupByDate())
     }
 
-    fun getAllProgram() = viewModelScope.launch {
-        allProgram.postValue(ConverterProgram.convertToListProgram(repository.getAllProgram(), 30))
+    fun getAllProgram() = viewModelScope.launch(Dispatchers.IO) {
+        allProgram.postValue(repository.getAllItemProgram())
     }
 
     fun setTimer(increase: Boolean, timerHandler: TimerHandler) {
