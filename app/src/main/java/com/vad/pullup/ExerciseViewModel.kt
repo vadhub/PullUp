@@ -37,9 +37,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
-    }
-
-    fun setItemProgram() = viewModelScope.launch {
         repository.setAllProgramItem()
     }
 
