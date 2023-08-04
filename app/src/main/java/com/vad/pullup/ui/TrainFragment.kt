@@ -34,14 +34,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("onCreate", "onCreate")
 
         day = configuration.getDay()
 
+        Log.d("onCreate", "onCreate $day")
         if (savedInstanceState == null) {
             Log.d("onCreate", "saveinstance")
-            exerciseViewModel.getExerciseByWeek(day / 7)
-            exerciseViewModel.getListOfCountExercise(day / 7)
+            getExercise()
         }
     }
 
@@ -232,8 +231,12 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onDismiss(dialog: DialogInterface?) {
         Log.d("#dismisDialog", "update")
-        exerciseViewModel.getExerciseByWeek(day / 7)
-        exerciseViewModel.getListOfCountExercise(day / 7)
+        getExercise()
+    }
+
+    private fun getExercise() {
+        exerciseViewModel.getExerciseByWeek(if (day < 7) 1 else day / 7)
+        exerciseViewModel.getListOfCountExercise(if (day < 7) 1 else day / 7)
     }
 
 }
