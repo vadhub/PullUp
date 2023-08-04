@@ -16,7 +16,7 @@ class Configuration(private val context: Context) {
 
     fun getDay(): Int {
         pref = context.getSharedPreferences("pull_up_day", Context.MODE_PRIVATE)
-        return pref.getInt("day",0)
+        return pref.getInt("day",1)
     }
 
     fun saveFirstStart(isFirst: Boolean) {

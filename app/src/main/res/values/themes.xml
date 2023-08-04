@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="textView">
+        <item name="android:textColor">@color/purple_500</item>
+
+    </style>
+
 </resources>

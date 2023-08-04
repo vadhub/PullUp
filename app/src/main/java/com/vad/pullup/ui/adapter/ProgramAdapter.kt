@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vad.pullup.R
 import com.vad.pullup.data.entity.ProgramItem
 
-class ProgramAdapter(private val listProgram: List<ProgramItem>) : RecyclerView.Adapter<ProgramAdapter.ProgramViewHolder>() {
+class ProgramAdapter(
+    private val listProgram: List<ProgramItem>,
+    private val onClickListener: ItemOnClickListener
+) : RecyclerView.Adapter<ProgramAdapter.ProgramViewHolder>() {
 
     class ProgramViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -33,10 +36,15 @@ class ProgramAdapter(private val listProgram: List<ProgramItem>) : RecyclerView.
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramViewHolder =
-        ProgramViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_program, parent, false))
+        ProgramViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_program, parent, false)
+        )
 
     override fun onBindViewHolder(holder: ProgramViewHolder, position: Int) {
         holder.bind(listProgram[position])
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(position)
+        }
     }
 
     override fun getItemCount(): Int = listProgram.size

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     android:elevation="4dp"
+    app:cardCornerRadius="8dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -16,6 +17,7 @@
             android:id="@+id/weekTextView"
             android:layout_weight="0.9"
             android:gravity="center"
+            style="@style/textView"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
