@@ -29,6 +29,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private lateinit var imageButtonRemove: ImageButton
     private var day = 0
     private var timeoutChange = false
+    private var finish = false
     private var progressMax = 30_000L
     private var timer: Timer = Timer(progressMax)
 
@@ -58,6 +59,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         if(savedInstanceState != null) {
             Log.d("onViewCreated", "saveinstance")
             timeoutChange = savedInstanceState.getBoolean("timeoutChange")
+            finish = savedInstanceState.getBoolean("finish")
             if (savedInstanceState.getBoolean("isStart")) {
                 Log.d("onViewCreated", "isStart")
                 exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
@@ -137,17 +139,21 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         exerciseViewModel.finish.observe(viewLifecycleOwner) {
-            indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
-            Log.d("#finish", "$it 1")
-            val finishDialog = FinishDialog()
-            val fragmentManager = parentFragmentManager
-            val bundle = Bundle()
-            bundle.putInt("sum", it)
-            finishDialog.arguments = bundle
-            finishDialog.setOnDismissListener(this)
-            finishDialog.show(fragmentManager, "finish dialog")
-            configuration.saveDay(configuration.getDay() + 1)
-            training.text = "Day ${configuration.getDay()}"
+
+            if (!finish) {
+                indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
+                Log.d("#finish", "$it 1 $finish")
+                val finishDialog = FinishDialog()
+                val fragmentManager = parentFragmentManager
+                val bundle = Bundle()
+                bundle.putInt("sum", it)
+                finishDialog.arguments = bundle
+                finishDialog.setOnDismissListener(this)
+                finishDialog.show(fragmentManager, "finish dialog")
+                configuration.saveDay(configuration.getDay() + 1)
+                training.text = "Day ${configuration.getDay()}"
+                finish = true
+            }
         }
 
         imageButtonAdd.setOnClickListener {
@@ -202,11 +208,12 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d("save", "state")
+        Log.d("save", "state $finish")
         outState.putLong("time", timer.timeStartFrom)
         outState.putBoolean("isStart", timer.isStart)
         outState.putBoolean("timeoutChange", timeoutChange)
         outState.putLong("progressMax", progressMax)
+        outState.putBoolean("finish", finish)
         exerciseViewModel.skipTimer()
     }
 
