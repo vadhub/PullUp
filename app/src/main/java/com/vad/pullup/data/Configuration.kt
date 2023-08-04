@@ -20,15 +20,15 @@ class Configuration(private val context: Context) {
     }
 
     fun saveFirstStart(isFirst: Boolean) {
-        pref = context.getSharedPreferences("pull_up_first_run", Context.MODE_PRIVATE)
+        pref = context.getSharedPreferences("com.vad.pullup.firstrun", Context.MODE_PRIVATE)
         val ed: SharedPreferences.Editor = pref.edit()
         ed.putBoolean("first_run", isFirst)
         ed.apply()
     }
 
     fun getFirstStart(): Boolean {
-        pref = context.getSharedPreferences("pull_up_first_run", Context.MODE_PRIVATE)
-        return pref.getBoolean("first_run", false)
+        pref = context.getSharedPreferences("com.vad.pullup.firstrun", Context.MODE_PRIVATE)
+        return pref.getBoolean("first_run", true)
     }
 
 }

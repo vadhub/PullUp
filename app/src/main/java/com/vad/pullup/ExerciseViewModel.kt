@@ -79,6 +79,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun getExerciseByWeek(week: Int) = viewModelScope.launch {
         listOfExercise = repository.getPlanOfWeek(week)
+        Log.d("week", "$week")
         exercisePlan.postValue(listOfExercise[state])
     }
 
