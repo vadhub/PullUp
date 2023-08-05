@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
 import com.vad.pullup.data.entity.ProgramItem
@@ -37,8 +38,10 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener {
     }
 
     override fun onClick(position: Int) {
-        Log.d("item", "${listOfItemProgram[position].week}")
-        configuration.saveDay(listOfItemProgram[position].week*7)
+        val week = listOfItemProgram[position].week
+        Snackbar.make(requireView(), "Set $week week", Snackbar.LENGTH_SHORT).show()
+        Log.d("item", "$week")
+        configuration.saveDay(week*7)
     }
 
 }

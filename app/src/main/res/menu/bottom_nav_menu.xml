@@ -14,7 +14,7 @@
     <item
         android:id="@+id/chooseProgramFragment"
         android:icon="@drawable/baseline_settings_24"
-        android:title="training" />
+        android:title="set level" />
 
     <item
         android:id="@+id/howToUseFragment"

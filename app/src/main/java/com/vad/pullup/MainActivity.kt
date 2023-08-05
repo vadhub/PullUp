@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         configuration = Configuration(this)
 
-        val bottomMenu = findViewById<BottomNavigationView>(R.id.bottom_menu)
+        val bottomMenu = findViewById<BottomNavigationView>(R.id.bottom_menu_pull_up)
 
         bottomMenu.selectedItemId = R.id.trainFragment
 
@@ -53,16 +54,22 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val factory = ExerciseViewModelFactory(ExerciseRepository((application as App).database.exerciseDao()))
         exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
 
-        if (!configuration.getFirstStart()) {
-            exerciseViewModel.deleteAllProgram()
-            configuration.saveFirstStart(true)
-            exerciseViewModel.setProgram(readCSVProgram())
-        } else {
-            Log.d("##12", "${configuration.getDay()}")
-            bottomMenu.visibility = View.VISIBLE
-            navController.navigate(R.id.trainFragment)
-        }
+        Log.d("firstStart", "${configuration.getFirstStart()}")
 
+        if (savedInstanceState == null) {
+            Log.d("d", "!!!!!!!!!!")
+            if (configuration.getFirstStart()) {
+                exerciseViewModel.deleteAllProgram()
+                exerciseViewModel.setProgram(readCSVProgram())
+                Log.d("##1", "firsttt")
+                configuration.saveFirstStart(false)
+            } else {
+                navController.navigate(R.id.action_preparationFragment_to_trainFragment)
+                bottomMenu.visibility = View.VISIBLE
+                Log.d("##12", "${bottomMenu.isVisible}")
+                bottomMenu.invalidate()
+            }
+        }
 //        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 //
 //        sensorManager?.registerListener(this,
