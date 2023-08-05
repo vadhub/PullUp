@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         configuration = Configuration(this)
 
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 Log.d("##1", "firsttt")
                 configuration.saveFirstStart(false)
             } else {
-                navController.navigate(R.id.action_preparationFragment_to_trainFragment)
+                navController.navigate(R.id.trainFragment)
                 bottomMenu.visibility = View.VISIBLE
                 Log.d("##12", "${bottomMenu.isVisible}")
                 bottomMenu.invalidate()

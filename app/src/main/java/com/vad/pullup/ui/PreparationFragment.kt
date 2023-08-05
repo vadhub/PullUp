@@ -57,7 +57,7 @@ class PreparationFragment : BaseFragment() {
             } else if (repeat.text.toString().toInt() > 30) {
                 configuration.saveDay(7*29)
             }
-            findNavController().navigate(R.id.action_preparationFragment_to_trainFragment)
+            findNavController().navigate(R.id.trainFragment)
         }
     }
 

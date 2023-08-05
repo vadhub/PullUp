@@ -34,13 +34,9 @@
         android:id="@+id/preparationFragment"
         android:name="com.vad.pullup.ui.PreparationFragment"
         android:label="fragment_preparation"
-        tools:layout="@layout/fragment_preparation" >
-        <action
-            android:id="@+id/action_preparationFragment_to_trainFragment"
-            app:destination="@id/trainFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"/>
-    </fragment>
+        app:popUpTo="@+id/nav_graph"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/fragment_preparation" />
     <fragment
         android:id="@+id/chooseProgramFragment"
         android:name="com.vad.pullup.ui.ChooseProgramFragment"
