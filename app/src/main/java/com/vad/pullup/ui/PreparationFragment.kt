@@ -23,6 +23,8 @@ class PreparationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModelUIConfig.visibleNavigationBar(false)
+
         val repeat = view.findViewById(R.id.repeat) as TextView
 
         val increase = view.findViewById(R.id.increase) as ImageButton
@@ -57,7 +59,7 @@ class PreparationFragment : BaseFragment() {
             } else if (repeat.text.toString().toInt() > 30) {
                 configuration.saveDay(7*29)
             }
-            findNavController().navigate(R.id.action_preparationFragment_to_trainFragment)
+            findNavController().navigate(R.id.trainFragment)
         }
     }
 

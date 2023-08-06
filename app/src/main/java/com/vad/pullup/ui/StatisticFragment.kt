@@ -12,9 +12,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.vad.pullup.R
 import com.vad.pullup.BaseFragment
+import java.sql.Date
 import java.text.SimpleDateFormat
 
 class StatisticFragment : BaseFragment() {
@@ -37,24 +38,31 @@ class StatisticFragment : BaseFragment() {
         yAxis.axisMinimum = 20f
         yAxis.textSize = 16f
 
+        val simpleDateFormat = SimpleDateFormat("MM.dd")
+
         chart.axisRight.setDrawLabels(false)
 
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.spaceMin = 0.5f
+        xAxis.spaceMax = 0.5f
         xAxis.textSize = 16f
-        xAxis.granularity = 1f
 
-        val simpleDateFormat = SimpleDateFormat("MM.dd")
+        xAxis.valueFormatter = object : ValueFormatter() {
+
+            override fun getFormattedValue(value: Float): String {
+                return simpleDateFormat.format(Date(value.toLong()))
+            }
+        }
+
         exerciseViewModel.getSumRepeat()
 
         exerciseViewModel.sumRepeat.observe(viewLifecycleOwner) { repeat ->
             Log.d("$1", repeat.toTypedArray().contentToString())
 
-            val dates = repeat.map { simpleDateFormat.format(it.dateRepeat) }
-            val x = 1..repeat.size
-            val data = x.zip(repeat).map { Entry(it.first.toFloat(), it.second.countRepeat.toFloat()) }
-            xAxis.valueFormatter = IndexAxisValueFormatter(dates)
-            xAxis.setLabelCount(dates.size, true)
+            val dates = repeat.map { it.dateRepeat }
+            val data = dates.zip(repeat).map { Entry(it.first.time.toFloat(), it.second.countRepeat.toFloat()) }
+
             val dataSet = LineDataSet(data, "Sum all repeat")
 
             dataSet.valueTextSize = 16f

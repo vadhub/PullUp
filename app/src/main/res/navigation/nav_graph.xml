@@ -3,23 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/preparationFragment">
+    app:startDestination="@id/trainFragment">
 
     <fragment
         android:id="@+id/trainFragment"
         android:name="com.vad.pullup.ui.TrainFragment"
         android:label="fragment_train"
-        tools:layout="@layout/fragment_train" >
-        <action
-            android:id="@+id/action_trainFragment_to_statisticFragment"
-            app:destination="@id/statisticFragment" />
-        <action
-            android:id="@+id/action_trainFragment_to_howToUseFragment"
-            app:destination="@id/howToUseFragment" />
-        <action
-            android:id="@+id/action_trainFragment_to_chooseProgramFragment"
-            app:destination="@id/chooseProgramFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_train" />
+
     <fragment
         android:id="@+id/howToUseFragment"
         android:name="com.vad.pullup.ui.HowToUseFragment"
@@ -34,13 +25,7 @@
         android:id="@+id/preparationFragment"
         android:name="com.vad.pullup.ui.PreparationFragment"
         android:label="fragment_preparation"
-        tools:layout="@layout/fragment_preparation" >
-        <action
-            android:id="@+id/action_preparationFragment_to_trainFragment"
-            app:destination="@id/trainFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"/>
-    </fragment>
+        tools:layout="@layout/fragment_preparation" />
     <fragment
         android:id="@+id/chooseProgramFragment"
         android:name="com.vad.pullup.ui.ChooseProgramFragment"
