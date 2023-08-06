@@ -11,11 +11,13 @@ open class BaseFragment : Fragment() {
     protected lateinit var configuration: Configuration
     protected lateinit var exerciseViewModel: ExerciseViewModel
     protected lateinit var thisContext: Context
+    protected lateinit var viewModelUIConfig: ViewModelUIConfig
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         thisContext = context
         configuration = Configuration(context)
+        viewModelUIConfig = (requireActivity() as MainActivity).visibleNavBar
         val factory = ExerciseViewModelFactory(ExerciseRepository((requireActivity().application as App).database.exerciseDao()))
         exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
     }

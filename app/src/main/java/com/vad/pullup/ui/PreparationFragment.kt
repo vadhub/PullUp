@@ -23,6 +23,8 @@ class PreparationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModelUIConfig.visibleNavigationBar(false)
+
         val repeat = view.findViewById(R.id.repeat) as TextView
 
         val increase = view.findViewById(R.id.increase) as ImageButton

@@ -12,8 +12,10 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
+import com.vad.pullup.ViewModelUIConfig
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.TimerHandler
 import com.vad.pullup.data.entity.Exercise
@@ -53,6 +55,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewModelUIConfig.visibleNavigationBar(true)
 
         Log.d("%44", "onViewCreated")
 

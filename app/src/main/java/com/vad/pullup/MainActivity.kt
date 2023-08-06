@@ -7,12 +7,15 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vad.pullup.data.Configuration
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var configuration: Configuration
     private lateinit var exerciseViewModel: ExerciseViewModel
+    val visibleNavBar: ViewModelUIConfig by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +45,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         configuration = Configuration(this)
 
         val bottomMenu = findViewById<BottomNavigationView>(R.id.bottom_menu_pull_up)
-
         bottomMenu.selectedItemId = R.id.trainFragment
 
         val navHostFragment =
@@ -63,13 +66,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 exerciseViewModel.setProgram(readCSVProgram())
                 Log.d("##1", "firsttt")
                 configuration.saveFirstStart(false)
-            } else {
-                navController.navigate(R.id.trainFragment)
-                bottomMenu.visibility = View.VISIBLE
-                Log.d("##12", "${bottomMenu.isVisible}")
-                bottomMenu.invalidate()
+                navController.popBackStack()
+                navController.navigate(R.id.preparationFragment)
             }
         }
+
+        visibleNavBar.visibleNavBar.observe(this) {
+            if(it) {
+                bottomMenu.visibility = View.VISIBLE
+            } else {
+                bottomMenu.visibility = View.GONE
+            }
+        }
+
 //        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 //
 //        sensorManager?.registerListener(this,
