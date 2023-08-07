@@ -35,17 +35,14 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var progressMax = 30_000L
     private var timer: Timer = Timer(progressMax)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        day = configuration.getDay()
-
-        Log.d("onCreate", "onCreate $day")
-        if (savedInstanceState == null) {
-            Log.d("onCreate", "saveinstance")
-            getExercise()
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//        Log.d("onCreate", "onCreate $day")
+//        if (savedInstanceState == null) {
+//            Log.d("onCreate", "saveinstance")
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +54,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModelUIConfig.visibleNavigationBar(true)
+
+        day = configuration.getDay()
+        getExercise()
 
         Log.d("%44", "onViewCreated")
 
