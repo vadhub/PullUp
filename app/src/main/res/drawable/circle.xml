@@ -3,7 +3,7 @@
     <item>
         <shape
             android:shape="ring"
-            android:thicknessRatio="16"
+            android:thicknessRatio="120"
             android:useLevel="false">
             <solid android:color="@color/cardview_shadow_start_color" />
         </shape>
@@ -15,7 +15,7 @@
             android:toDegrees="270">
             <shape
                 android:shape="ring"
-                android:thicknessRatio="16"
+                android:thicknessRatio="120"
                 android:useLevel="true">
                 <solid android:color="@color/purple_500" />
             </shape>
