@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".ui.PreparationFragment">
 
     <TextView
@@ -46,7 +47,7 @@
 
     <Button
         android:id="@+id/buttonDone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Done" />
 </LinearLayout>

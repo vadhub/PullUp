@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.fragment.app.viewModels
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
-import com.vad.pullup.ViewModelUIConfig
 import com.vad.pullup.data.Timer
 import com.vad.pullup.data.TimerHandler
 import com.vad.pullup.data.entity.Exercise
@@ -24,7 +22,7 @@ import java.util.concurrent.TimeUnit
 
 class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissListener {
 
-    private lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: CircularProgressIndicator
     private lateinit var buttonDone: Button
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
@@ -71,7 +69,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             }
         }
 
-        progressBar = view.findViewById(R.id.progressBar) as ProgressBar
+        progressBar = view.findViewById(R.id.progressBar) as CircularProgressIndicator
         progressBar.scaleX = -1f
         setMaxProgressBar(progressMax.toInt())
 

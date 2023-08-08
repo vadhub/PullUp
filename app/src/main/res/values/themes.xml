@@ -15,8 +15,7 @@
     </style>
 
     <style name="textView">
-        <item name="android:textColor">@color/purple_500</item>
-
+        <item name="android:textColor">@color/teal_200</item>
     </style>
 
 </resources>
