@@ -33,10 +33,12 @@ class StatisticFragment : BaseFragment() {
         val chart = view.findViewById(R.id.chart) as LineChart
 
         chart.description.isEnabled = false
+        chart.legend.textColor = resources.getColor(R.color.teal_200)
 
         val yAxis = chart.axisLeft
         yAxis.axisMinimum = 20f
         yAxis.textSize = 16f
+        yAxis.textColor = resources.getColor(R.color.teal_200)
 
         val simpleDateFormat = SimpleDateFormat("MM.dd")
 
@@ -47,6 +49,7 @@ class StatisticFragment : BaseFragment() {
         xAxis.spaceMin = 0.5f
         xAxis.spaceMax = 0.5f
         xAxis.textSize = 16f
+        xAxis.textColor = resources.getColor(R.color.teal_200)
 
         xAxis.valueFormatter = object : ValueFormatter() {
 
@@ -66,6 +69,7 @@ class StatisticFragment : BaseFragment() {
             val dataSet = LineDataSet(data, "Sum all repeat")
 
             dataSet.valueTextSize = 16f
+            dataSet.valueTextColor = resources.getColor(R.color.teal_200)
             dataSet.setDrawFilled(true)
             dataSet.valueFormatter = DefaultAxisValueFormatter(0)
             val lineData = LineData(dataSet)
