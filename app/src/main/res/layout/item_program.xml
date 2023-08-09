@@ -18,10 +18,10 @@
             android:layout_weight="0.9"
             android:gravity="center"
             style="@style/textView"
-            android:textStyle="bold"
+            android:background="@drawable/circle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24dp"
+            android:textSize="50dp"
             android:text="20" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="16dp"
             android:text="25" />
 
@@ -38,7 +38,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="16dp"
             android:text="20" />
 
@@ -47,7 +47,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="16dp"
             android:text="15" />
 
@@ -56,7 +56,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="16dp"
             android:text="10" />
 
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="16dp"
             android:text="5" />
 
