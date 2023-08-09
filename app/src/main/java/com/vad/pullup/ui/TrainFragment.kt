@@ -30,7 +30,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var day = 0
     private var timeoutChange = false
     private var finish = false
-    private var progressMax = 30_000L
+    private var progressMax = 120_000L
     private var timer: Timer = Timer(progressMax)
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -230,7 +230,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun finishTime() {
-        progressMax = 30_000
+        progressMax = 120_000
         exerciseViewModel.switchState()
         buttonDone.text = "done"
         timeoutChange = false

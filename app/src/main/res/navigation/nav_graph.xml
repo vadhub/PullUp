@@ -12,11 +12,6 @@
         tools:layout="@layout/fragment_train" />
 
     <fragment
-        android:id="@+id/howToUseFragment"
-        android:name="com.vad.pullup.ui.HowToUseFragment"
-        android:label="fragment_how_to_use"
-        tools:layout="@layout/fragment_how_to_use" />
-    <fragment
         android:id="@+id/statisticFragment"
         android:name="com.vad.pullup.ui.StatisticFragment"
         android:label="fragment_statistic"

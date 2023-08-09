@@ -57,7 +57,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
         if (listOfCount.size - 1 > state) {
             changeTimeout.postValue(switchTimer)
-            startTimer(30_000, timerHandler)
+            startTimer(120_000, timerHandler)
         } else {
             finish.postValue(sum)
         }
