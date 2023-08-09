@@ -16,8 +16,4 @@
         android:icon="@drawable/baseline_settings_24"
         android:title="set level" />
 
-    <item
-        android:id="@+id/howToUseFragment"
-        android:icon="@drawable/baseline_info_24"
-        android:title="how to use" />
 </menu>
