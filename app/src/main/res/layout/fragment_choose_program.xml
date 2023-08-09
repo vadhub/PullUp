@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_margin="8dp"
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -66,8 +66,8 @@
         android:id="@+id/recyclerProgram"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_program"
-        tools:itemCount="10"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        tools:itemCount="30"
+        tools:listitem="@layout/item_program" />
 
 </LinearLayout>

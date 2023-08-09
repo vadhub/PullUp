@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/howToUseFragment"
-        android:name="com.vad.pullup.ui.HowToUseFragment"
+        android:name="com.vad.pullup.ui.AboutFragment"
         android:label="fragment_how_to_use"
-        tools:layout="@layout/fragment_how_to_use" />
+        tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.vad.pullup.ui.StatisticFragment"

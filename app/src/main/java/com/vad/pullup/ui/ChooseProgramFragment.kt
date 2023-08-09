@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -31,6 +32,7 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView = view.findViewById(R.id.recyclerProgram) as RecyclerView
+        recyclerView.addItemDecoration(DividerItemDecoration(thisContext, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(thisContext)
 
         exerciseViewModel.getAllProgram()
