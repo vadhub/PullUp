@@ -1,10 +1,11 @@
 package com.vad.pullup.data
 
 import com.vad.pullup.data.db.DaoExercisePlan
-import com.vad.pullup.data.entity.Exercise
-import com.vad.pullup.data.entity.ExercisePlan
-import com.vad.pullup.data.entity.ProgramItem
-import com.vad.pullup.data.entity.Repeat
+import com.vad.pullup.domain.model.ConverterProgram
+import com.vad.pullup.domain.model.entity.Exercise
+import com.vad.pullup.domain.model.entity.ExercisePlan
+import com.vad.pullup.domain.model.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.Repeat
 
 class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
@@ -16,11 +17,7 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
     suspend fun getPlanOfWeek(week: Int) = daoExercisePlan.getExerciseOnPlanFromWeek(week)
 
-    suspend fun getAllExercise() = daoExercisePlan.getAllExercise()
-
     suspend fun writeExercise(exercise: Exercise) = daoExercisePlan.insertExercise(exercise)
-
-    suspend fun updateExercise(exercise: Exercise) = daoExercisePlan.updateExercise(exercise)
 
     suspend fun delete() {
         daoExercisePlan.deleteAll()

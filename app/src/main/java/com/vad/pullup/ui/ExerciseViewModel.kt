@@ -1,18 +1,17 @@
-package com.vad.pullup
+package com.vad.pullup.ui
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vad.pullup.data.ConverterProgram
 import com.vad.pullup.data.ExerciseRepository
-import com.vad.pullup.data.entity.ProgramItem
-import com.vad.pullup.data.entity.Repeat
-import com.vad.pullup.data.db.RepeatSum
-import com.vad.pullup.data.Timer
-import com.vad.pullup.data.TimerHandler
-import com.vad.pullup.data.entity.Exercise
-import com.vad.pullup.data.entity.ExercisePlan
+import com.vad.pullup.domain.model.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.Repeat
+import com.vad.pullup.domain.model.RepeatSum
+import com.vad.pullup.domain.model.Timer
+import com.vad.pullup.domain.model.TimerHandler
+import com.vad.pullup.domain.model.entity.Exercise
+import com.vad.pullup.domain.model.entity.ExercisePlan
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

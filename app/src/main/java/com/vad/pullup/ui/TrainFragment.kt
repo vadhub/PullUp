@@ -14,9 +14,9 @@ import android.widget.TextView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
-import com.vad.pullup.data.Timer
-import com.vad.pullup.data.TimerHandler
-import com.vad.pullup.data.entity.Exercise
+import com.vad.pullup.domain.model.Timer
+import com.vad.pullup.domain.model.TimerHandler
+import com.vad.pullup.domain.model.entity.Exercise
 import java.sql.Date
 import java.util.concurrent.TimeUnit
 
@@ -32,15 +32,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var finish = false
     private var progressMax = 120_000L
     private var timer: Timer = Timer(progressMax)
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        Log.d("onCreate", "onCreate $day")
-//        if (savedInstanceState == null) {
-//            Log.d("onCreate", "saveinstance")
-//        }
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

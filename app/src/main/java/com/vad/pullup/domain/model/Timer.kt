@@ -1,4 +1,4 @@
-package com.vad.pullup.data
+package com.vad.pullup.domain.model
 
 import android.os.CountDownTimer
 

@@ -7,15 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
-import com.vad.pullup.data.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.ui.adapter.ItemOnClickListener
 import com.vad.pullup.ui.adapter.ProgramAdapter
 
@@ -32,7 +30,6 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView = view.findViewById(R.id.recyclerProgram) as RecyclerView
-        recyclerView.addItemDecoration(DividerItemDecoration(thisContext, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(thisContext)
 
         exerciseViewModel.getAllProgram()

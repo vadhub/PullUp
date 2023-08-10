@@ -1,4 +1,4 @@
-package com.vad.pullup.data.db
+package com.vad.pullup.domain.model
 
 import androidx.room.TypeConverter
 import java.sql.Date

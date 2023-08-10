@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vad.pullup.R
-import com.vad.pullup.data.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.ProgramItem
 
 class ProgramAdapter(
     private val listProgram: List<ProgramItem>,

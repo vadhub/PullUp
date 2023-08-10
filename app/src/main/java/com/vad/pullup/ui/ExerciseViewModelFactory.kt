@@ -1,4 +1,4 @@
-package com.vad.pullup
+package com.vad.pullup.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
