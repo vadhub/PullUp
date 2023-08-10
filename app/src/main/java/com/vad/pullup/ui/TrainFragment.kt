@@ -51,16 +51,16 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         day = configuration.getDay()
         getExercise()
 
-        Log.d("%44", "onViewCreated")
+        Log.d("%44", "onViewCreated $exerciseViewModel")
 
         if(savedInstanceState != null) {
             Log.d("onViewCreated", "saveinstance")
             timeoutChange = savedInstanceState.getBoolean("timeoutChange")
             finish = savedInstanceState.getBoolean("finish")
+            progressMax = savedInstanceState.getLong("progressMax")
             if (savedInstanceState.getBoolean("isStart")) {
                 Log.d("onViewCreated", "isStart")
                 exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
-                progressMax = savedInstanceState.getLong("progressMax")
             }
         }
 
