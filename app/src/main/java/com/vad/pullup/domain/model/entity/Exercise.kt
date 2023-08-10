@@ -1,10 +1,10 @@
-package com.vad.pullup.data.entity
+package com.vad.pullup.domain.model.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.vad.pullup.data.db.DateConvertor
+import com.vad.pullup.domain.model.DateConvertor
 import java.sql.Date
 
 @Entity(tableName = "exercise")

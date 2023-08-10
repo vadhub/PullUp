@@ -1,4 +1,4 @@
-package com.vad.pullup.data.entity
+package com.vad.pullup.domain.model.entity
 
 data class Repeat(
     val week: Int,

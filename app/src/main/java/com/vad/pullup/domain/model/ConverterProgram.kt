@@ -1,7 +1,7 @@
-package com.vad.pullup.data
+package com.vad.pullup.domain.model
 
-import com.vad.pullup.data.entity.ExercisePlan
-import com.vad.pullup.data.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.ExercisePlan
+import com.vad.pullup.domain.model.entity.ProgramItem
 
 class ConverterProgram {
 

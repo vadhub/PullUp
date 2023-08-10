@@ -1,8 +1,8 @@
 package com.vad.pullup
 
-import com.vad.pullup.data.ConverterProgram
-import com.vad.pullup.data.entity.ProgramItem
-import com.vad.pullup.data.entity.ExercisePlan
+import com.vad.pullup.domain.model.ConverterProgram
+import com.vad.pullup.domain.model.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.ExercisePlan
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -4,9 +4,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.vad.pullup.data.entity.ProgramItem
-import com.vad.pullup.data.entity.Exercise
-import com.vad.pullup.data.entity.ExercisePlan
+import com.vad.pullup.domain.model.RepeatSum
+import com.vad.pullup.domain.model.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.Exercise
+import com.vad.pullup.domain.model.entity.ExercisePlan
 
 @Dao
 interface DaoExercisePlan {
