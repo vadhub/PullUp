@@ -14,9 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vad.pullup.data.Configuration
 import com.vad.pullup.data.ExerciseRepository
 import com.vad.pullup.domain.model.entity.Repeat
-import com.vad.pullup.ui.ExerciseViewModel
-import com.vad.pullup.ui.ExerciseViewModelFactory
-import com.vad.pullup.ui.ViewModelUIConfig
+import com.vad.pullup.ui.viewmodel.ExerciseViewModel
+import com.vad.pullup.ui.viewmodel.ExerciseViewModelFactory
+import com.vad.pullup.ui.viewmodel.ViewModelUIConfig
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.BufferedReader

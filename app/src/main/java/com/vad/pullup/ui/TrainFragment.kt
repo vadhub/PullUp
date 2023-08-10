@@ -14,6 +14,7 @@ import android.widget.TextView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.R
+import com.vad.pullup.domain.model.AlarmHandler
 import com.vad.pullup.domain.model.Timer
 import com.vad.pullup.domain.model.TimerHandler
 import com.vad.pullup.domain.model.entity.Exercise
@@ -27,6 +28,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
+    private lateinit var alarmHandler: AlarmHandler
     private var day = 0
     private var timeoutChange = false
     private var finish = false
@@ -43,6 +45,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModelUIConfig.visibleNavigationBar(true)
+
+        alarmHandler = AlarmHandler(thisContext)
 
         day = configuration.getDay()
         getExercise()
@@ -192,6 +196,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onDestroy() {
         super.onDestroy()
         Log.d("destroy", "destroy")
+        alarmHandler.stopAlarm()
+        alarmHandler.cancelAlarm()
     }
 
     override fun onDetach() {
@@ -221,6 +227,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun finishTime() {
+        alarmHandler.playAlarm()
         progressMax = 120_000
         exerciseViewModel.switchState()
         buttonDone.text = "done"
