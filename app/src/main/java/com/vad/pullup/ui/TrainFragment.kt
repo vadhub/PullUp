@@ -42,6 +42,16 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         return inflater.inflate(R.layout.fragment_train, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("create", "create")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("resume", "resume")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModelUIConfig.visibleNavigationBar(true)
@@ -199,6 +209,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onDestroy() {
         super.onDestroy()
         Log.d("destroy", "destroy")
+        exerciseViewModel.skipTimer()
         alarmHandler.stopAlarm()
         alarmHandler.cancelAlarm()
     }
@@ -222,7 +233,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         outState.putBoolean("timeoutChange", timeoutChange)
         outState.putLong("progressMax", progressMax)
         outState.putBoolean("finish", finish)
-        exerciseViewModel.skipTimer()
     }
 
     override fun showTime(time: Long) {
