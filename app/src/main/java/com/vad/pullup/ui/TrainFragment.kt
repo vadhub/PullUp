@@ -51,22 +51,22 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         day = configuration.getDay()
         getExercise()
 
-        Log.d("%44", "onViewCreated")
+        Log.d("%44", "onViewCreated $exerciseViewModel")
 
         if(savedInstanceState != null) {
-            Log.d("onViewCreated", "saveinstance")
+            Log.d("onViewCreated", "saveinstance $progressMax")
             timeoutChange = savedInstanceState.getBoolean("timeoutChange")
             finish = savedInstanceState.getBoolean("finish")
+            progressMax = savedInstanceState.getLong("progressMax")
+            Log.d("progress", "$progressMax")
             if (savedInstanceState.getBoolean("isStart")) {
                 Log.d("onViewCreated", "isStart")
                 exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
-                progressMax = savedInstanceState.getLong("progressMax")
             }
         }
 
         progressBar = view.findViewById(R.id.progressBar) as CircularProgressIndicator
         progressBar.scaleX = -1f
-        setMaxProgressBar(progressMax.toInt())
 
         buttonDone = view.findViewById(R.id.done) as Button
         textViewCount = view.findViewById(R.id.time) as TextView
@@ -117,11 +117,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
             Log.d("changeTimeout","changeTimeout")
-            if (it) {
-                buttonDone.text = "skip"
-            } else {
-                buttonDone.text = "done"
-            }
+            updateButton(timeoutChange)
         }
 
         exerciseViewModel.timer.observe(viewLifecycleOwner) {
@@ -208,7 +204,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d("save", "state $finish")
-        outState.putLong("time", timer.timeStartFrom)
+
+        if (timer.isStart) {
+            outState.putLong("time", timer.timeStartFrom)
+        } else {
+            outState.putLong("time", 120_000)
+        }
+
         outState.putBoolean("isStart", timer.isStart)
         outState.putBoolean("timeoutChange", timeoutChange)
         outState.putLong("progressMax", progressMax)
@@ -233,6 +235,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         buttonDone.text = "done"
         timeoutChange = false
         Log.d("finishTime", "$progressMax")
+        setMaxProgressBar(progressMax.toInt())
         progressBar.progress = progressMax.toInt()
     }
 
@@ -244,6 +247,14 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private fun getExercise() {
         exerciseViewModel.getExerciseByWeek(if (day < 7) 1 else day / 7)
         exerciseViewModel.getListOfCountExercise(if (day < 7) 1 else day / 7)
+    }
+
+    private fun updateButton(change: Boolean) {
+        if (change) {
+            buttonDone.text = "skip"
+        } else {
+            buttonDone.text = "done"
+        }
     }
 
 }

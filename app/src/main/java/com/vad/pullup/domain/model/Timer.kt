@@ -5,7 +5,7 @@ import android.os.CountDownTimer
 data class Timer(val time: Long) {
 
     private lateinit var handler: TimerHandler
-    private lateinit var timer: CountDownTimer
+    private var timer: CountDownTimer? = null
 
     var timeStartFrom = time
         private set
@@ -21,23 +21,26 @@ data class Timer(val time: Long) {
     }
 
     fun startTimer() {
-        isStart = true
-        timer = object: CountDownTimer(timeStartFrom, interval) {
-            override fun onTick(millisUntilFinished: Long) {
-                timeStartFrom = millisUntilFinished
-                handler.showTime(millisUntilFinished)
-                timeLast += interval
-            }
+        if (timeStartFrom > 1_000) {
+            isStart = true
+            timer = object : CountDownTimer(timeStartFrom, interval) {
+                override fun onTick(millisUntilFinished: Long) {
+                    timeStartFrom = millisUntilFinished
+                    handler.showTime(millisUntilFinished)
+                    timeLast += interval
+                }
 
-            override fun onFinish() {
-                handler.finishTime()
-            }
-        }.start()
+                override fun onFinish() {
+                    isStart = false
+                    handler.finishTime()
+                }
+            }.start()
+        }
     }
 
     fun cancelTimer(): Long {
         isStart = false
-        timer.cancel()
+        timer?.cancel()
         return timeLast
     }
 }
