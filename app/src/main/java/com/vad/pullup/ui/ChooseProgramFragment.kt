@@ -17,9 +17,10 @@ import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.ui.adapter.ItemOnClickListener
 import com.vad.pullup.ui.adapter.ProgramAdapter
 
-class ChooseProgramFragment : BaseFragment(), ItemOnClickListener {
+class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListener {
 
     private lateinit var listOfItemProgram: List<ProgramItem>
+    private var week = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,15 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener {
     }
 
     override fun onClick(position: Int) {
-        val week = listOfItemProgram[position].week
+        val warningDialog = WarningDialog()
+        val fragmentManager = parentFragmentManager
+        warningDialog.setOnAcceptListener(this)
+        warningDialog.show(fragmentManager, "warning fragment")
+        week = listOfItemProgram[position].week
+    }
+
+    override fun onAccept() {
+        Log.d("onAccept", "accept")
         val snackBarView = Snackbar.make(requireView(), "Set $week week", Snackbar.LENGTH_SHORT)
         val view = snackBarView.view
         val params = view.layoutParams as FrameLayout.LayoutParams
@@ -51,6 +60,10 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener {
         snackBarView.show()
         Log.d("item", "$week")
         configuration.saveDay(week*7)
+        exerciseViewModel.resetAll()
+
     }
+
+
 
 }

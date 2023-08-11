@@ -32,6 +32,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val finish: MutableLiveData<Int> = MutableLiveData()
     val sumRepeat: MutableLiveData<List<RepeatSum>> = MutableLiveData()
     val allProgram: MutableLiveData<List<ProgramItem>> = MutableLiveData()
+    val reset: MutableLiveData<Boolean> = MutableLiveData()
 
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
@@ -116,6 +117,14 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         timerHandle!!.setTimerHandler(timerHandler)
         timerHandle!!.startTimer()
         timer.postValue(timerHandle!!)
+    }
+
+    fun resetAll() {
+        sum = 0
+        state = 0
+        listOfCount = listOf()
+        reset.postValue(true)
+        repeat.postValue(state)
     }
 
 }

@@ -98,6 +98,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             thisContext
         )
 
+        exerciseViewModel.reset.observe(viewLifecycleOwner) {
+            exercise = Exercise(0, 0, Date(0))
+
+            indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
+            getExercise()
+        }
+
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("countOfRepeat", "countOfRepeat")
             textViewCount.text = "$it"
@@ -127,7 +134,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         exerciseViewModel.repeat.observe(viewLifecycleOwner) {
-            Log.d("stateLiveData","stateLiveData")
+            Log.d("stateLiveData","stateLiveData $it")
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
