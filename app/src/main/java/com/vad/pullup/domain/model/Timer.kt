@@ -31,6 +31,7 @@ data class Timer(val time: Long) {
                 }
 
                 override fun onFinish() {
+                    isStart = false
                     handler.finishTime()
                 }
             }.start()
