@@ -19,7 +19,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     private var timerHandle: Timer? = null
     private var state = 0
-    private var switchTimer = true
     private var listOfCount: List<Int> = listOf()
     private var listOfExercise: List<ExercisePlan> = listOf()
     private var sum = 0
@@ -55,7 +54,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         Log.d("##saveCount", "$state")
 
         if (listOfCount.size - 1 > state) {
-            changeTimeout.postValue(switchTimer)
+            changeTimeout.postValue(true)
             startTimer(120_000, timerHandler)
         } else {
             finish.postValue(sum)

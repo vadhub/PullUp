@@ -117,11 +117,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
             Log.d("changeTimeout","changeTimeout")
-            if (it) {
-                buttonDone.text = "skip"
-            } else {
-                buttonDone.text = "done"
-            }
+            updateButton(timeoutChange)
         }
 
         exerciseViewModel.timer.observe(viewLifecycleOwner) {
@@ -244,6 +240,14 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private fun getExercise() {
         exerciseViewModel.getExerciseByWeek(if (day < 7) 1 else day / 7)
         exerciseViewModel.getListOfCountExercise(if (day < 7) 1 else day / 7)
+    }
+
+    private fun updateButton(change: Boolean) {
+        if (change) {
+            buttonDone.text = "skip"
+        } else {
+            buttonDone.text = "done"
+        }
     }
 
 }
