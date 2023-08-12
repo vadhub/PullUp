@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     private lateinit var configuration: Configuration
-    private lateinit var exerciseViewModel: ExerciseViewModel
+
+    private val factory by lazy { ExerciseViewModelFactory(ExerciseRepository((application as App).database.exerciseDao())) }
+    val exerciseViewModel: ExerciseViewModel by lazy {
+        ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
+    }
     val visibleNavBar: ViewModelUIConfig by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,16 +52,13 @@ class MainActivity : AppCompatActivity() {
 
         bottomMenu.setupWithNavController(navController)
 
-        val factory = ExerciseViewModelFactory(ExerciseRepository((application as App).database.exerciseDao()))
-        exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
-
         Log.d("firstStart", "${configuration.getFirstStart()}")
 
         if (savedInstanceState == null) {
             Log.d("d", "!!!!!!!!!!")
             if (configuration.getFirstStart()) {
-                exerciseViewModel.deleteAllProgram()
-                exerciseViewModel.setProgram(readCSVProgram())
+                exerciseViewModel?.deleteAllProgram()
+                exerciseViewModel?.setProgram(readCSVProgram())
                 Log.d("##1", "firsttt")
                 configuration.saveFirstStart(false)
                 navController.popBackStack()
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         visibleNavBar.visibleNavBar.observe(this) {
-            if(it) {
+            if (it) {
                 bottomMenu.visibility = View.VISIBLE
             } else {
                 bottomMenu.visibility = View.GONE
