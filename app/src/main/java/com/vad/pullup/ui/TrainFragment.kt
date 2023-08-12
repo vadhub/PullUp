@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.vad.pullup.BaseFragment
+import com.vad.pullup.MainActivity
 import com.vad.pullup.R
 import com.vad.pullup.domain.model.AlarmHandler
 import com.vad.pullup.domain.model.Timer
@@ -61,7 +62,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         day = configuration.getDay()
         getExercise()
 
-        Log.d("%44", "onViewCreated $exerciseViewModel")
+        Log.d("%44", "onViewCreated ${(requireActivity() as MainActivity).exerciseViewModel}")
 
         if(savedInstanceState != null) {
             Log.d("onViewCreated", "saveinstance $progressMax")
@@ -107,13 +108,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             stateFifth,
             thisContext
         )
-
-        exerciseViewModel.reset.observe(viewLifecycleOwner) {
-            exercise = Exercise(0, 0, Date(0))
-
-            indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
-            getExercise()
-        }
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("countOfRepeat", "countOfRepeat")

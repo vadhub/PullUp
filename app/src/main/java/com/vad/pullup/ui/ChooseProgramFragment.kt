@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.vad.pullup.BaseFragment
+import com.vad.pullup.MainActivity
 import com.vad.pullup.R
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.ui.adapter.ItemOnClickListener
@@ -58,10 +59,9 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListe
         view.layoutParams = params
         snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
         snackBarView.show()
-        Log.d("item", "$week")
+        Log.d("item", "$week ${(requireActivity() as MainActivity).exerciseViewModel}")
         configuration.saveDay(week*7)
-        exerciseViewModel.resetAll()
-
+        exerciseViewModel.reset()
     }
 
 
