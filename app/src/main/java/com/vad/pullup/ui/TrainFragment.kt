@@ -29,7 +29,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
-    private lateinit var alarmHandler: AlarmHandler
+    private var alarmHandler: AlarmHandler? = null
     private var day = 0
     private var timeoutChange = false
     private var finish = false
@@ -117,7 +117,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
             Log.d("exercisePlan", "exercisePlan")
-            textViewCount.text = "${it.first}"
+            textViewCount.text = "${it.first.count}"
             exercise = Exercise(0, it.repeat, it.first.count, Date(System.currentTimeMillis()))
         }
 
@@ -204,8 +204,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         super.onDestroy()
         Log.d("destroy", "destroy")
         exerciseViewModel.skipTimer()
-        alarmHandler.stopAlarm()
-        alarmHandler.cancelAlarm()
+        alarmHandler?.stopAlarm()
+        alarmHandler?.cancelAlarm()
     }
 
     override fun onDetach() {
@@ -240,7 +240,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun finishTime() {
-        alarmHandler.playAlarm()
+        alarmHandler?.playAlarm()
         progressMax = 120_000
         exerciseViewModel.switchState()
         buttonDone.text = "done"
