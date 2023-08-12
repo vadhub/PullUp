@@ -59,19 +59,12 @@ class StatisticFragment : BaseFragment() {
             }
         }
 
-        exerciseViewModel.getSumRepeat()
-//
-//        val repeat = listOf(
-//            RepeatSum(34, Date(1691182800000L)),
-//            RepeatSum(31, Date(1691280000000L)),
-//            RepeatSum(31, Date(1691366400000L)),
-//            RepeatSum(32, Date(1691452800000L)),
-//            RepeatSum(30, Date(1691539200000L)),
-//            RepeatSum(30, Date(1691639200000L)),
-//            RepeatSum(34, Date(1691739200000L)),
-//
-//            )
+        exerciseViewModel.getAllExercise()
+        exerciseViewModel.allExercise.observe(viewLifecycleOwner) {
+            Log.d("statistic", it.toTypedArray().contentToString())
+        }
 
+        exerciseViewModel.getSumRepeat()
         exerciseViewModel.sumRepeat.observe(viewLifecycleOwner) { repeat ->
             Log.d("$1", repeat.toTypedArray().contentToString())
 

@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.vad.pullup.BaseFragment
+import com.vad.pullup.MainActivity
 import com.vad.pullup.R
 import com.vad.pullup.domain.model.AlarmHandler
 import com.vad.pullup.domain.model.Timer
@@ -28,7 +29,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private lateinit var textViewCount: TextView
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
-    private lateinit var alarmHandler: AlarmHandler
+    private var alarmHandler: AlarmHandler? = null
     private var day = 0
     private var timeoutChange = false
     private var finish = false
@@ -42,6 +43,16 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         return inflater.inflate(R.layout.fragment_train, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("create", "create")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("resume", "resume")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModelUIConfig.visibleNavigationBar(true)
@@ -51,7 +62,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         day = configuration.getDay()
         getExercise()
 
-        Log.d("%44", "onViewCreated $exerciseViewModel")
+        Log.d("%44", "onViewCreated ${(requireActivity() as MainActivity).exerciseViewModel}")
 
         if(savedInstanceState != null) {
             Log.d("onViewCreated", "saveinstance $progressMax")
@@ -88,7 +99,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         training.text = "Day $day"
 
-        var exercise = Exercise(0, 0, Date(0))
+        var exercise = Exercise(0, 0,0, Date(0))
         val indicator = IndicatorState(
             stateFirst,
             stateSecond,
@@ -101,13 +112,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("countOfRepeat", "countOfRepeat")
             textViewCount.text = "$it"
-            exercise = Exercise(0, it, exercise.date)
+            exercise = Exercise(0, it.repeat, it.first, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
             Log.d("exercisePlan", "exercisePlan")
-            textViewCount.text = "${it.count}"
-            exercise = Exercise(0, it.count, Date(System.currentTimeMillis()))
+            textViewCount.text = "${it.first.count}"
+            exercise = Exercise(0, it.repeat, it.first.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
@@ -127,7 +138,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         exerciseViewModel.repeat.observe(viewLifecycleOwner) {
-            Log.d("stateLiveData","stateLiveData")
+            Log.d("stateLiveData","stateLiveData $it")
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
@@ -163,7 +174,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             if (!timeoutChange) {
                 exerciseViewModel.decreaseCount(textViewCount.text.toString().toInt())
             } else {
-                if (progressMax > 11_000) {
+                if (progressMax >= 12_000) {
                     progressMax -= 10_000
                     exerciseViewModel.setTimer(false, this)
                     setMaxProgressBar(progressMax.toInt())
@@ -192,8 +203,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     override fun onDestroy() {
         super.onDestroy()
         Log.d("destroy", "destroy")
-        alarmHandler.stopAlarm()
-        alarmHandler.cancelAlarm()
+        exerciseViewModel.skipTimer()
+        alarmHandler?.stopAlarm()
+        alarmHandler?.cancelAlarm()
     }
 
     override fun onDetach() {
@@ -215,7 +227,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         outState.putBoolean("timeoutChange", timeoutChange)
         outState.putLong("progressMax", progressMax)
         outState.putBoolean("finish", finish)
-        exerciseViewModel.skipTimer()
     }
 
     override fun showTime(time: Long) {
@@ -229,7 +240,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun finishTime() {
-        alarmHandler.playAlarm()
+        alarmHandler?.playAlarm()
         progressMax = 120_000
         exerciseViewModel.switchState()
         buttonDone.text = "done"
@@ -245,7 +256,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     private fun getExercise() {
-        exerciseViewModel.getExerciseByWeek(if (day < 7) 1 else day / 7)
+        exerciseViewModel.getPlanByWeek(if (day < 7) 1 else day / 7)
         exerciseViewModel.getListOfCountExercise(if (day < 7) 1 else day / 7)
     }
 

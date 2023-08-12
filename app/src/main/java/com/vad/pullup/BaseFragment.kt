@@ -21,8 +21,6 @@ open class BaseFragment : Fragment() {
         thisContext = context
         configuration = Configuration(context)
         viewModelUIConfig = (requireActivity() as MainActivity).visibleNavBar
-        val factory = ExerciseViewModelFactory(ExerciseRepository((requireActivity().application as App).database.exerciseDao()))
-        exerciseViewModel = ViewModelProvider(this, factory).get(ExerciseViewModel::class.java)
+        exerciseViewModel = (requireActivity() as MainActivity).exerciseViewModel
     }
-
 }

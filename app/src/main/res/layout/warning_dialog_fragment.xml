@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:orientation="vertical">
 
     <TextView
-        android:text="Warning!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"/>
+        android:layout_margin="8dp"
+        android:text="Warning!"
+        android:textSize="24sp" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="Your current progress will be reset"
-        android:layout_width="match_parent"
-        android:textSize="18sp"
-        android:layout_height="wrap_content"/>
+        android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/buttonWarning"
-        android:text="ok"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </LinearLayout>
