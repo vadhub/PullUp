@@ -26,9 +26,21 @@ class IndicatorState(
 
         when (round) {
             1 -> firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
-            2 -> secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
-            3 -> thirdRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
-            4 -> fourthRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+            2 ->{
+                firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+                secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+            }
+            3 -> {
+                firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+                secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+                thirdRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+            }
+            4 -> {
+                firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+                secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+                thirdRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+                fourthRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
+            }
         }
 
     }
