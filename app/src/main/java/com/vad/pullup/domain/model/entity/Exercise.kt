@@ -15,6 +15,9 @@ data class Exercise(
     @ColumnInfo(name = "id_")
     val idExercise: Int,
 
+    @ColumnInfo(name = "repeat_")
+    val repeat: Int,
+
     @ColumnInfo(name = "count_")
     val count: Int,
 

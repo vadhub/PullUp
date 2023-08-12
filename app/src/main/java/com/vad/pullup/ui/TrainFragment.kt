@@ -99,7 +99,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         training.text = "Day $day"
 
-        var exercise = Exercise(0, 0, Date(0))
+        var exercise = Exercise(0, 0,0, Date(0))
         val indicator = IndicatorState(
             stateFirst,
             stateSecond,
@@ -112,13 +112,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("countOfRepeat", "countOfRepeat")
             textViewCount.text = "$it"
-            exercise = Exercise(0, it, exercise.date)
+            exercise = Exercise(0, it.repeat, it.first, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
             Log.d("exercisePlan", "exercisePlan")
-            textViewCount.text = "${it.count}"
-            exercise = Exercise(0, it.count, Date(System.currentTimeMillis()))
+            textViewCount.text = "${it.first}"
+            exercise = Exercise(0, it.repeat, it.first.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
@@ -174,7 +174,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             if (!timeoutChange) {
                 exerciseViewModel.decreaseCount(textViewCount.text.toString().toInt())
             } else {
-                if (progressMax > 11_000) {
+                if (progressMax >= 12_000) {
                     progressMax -= 10_000
                     exerciseViewModel.setTimer(false, this)
                     setMaxProgressBar(progressMax.toInt())
@@ -256,7 +256,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     private fun getExercise() {
-        exerciseViewModel.getExerciseByWeek(if (day < 7) 1 else day / 7)
+        exerciseViewModel.getPlanByWeek(if (day < 7) 1 else day / 7)
         exerciseViewModel.getListOfCountExercise(if (day < 7) 1 else day / 7)
     }
 

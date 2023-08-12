@@ -33,5 +33,6 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
     suspend fun getAllItemProgram(): List<ProgramItem> = daoExercisePlan.getAllProgramItem()
 
+    suspend fun getAllExercise(): List<Exercise> = daoExercisePlan.getAllExercise()
 
 }

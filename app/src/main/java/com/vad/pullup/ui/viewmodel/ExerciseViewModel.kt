@@ -10,6 +10,7 @@ import com.vad.pullup.domain.model.entity.Repeat
 import com.vad.pullup.domain.model.RepeatSum
 import com.vad.pullup.domain.model.Timer
 import com.vad.pullup.domain.model.TimerHandler
+import com.vad.pullup.domain.model.entity.ObjectAndRepeat
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +24,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     private var listOfExercise: List<ExercisePlan> = listOf()
     private var sum = 0
 
-    val countOfRepeat: MutableLiveData<Int> = MutableLiveData()
-    val exercisePlan: MutableLiveData<ExercisePlan> = MutableLiveData()
+    val countOfRepeat: MutableLiveData<ObjectAndRepeat<Int>> = MutableLiveData()
+    val exercisePlan: MutableLiveData<ObjectAndRepeat<ExercisePlan>> = MutableLiveData()
     val listCount: MutableLiveData<List<Int>> = MutableLiveData()
     val changeTimeout: MutableLiveData<Boolean> = MutableLiveData()
     val timer: MutableLiveData<Timer> = MutableLiveData()
@@ -32,6 +33,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val finish: MutableLiveData<Int> = MutableLiveData()
     val sumRepeat: MutableLiveData<List<RepeatSum>> = MutableLiveData()
     val allProgram: MutableLiveData<List<ProgramItem>> = MutableLiveData()
+    val allExercise: MutableLiveData<List<Exercise>> = MutableLiveData()
 
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
@@ -39,11 +41,11 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     }
 
     fun increaseCount(count: Int) {
-        countOfRepeat.postValue(count+1)
+        countOfRepeat.postValue(ObjectAndRepeat(count+1, state))
     }
 
     fun decreaseCount(count: Int) {
-        if (count > 0) countOfRepeat.postValue(count-1)
+        if (count > 0) countOfRepeat.postValue(ObjectAndRepeat(count-1, state))
     }
 
     fun saveCount(exercise: Exercise, timerHandler: TimerHandler) = viewModelScope.launch {
@@ -67,7 +69,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
             state++
         }
 
-        exercisePlan.postValue(listOfExercise[state])
+        exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
     }
 
@@ -76,10 +78,14 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         listCount.postValue(listOfCount)
     }
 
-    fun getExerciseByWeek(week: Int) = viewModelScope.launch {
+    fun getPlanByWeek(week: Int) = viewModelScope.launch {
         listOfExercise = repository.getPlanOfWeek(week)
         Log.d("week", "$week")
-        exercisePlan.postValue(listOfExercise[state])
+        exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
+    }
+
+    fun getAllExercise() = viewModelScope.launch {
+        allExercise.postValue(repository.getAllExercise())
     }
 
     fun deleteAllProgram() = viewModelScope.launch {
@@ -122,7 +128,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun reset() {
         Log.d("reset", "reset $state")
         state = 0
-        exercisePlan.postValue(listOfExercise[state])
+        exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
     }
 
