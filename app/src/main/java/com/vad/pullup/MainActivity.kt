@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
 
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+
         bottomMenu.setupWithNavController(navController)
 
         Log.d("firstStart", "${configuration.getFirstStart()}")
@@ -57,14 +59,17 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             Log.d("d", "!!!!!!!!!!")
             if (configuration.getFirstStart()) {
-                exerciseViewModel?.deleteAllProgram()
-                exerciseViewModel?.setProgram(readCSVProgram())
+                exerciseViewModel.deleteAllProgram()
+                exerciseViewModel.setProgram(readCSVProgram())
                 Log.d("##1", "firsttt")
                 configuration.saveFirstStart(false)
-                navController.popBackStack()
-                navController.navigate(R.id.preparationFragment)
+                navGraph.setStartDestination(R.id.preparationFragment)
+            } else {
+                navGraph.setStartDestination(R.id.trainFragment)
             }
         }
+
+        navController.graph = navGraph
 
         visibleNavBar.visibleNavBar.observe(this) {
             if (it) {
