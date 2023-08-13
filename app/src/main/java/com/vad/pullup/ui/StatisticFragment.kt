@@ -1,24 +1,17 @@
 package com.vad.pullup.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.vad.pullup.BaseFragment
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.vad.pullup.R
-import java.sql.Date
-import java.text.SimpleDateFormat
+import com.vad.pullup.ui.adapter.ViewPagerAdapter
 
-class StatisticFragment : BaseFragment() {
+class StatisticFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,64 +20,34 @@ class StatisticFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_statistic, container, false)
     }
 
-    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val tabLayout = view.findViewById(R.id.tabLayout) as TabLayout
+        val viewPager2 = view.findViewById(R.id.viewPager) as ViewPager2
+        val viewPagerAdapter = ViewPagerAdapter(this)
 
-        val chart = view.findViewById(R.id.chart) as LineChart
+        viewPager2.adapter = viewPagerAdapter
 
-        chart.description.isEnabled = false
-        chart.setPinchZoom(false)
-        chart.legend.textColor = resources.getColor(R.color.teal_200)
-
-        val yAxis = chart.axisLeft
-        yAxis.textSize = 12f
-        yAxis.textColor = resources.getColor(R.color.teal_200)
-
-        val simpleDateFormat = SimpleDateFormat("MM.dd")
-
-        chart.axisRight.setDrawLabels(false)
-
-        val xAxis = chart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.isGranularityEnabled = true
-        xAxis.granularity = 1f
-        xAxis.setLabelCount(6, true)
-        xAxis.textSize = 12f
-        xAxis.textColor = resources.getColor(R.color.teal_200)
-
-        xAxis.valueFormatter = object : ValueFormatter() {
-
-            override fun getFormattedValue(value: Float): String {
-                return simpleDateFormat.format(Date(value.toLong()))
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.d("stat", "selected")
+                viewPager2.currentItem = tab?.position ?: 0
             }
-        }
 
-        exerciseViewModel.getAllExercise()
-        exerciseViewModel.allExercise.observe(viewLifecycleOwner) {
-            Log.d("statistic", it.toTypedArray().contentToString())
-        }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                Log.d("stat", "unselected")
+            }
 
-        exerciseViewModel.getSumRepeat()
-        exerciseViewModel.sumRepeat.observe(viewLifecycleOwner) { repeat ->
-            Log.d("$1", repeat.toTypedArray().contentToString())
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                Log.d("stat", "reselected")
+            }
 
-            val dates = repeat.map { it.dateRepeat }
-            val data = dates.zip(repeat)
-                .map { Entry(it.first.time.toFloat(), it.second.countRepeat.toFloat()) }
+        })
 
-            val dataSet = LineDataSet(data, "Sum all repeat")
-
-
-            dataSet.valueTextSize = 12f
-            dataSet.valueTextColor = resources.getColor(R.color.teal_200)
-            dataSet.setDrawFilled(true)
-            dataSet.valueFormatter = DefaultAxisValueFormatter(0)
-            val lineData = LineData(dataSet)
-
-            chart.data = lineData
-
-            chart.invalidate()
-        }
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.getTabAt(position)?.select()
+            }
+        })
     }
-
 }
