@@ -1,4 +1,4 @@
-package com.vad.pullup.domain.model.entity
+package com.vad.pullup.domain.model
 
 data class ObjectAndRepeat<T>(
     val first: T,

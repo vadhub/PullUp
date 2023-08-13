@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ExerciseRepository
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Repeat
-import com.vad.pullup.domain.model.RepeatSum
+import com.vad.pullup.domain.model.entity.RepeatSum
 import com.vad.pullup.domain.model.Timer
 import com.vad.pullup.domain.model.TimerHandler
-import com.vad.pullup.domain.model.entity.ObjectAndRepeat
+import com.vad.pullup.domain.model.ObjectAndRepeat
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
 import kotlinx.coroutines.Dispatchers
@@ -84,6 +84,9 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
     }
 
+    /*get all exercise for date
+    * id repeat count date
+    * */
     fun getAllExercise() = viewModelScope.launch {
         allExercise.postValue(repository.getAllExercise())
     }
