@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/repeatTextView"
         android:text="1"
         android:textSize="18sp"
         android:gravity="center"
@@ -13,6 +14,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:id="@+id/countTextView"
         android:text="23"
         android:textSize="18sp"
         android:gravity="center"
