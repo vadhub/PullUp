@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:text="24.08.2023"
-            android:textSize="24dp" />
+            android:textSize="24sp" />
 
         <View
             android:background="@color/cardview_light_background"
@@ -37,8 +37,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="repeat"
-                android:textSize="18dp" />
+                android:text="@string/repeat"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -46,8 +46,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="count"
-                android:textSize="18dp" />
+                android:text="@string/count"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

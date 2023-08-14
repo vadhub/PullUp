@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:text="week" />
+            android:text="@string/week" />
 
         <TextView
             android:gravity="center"

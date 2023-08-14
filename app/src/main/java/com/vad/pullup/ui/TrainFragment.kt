@@ -1,5 +1,6 @@
 package com.vad.pullup.ui
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -56,6 +57,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         Log.d("resume", "resume")
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModelUIConfig.visibleNavigationBar(true)
@@ -112,11 +114,10 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         val thirdRest = view.findViewById(R.id.thirdFree) as ImageView
         val fourthRest = view.findViewById(R.id.fourthFree) as ImageView
 
-        val training = view.findViewById(R.id.status) as TextView
+        val day = view.findViewById(R.id.status) as TextView
         val week = view.findViewById<TextView>(R.id.week)
 
-        training.text = "Day $day"
-        week.text = "Week ${day/7}"
+        setDayAndWeek(day, week)
 
         var exercise = Exercise(0, 0,0, Date(0))
         val indicator = IndicatorState(
@@ -131,13 +132,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("countOfRepeat", "countOfRepeat")
             textViewCount.text = "${it.first}"
-            exercise = Exercise(0, it.repeat, it.first, exercise.date)
+            exercise = Exercise(0, it.repeat+1, it.first, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
             Log.d("exercisePlan", "exercisePlan")
             textViewCount.text = "${it.first.count}"
-            exercise = Exercise(0, it.repeat, it.first.count, Date(System.currentTimeMillis()))
+            exercise = Exercise(0, it.repeat+1, it.first.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
@@ -175,7 +176,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 finishDialog.setOnDismissListener(this)
                 finishDialog.show(fragmentManager, "finish dialog")
                 configuration.saveDay(configuration.getDay() + 1)
-                training.text = "Day ${configuration.getDay()}"
+                setDayAndWeek(day, week)
                 finish = true
                 saveInterrupted.saveState(-1)
             }
@@ -264,7 +265,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         alarmHandler?.playAlarm()
         progressMax = 120_000
         exerciseViewModel.switchState()
-        buttonDone.text = "done"
+        buttonDone.text = resources.getString(R.string.done)
         timeoutChange = false
         Log.d("finishTime", "$progressMax")
         setMaxProgressBar(progressMax.toInt())
@@ -283,10 +284,16 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     private fun updateButton(change: Boolean) {
         if (change) {
-            buttonDone.text = "skip"
+            buttonDone.text = resources.getString(R.string.skip)
         } else {
-            buttonDone.text = "done"
+            buttonDone.text = resources.getString(R.string.done)
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setDayAndWeek(dayTextView: TextView, week: TextView) {
+        dayTextView.text = resources.getString(R.string.day) + " " + day
+        week.text = resources.getString(R.string.week) + "  ${day/7}"
     }
 
 }

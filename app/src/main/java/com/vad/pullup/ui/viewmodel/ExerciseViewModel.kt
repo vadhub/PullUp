@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
     private var timerHandle: Timer? = null
-    private var state = 0
+    private var state = 1
     private var listOfCount: List<Int> = listOf()
     private var listOfExercise: List<ExercisePlan> = listOf()
     private var sum = 0

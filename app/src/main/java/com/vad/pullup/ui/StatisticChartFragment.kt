@@ -71,7 +71,7 @@ class StatisticChartFragment : BaseFragment() {
             val data = dates.zip(repeat)
                 .map { Entry(it.first.time.toFloat(), it.second.countRepeat.toFloat()) }
 
-            val dataSet = LineDataSet(data, "Sum all repeat")
+            val dataSet = LineDataSet(data, resources.getString(R.string.sum_all_repeat))
 
 
             dataSet.valueTextSize = 12f

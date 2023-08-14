@@ -30,7 +30,7 @@ class FinishDialog : DialogFragment() {
         val result = view.findViewById(R.id.result) as TextView
         val button = view.findViewById(R.id.buttonOk) as Button
 
-        result.text = "Your Result Sum: " + arguments?.getInt("sum")
+        result.text = resources.getString(R.string.result_sum)+" " + arguments?.getInt("sum")
 
         button.setOnClickListener {
             dismiss()
