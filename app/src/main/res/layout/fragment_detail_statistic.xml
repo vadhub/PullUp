@@ -5,9 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.StatisticDetailFragment">
 
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:text="Nothing yet"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDetail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layoutAnimation="@anim/layout_animation"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
