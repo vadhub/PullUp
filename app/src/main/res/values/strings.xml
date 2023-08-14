@@ -22,5 +22,6 @@
     <string name="skip">skip</string>
     <string name="statistics">statistics</string>
     <string name="set_level">set level</string>
+    <string name="delete">delete</string>
 
 </resources>
