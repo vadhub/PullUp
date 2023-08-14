@@ -1,11 +1,8 @@
 package com.vad.pullup.ui
 
 import android.R
-
-import android.app.Dialog
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 
 class DialogContinue() {
     fun onCreateDialog(context: Context, continueTraining: Runnable, noContinue: Runnable): AlertDialog.Builder {
@@ -17,12 +14,12 @@ class DialogContinue() {
         // иконка
         adb.setIcon(R.drawable.ic_dialog_info)
         // кнопка положительного ответа
-        adb.setPositiveButton(R.string.yes) { dialog, id ->
+        adb.setPositiveButton(R.string.ok) { dialog, id ->
             continueTraining.run()
             dialog.cancel()
         }
         // кнопка отрицательного ответа
-        adb.setNegativeButton(R.string.no) { dialog, id ->
+        adb.setNegativeButton(R.string.cancel) { dialog, id ->
             noContinue.run()
             dialog.cancel()
         }

@@ -65,7 +65,7 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListe
 
     override fun onAccept() {
         Log.d("onAccept", "accept")
-        val snackBarView = Snackbar.make(requireView(), "Set $week week", Snackbar.LENGTH_SHORT)
+        val snackBarView = Snackbar.make(requireView(), "${resources.getString(R.string.set)} $week ${resources.getString(R.string.week)}", Snackbar.LENGTH_SHORT)
         val view = snackBarView.view
         val params = view.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP

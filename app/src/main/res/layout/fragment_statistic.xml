@@ -14,12 +14,12 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chart" />
+            android:text="@string/chart" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="History" />
+            android:text="@string/history" />
 
     </com.google.android.material.tabs.TabLayout>
 

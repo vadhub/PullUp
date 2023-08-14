@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/emptyTextView"
-        android:text="Nothing yet"
+        android:text="@string/nothing_yet"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

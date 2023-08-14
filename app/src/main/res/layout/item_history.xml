@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="8dp"
     android:elevation="4dp"
     app:cardCornerRadius="8dp">
+
+    <ImageButton
+        android:id="@+id/more_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:padding="4dp"
+        android:backgroundTintMode="src_in"
+        android:src="@drawable/baseline_more_vert_24"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,12 +29,12 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:text="24.08.2023"
-            android:textSize="24dp" />
+            android:textSize="24sp" />
 
         <View
-            android:background="@color/cardview_light_background"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:background="@color/cardview_light_background" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,8 +47,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="repeat"
-                android:textSize="18dp" />
+                android:text="@string/repeat"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -46,16 +56,16 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="count"
-                android:textSize="18dp" />
+                android:text="@string/count"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/repeatAndCountRecyclerView"
-            android:layout_marginHorizontal="4dp"
             android:layout_width="match_parent"
-            tools:listitem="@layout/item_repeat_and_count"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="4dp"
+            tools:listitem="@layout/item_repeat_and_count" />
 
     </LinearLayout>
 

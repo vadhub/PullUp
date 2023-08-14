@@ -4,16 +4,16 @@
     <item
         android:id="@+id/statisticFragment"
         android:icon="@drawable/baseline_show_chart_24"
-        android:title="statistic" />
+        android:title="@string/statistics" />
 
     <item
         android:id="@+id/trainFragment"
         android:icon="@drawable/baseline_sports_gymnastics_24"
-        android:title="training" />
+        android:title="@string/training" />
 
     <item
         android:id="@+id/chooseProgramFragment"
         android:icon="@drawable/baseline_settings_24"
-        android:title="set level" />
+        android:title="@string/set_level" />
 
 </menu>

@@ -8,14 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Warning!"
+        android:text="@string/warning"
         android:textSize="24sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Your current progress will be reset"
+        android:text="@string/your_current_progress_will_be_reset"
         android:textSize="18sp" />
 
 </LinearLayout>

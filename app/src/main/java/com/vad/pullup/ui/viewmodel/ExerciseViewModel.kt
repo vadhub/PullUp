@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ExerciseRepository
+import com.vad.pullup.data.SaveInterrupted
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Repeat
 import com.vad.pullup.domain.model.entity.RepeatSum
@@ -64,6 +65,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
             changeTimeout.postValue(true)
             startTimer(120_000, timerHandler)
         } else {
+            reset()
             finish.postValue(sum)
         }
     }
@@ -73,7 +75,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         if (listOfCount.size - 1 > state) {
             state++
         }
-
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
     }
@@ -138,6 +139,14 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         state = 0
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
+    }
+
+    fun saveRepeat(saveInterrupted: SaveInterrupted) {
+        if (state != 0) saveInterrupted.saveState(state)
+    }
+
+    fun deleteExerciseByDate(date: Long) = viewModelScope.launch {
+        repository.deleteExerciseByDate(date)
     }
 
 }
