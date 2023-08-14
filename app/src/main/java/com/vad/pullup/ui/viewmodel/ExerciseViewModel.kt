@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ExerciseRepository
+import com.vad.pullup.data.SaveInterrupted
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Repeat
 import com.vad.pullup.domain.model.entity.RepeatSum
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
     private var timerHandle: Timer? = null
-    private var state = 1
+    private var state = 0
     private var listOfCount: List<Int> = listOf()
     private var listOfExercise: List<ExercisePlan> = listOf()
     private var sum = 0
@@ -73,7 +74,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         if (listOfCount.size - 1 > state) {
             state++
         }
-
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
     }
@@ -138,6 +138,10 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         state = 0
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
+    }
+
+    fun saveRepeat(saveInterrupted: SaveInterrupted) {
+        if (state != 0) saveInterrupted.saveState(state)
     }
 
 }

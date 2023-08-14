@@ -81,6 +81,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 Log.d("onViewCreated", "isStart")
                 exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
             }
+            isShowedDialog = true
         } else {
             if (saveInterrupted.getState() != -1 && !isShowedDialog) {
                 val dialogContinue = DialogContinue()
@@ -159,7 +160,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.repeat.observe(viewLifecycleOwner) {
             Log.d("stateLiveData","stateLiveData $it")
-            saveInterrupted.saveState(it)
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
@@ -228,6 +228,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         exerciseViewModel.skipTimer()
         alarmHandler?.stopAlarm()
         alarmHandler?.cancelAlarm()
+        exerciseViewModel.saveRepeat(saveInterrupted)
     }
 
     override fun onDetach() {
