@@ -65,6 +65,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
             changeTimeout.postValue(true)
             startTimer(120_000, timerHandler)
         } else {
+            reset()
             finish.postValue(sum)
         }
     }
@@ -142,6 +143,10 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun saveRepeat(saveInterrupted: SaveInterrupted) {
         if (state != 0) saveInterrupted.saveState(state)
+    }
+
+    fun deleteExerciseByDate(date: Long) = viewModelScope.launch {
+        repository.deleteExerciseByDate(date)
     }
 
 }

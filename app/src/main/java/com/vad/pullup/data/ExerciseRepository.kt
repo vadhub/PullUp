@@ -35,4 +35,6 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
     suspend fun getAllExercise(): List<Exercise> = daoExercisePlan.getAllExercise()
 
+    suspend fun deleteExerciseByDate(date: Long) = daoExercisePlan.deleteByDate(date)
+
 }

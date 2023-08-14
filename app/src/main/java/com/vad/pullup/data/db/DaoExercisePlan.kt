@@ -8,6 +8,7 @@ import com.vad.pullup.domain.model.entity.RepeatSum
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
+import java.sql.Date
 
 @Dao
 interface DaoExercisePlan {
@@ -41,5 +42,8 @@ interface DaoExercisePlan {
 
     @Query("SELECT * FROM program_item")
     suspend fun getAllProgramItem(): List<ProgramItem>
+
+    @Query("DELETE FROM exercise WHERE date(date_/1000, 'unixepoch') = date(:date/1000, 'unixepoch')")
+    suspend fun deleteByDate(date: Long)
 
 }
