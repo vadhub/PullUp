@@ -96,8 +96,10 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         val fourthRest = view.findViewById(R.id.fourthFree) as ImageView
 
         val training = view.findViewById(R.id.status) as TextView
+        val week = view.findViewById<TextView>(R.id.week)
 
         training.text = "Day $day"
+        week.text = "Week ${day/7}"
 
         var exercise = Exercise(0, 0,0, Date(0))
         val indicator = IndicatorState(
@@ -111,7 +113,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("countOfRepeat", "countOfRepeat")
-            textViewCount.text = "$it"
+            textViewCount.text = "${it.first}"
             exercise = Exercise(0, it.repeat, it.first, exercise.date)
         }
 

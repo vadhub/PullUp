@@ -1,11 +1,9 @@
 package com.vad.pullup.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vad.pullup.BaseFragment
@@ -21,7 +19,6 @@ class StatisticDetailFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_detail_statistic, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewDetail)
         recyclerView.layoutManager = LinearLayoutManager(thisContext)
