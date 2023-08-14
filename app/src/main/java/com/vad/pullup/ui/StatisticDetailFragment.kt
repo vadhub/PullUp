@@ -1,10 +1,10 @@
 package com.vad.pullup.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vad.pullup.BaseFragment
@@ -21,12 +21,17 @@ class StatisticDetailFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val emptyText = view.findViewById<TextView>(R.id.emptyTextView)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewDetail)
         recyclerView.layoutManager = LinearLayoutManager(thisContext)
 
-        exerciseViewModel.getSumRepeat()
-        exerciseViewModel.sumRepeat.observe(viewLifecycleOwner) {
-            val adapter = ExerciseAdapter(it)
+        exerciseViewModel.getAllExercise()
+        exerciseViewModel.allExercise.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                emptyText.visibility = View.GONE
+            }
+            val listExerciseByDate = it.groupBy { it.date.toString() }.toList()
+            val adapter = ExerciseAdapter(listExerciseByDate)
             recyclerView.adapter = adapter
         }
 

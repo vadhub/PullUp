@@ -6,7 +6,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -31,15 +33,26 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListe
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.loadingProgressBar)
         val recyclerView = view.findViewById(R.id.recyclerProgram) as RecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(thisContext)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
         exerciseViewModel.getAllProgram()
         exerciseViewModel.allProgram.observe(viewLifecycleOwner) {
             listOfItemProgram = it
             val adapter = ProgramAdapter(it, this)
             recyclerView.adapter = adapter
+            Log.d("viewmodel", "recycler")
         }
+
+        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                progressBar.visibility = View.GONE
+                Log.d("viewTree", "ok")
+                recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
     override fun onClick(position: Int) {

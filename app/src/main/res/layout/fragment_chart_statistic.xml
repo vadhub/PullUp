@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.StatisticChartFragment">
 
+    <TextView
+        android:id="@+id/emptyChartTextView"
+        android:text="Start your workout"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_margin="8dp"

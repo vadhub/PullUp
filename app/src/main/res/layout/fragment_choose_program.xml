@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:padding="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:padding="8dp"
@@ -68,6 +74,7 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         tools:itemCount="30"
+        android:layoutAnimation="@anim/layout_animation"
         tools:listitem="@layout/item_program" />
 
 </LinearLayout>

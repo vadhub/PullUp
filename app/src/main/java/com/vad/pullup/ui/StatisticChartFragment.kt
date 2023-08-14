@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -31,6 +32,7 @@ class StatisticChartFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val chart = view.findViewById(R.id.chart) as LineChart
+        val emptyText = view.findViewById<TextView>(R.id.emptyChartTextView)
 
         chart.description.isEnabled = false
         chart.setPinchZoom(false)
@@ -59,15 +61,12 @@ class StatisticChartFragment : BaseFragment() {
             }
         }
 
-        exerciseViewModel.getAllExercise()
-        exerciseViewModel.allExercise.observe(viewLifecycleOwner) {
-            Log.d("statistic", it.toTypedArray().contentToString())
-        }
-
         exerciseViewModel.getSumRepeat()
         exerciseViewModel.sumRepeat.observe(viewLifecycleOwner) { repeat ->
             Log.d("$1", repeat.toTypedArray().contentToString())
-
+            if (repeat.isNotEmpty()) {
+                emptyText.visibility = View.GONE
+            }
             val dates = repeat.map { it.dateRepeat }
             val data = dates.zip(repeat)
                 .map { Entry(it.first.time.toFloat(), it.second.countRepeat.toFloat()) }
