@@ -35,6 +35,11 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val allProgram: MutableLiveData<List<ProgramItem>> = MutableLiveData()
     val allExercise: MutableLiveData<List<Exercise>> = MutableLiveData()
 
+    fun setState(state: Int) {
+        this.state = state
+        repeat.postValue(state)
+    }
+
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
         repository.setAllProgramItem()

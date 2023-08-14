@@ -15,6 +15,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.MainActivity
 import com.vad.pullup.R
+import com.vad.pullup.data.SaveInterrupted
 import com.vad.pullup.domain.model.AlarmHandler
 import com.vad.pullup.domain.model.Timer
 import com.vad.pullup.domain.model.TimerHandler
@@ -35,6 +36,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var finish = false
     private var progressMax = 120_000L
     private var timer: Timer = Timer(progressMax)
+    private val saveInterrupted: SaveInterrupted by lazy { SaveInterrupted(thisContext) }
+    private var isShowedDialog = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +62,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         alarmHandler = AlarmHandler(thisContext)
 
+        Log.d("firstStartFragment", "d111ffff")
+
         day = configuration.getDay()
         getExercise()
 
@@ -73,6 +78,18 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
             if (savedInstanceState.getBoolean("isStart")) {
                 Log.d("onViewCreated", "isStart")
                 exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
+            }
+        } else {
+            if (saveInterrupted.getState() != -1 && !isShowedDialog) {
+                val dialogContinue = DialogContinue()
+                dialogContinue.onCreateDialog(thisContext,
+                    {
+                        exerciseViewModel.setState(saveInterrupted.getState())
+                        isShowedDialog = true
+                    }) {
+                    isShowedDialog = true
+                    saveInterrupted.saveState(-1)
+                }.show()
             }
         }
 
@@ -141,6 +158,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         exerciseViewModel.repeat.observe(viewLifecycleOwner) {
             Log.d("stateLiveData","stateLiveData $it")
+            saveInterrupted.saveState(it)
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
@@ -159,6 +177,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 configuration.saveDay(configuration.getDay() + 1)
                 training.text = "Day ${configuration.getDay()}"
                 finish = true
+                saveInterrupted.saveState(-1)
             }
         }
 
