@@ -25,4 +25,14 @@
         android:id="@+id/chooseProgramFragment"
         android:name="com.vad.pullup.ui.ChooseProgramFragment"
         android:label="ChooseProgramFragment" />
+    <fragment
+        android:id="@+id/statisticChartFragment"
+        android:name="com.vad.pullup.ui.StatisticChartFragment"
+        android:label="fragment_chart_statistic"
+        tools:layout="@layout/fragment_chart_statistic" />
+    <fragment
+        android:id="@+id/statisticDetailFragment"
+        android:name="com.vad.pullup.ui.StatisticDetailFragment"
+        android:label="fragment_detail_statistic"
+        tools:layout="@layout/fragment_detail_statistic" />
 </navigation>

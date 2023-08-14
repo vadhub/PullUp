@@ -228,7 +228,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         exerciseViewModel.skipTimer()
         alarmHandler?.stopAlarm()
         alarmHandler?.cancelAlarm()
-        exerciseViewModel.saveRepeat(saveInterrupted)
     }
 
     override fun onDetach() {
@@ -250,6 +249,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         outState.putBoolean("timeoutChange", timeoutChange)
         outState.putLong("progressMax", progressMax)
         outState.putBoolean("finish", finish)
+        exerciseViewModel.saveRepeat(saveInterrupted)
     }
 
     override fun showTime(time: Long) {
@@ -294,7 +294,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     @SuppressLint("SetTextI18n")
     private fun setDayAndWeek(dayTextView: TextView, week: TextView) {
         dayTextView.text = resources.getString(R.string.day) + " " + day
-        week.text = resources.getString(R.string.week) + "  ${day/7}"
+        week.text = resources.getString(R.string.week) + "  ${if (day < 7) 1 else day / 7}"
     }
 
 }
