@@ -18,6 +18,7 @@ import com.vad.pullup.MainActivity
 import com.vad.pullup.R
 import com.vad.pullup.data.SaveInterrupted
 import com.vad.pullup.domain.model.AlarmHandler
+import com.vad.pullup.domain.model.GlobalProgressHandle
 import com.vad.pullup.domain.model.Timer
 import com.vad.pullup.domain.model.TimerHandler
 import com.vad.pullup.domain.model.entity.Exercise
@@ -39,6 +40,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var timer: Timer = Timer(progressMax)
     private val saveInterrupted: SaveInterrupted by lazy { SaveInterrupted(thisContext) }
     private var isShowedDialog = false
+    private var week = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +68,11 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         Log.d("firstStartFragment", "d111ffff")
 
+        val globalProgressHandle = GlobalProgressHandle(configuration)
+
         day = configuration.getDay()
+        week = configuration.getWeek()
+
         getExercise()
 
         Log.d("%44", "onViewCreated ${(requireActivity() as MainActivity).exerciseViewModel}")
@@ -176,6 +182,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 finishDialog.setOnDismissListener(this)
                 finishDialog.show(fragmentManager, "finish dialog")
                 configuration.saveDay(configuration.getDay() + 1)
+                globalProgressHandle.handle()
                 setDayAndWeek(day, week)
                 finish = true
                 saveInterrupted.saveState(-1)
@@ -279,8 +286,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     private fun getExercise() {
-        exerciseViewModel.getPlanByWeek(if (day < 7) 1 else day / 7)
-        exerciseViewModel.getListOfCountExercise(if (day < 7) 1 else day / 7)
+        exerciseViewModel.getPlanByWeek(week)
+        exerciseViewModel.getListOfCountExercise(week)
     }
 
     private fun updateButton(change: Boolean) {
@@ -292,9 +299,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setDayAndWeek(dayTextView: TextView, week: TextView) {
+    private fun setDayAndWeek(dayTextView: TextView, weekTextView: TextView) {
         dayTextView.text = resources.getString(R.string.day) + " " + day
-        week.text = resources.getString(R.string.week) + "  ${if (day < 7) 1 else day / 7}"
+        weekTextView.text = resources.getString(R.string.week) + " " + week
     }
 
 }

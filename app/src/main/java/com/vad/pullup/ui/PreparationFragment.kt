@@ -41,23 +41,23 @@ class PreparationFragment : BaseFragment() {
         }
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
-            repeat.text = "$it"
+            repeat.text = "${it.repeat}"
         }
 
         buttonDone.setOnClickListener {
-            //2 version
+            //3 version
             if (repeat.text.toString().toInt() < 10) {
-                 configuration.saveDay(1)
-            } else if (repeat.text.toString().toInt() in 11..14) {
-                configuration.saveDay(7*2)
-            } else if (repeat.text.toString().toInt() in 14..20) {
-                configuration.saveDay(7*9)
-            } else if (repeat.text.toString().toInt() in 20..23) {
-                configuration.saveDay(7*15)
-            } else if (repeat.text.toString().toInt() in 23..26) {
-                configuration.saveDay(7*17)
-            } else if (repeat.text.toString().toInt() > 30) {
-                configuration.saveDay(7*29)
+                 configuration.saveWeek(1)
+            } else if (repeat.text.toString().toInt() in 11..15) {
+                configuration.saveWeek(5)
+            } else if (repeat.text.toString().toInt() in 16..20) {
+                configuration.saveWeek(9)
+            } else if (repeat.text.toString().toInt() in 20..24) {
+                configuration.saveWeek(13)
+            } else if (repeat.text.toString().toInt() in 25..26) {
+                configuration.saveWeek(17)
+            } else if (repeat.text.toString().toInt() > 27) {
+                configuration.saveWeek(21)
             }
             findNavController().navigate(R.id.trainFragment)
         }
