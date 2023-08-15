@@ -73,7 +73,7 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListe
         snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
         snackBarView.show()
         Log.d("item", "$week ${(requireActivity() as MainActivity).exerciseViewModel}")
-        configuration.saveWeek(week)
+        configuration.saveDay(week*7)
         exerciseViewModel.reset()
     }
 
