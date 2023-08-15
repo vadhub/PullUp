@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status"
-        app:trackColor="@color/cardview_shadow_start_color"
+        app:trackColor="@color/dark_gray"
         app:trackCornerRadius="8dp" />
 
     <!--    <ProgressBar-->

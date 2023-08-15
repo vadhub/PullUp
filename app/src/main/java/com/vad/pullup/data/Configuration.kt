@@ -31,4 +31,18 @@ class Configuration(private val context: Context) {
         return pref.getBoolean("first_run", true)
     }
 
+    fun saveWeek(week: Int) {
+        pref = context.getSharedPreferences("pull_up_week", Context.MODE_PRIVATE)
+        val ed: SharedPreferences.Editor = pref.edit()
+        ed.putInt("week", week)
+        ed.apply()
+    }
+
+    fun getWeek(): Int {
+        pref = context.getSharedPreferences("pull_up_week", Context.MODE_PRIVATE)
+        return pref.getInt("week",1)
+    }
+
+
+
 }

@@ -18,6 +18,7 @@ import com.vad.pullup.MainActivity
 import com.vad.pullup.R
 import com.vad.pullup.data.SaveInterrupted
 import com.vad.pullup.domain.model.AlarmHandler
+import com.vad.pullup.domain.model.GlobalProgressHandle
 import com.vad.pullup.domain.model.Timer
 import com.vad.pullup.domain.model.TimerHandler
 import com.vad.pullup.domain.model.entity.Exercise
@@ -39,6 +40,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private var timer: Timer = Timer(progressMax)
     private val saveInterrupted: SaveInterrupted by lazy { SaveInterrupted(thisContext) }
     private var isShowedDialog = false
+    private var isSkip = false
+    private var week = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +52,12 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("create", "create")
+        Log.d("#create", "create")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("resume", "resume")
+        Log.d("#resume", "resume")
     }
 
     @SuppressLint("SetTextI18n")
@@ -64,24 +67,27 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
         alarmHandler = AlarmHandler(thisContext)
 
-        Log.d("firstStartFragment", "d111ffff")
+        Log.d("#firstStartFragment", "d111ffff $finish")
+
+        val globalProgressHandle = GlobalProgressHandle(configuration)
 
         day = configuration.getDay()
+        week = configuration.getWeek()
+
         getExercise()
 
-        Log.d("%44", "onViewCreated ${(requireActivity() as MainActivity).exerciseViewModel}")
+        Log.d("#44", "onViewCreated ${(requireActivity() as MainActivity).exerciseViewModel}")
 
         if(savedInstanceState != null) {
-            Log.d("onViewCreated", "saveinstance $progressMax")
+            Log.d("#onViewCreated", "saveinstance $progressMax")
             timeoutChange = savedInstanceState.getBoolean("timeoutChange")
             finish = savedInstanceState.getBoolean("finish")
             progressMax = savedInstanceState.getLong("progressMax")
             Log.d("progress", "$progressMax")
             if (savedInstanceState.getBoolean("isStart")) {
-                Log.d("onViewCreated", "isStart")
+                Log.d("#onViewCreated", "isStart")
                 exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
             }
-            isShowedDialog = true
         } else {
             if (saveInterrupted.getState() != -1 && !isShowedDialog) {
                 val dialogContinue = DialogContinue()
@@ -131,13 +137,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         )
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
-            Log.d("countOfRepeat", "countOfRepeat")
+            Log.d("#countOfRepeat", "countOfRepeat")
             textViewCount.text = "${it.first}"
             exercise = Exercise(0, it.repeat+1, it.first, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
-            Log.d("exercisePlan", "exercisePlan")
+            Log.d("#exercisePlan", "exercisePlan")
             textViewCount.text = "${it.first.count}"
             exercise = Exercise(0, it.repeat+1, it.first.count, Date(System.currentTimeMillis()))
         }
@@ -148,26 +154,27 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
-            Log.d("changeTimeout","changeTimeout")
+            Log.d("#changeTimeout","changeTimeout")
             updateButton(timeoutChange)
         }
 
         exerciseViewModel.timer.observe(viewLifecycleOwner) {
-            Log.d("timer", "msg")
-            Log.d("timer", "$it")
+            Log.d("#timer", "msg")
+            Log.d("#timer", "$it")
             timer = it
         }
 
         exerciseViewModel.repeat.observe(viewLifecycleOwner) {
-            Log.d("stateLiveData","stateLiveData $it")
+            Log.d("s#tateLiveData","stateLiveData $it")
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
         exerciseViewModel.finish.observe(viewLifecycleOwner) {
 
+            Log.d("#finish", "$it 1 $finish")
+
             if (!finish) {
                 indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
-                Log.d("#finish", "$it 1 $finish")
                 val finishDialog = FinishDialog()
                 val fragmentManager = parentFragmentManager
                 val bundle = Bundle()
@@ -176,6 +183,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 finishDialog.setOnDismissListener(this)
                 finishDialog.show(fragmentManager, "finish dialog")
                 configuration.saveDay(configuration.getDay() + 1)
+                globalProgressHandle.handle()
                 setDayAndWeek(day, week)
                 finish = true
                 saveInterrupted.saveState(-1)
@@ -205,9 +213,10 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         buttonDone.setOnClickListener {
-            Log.d("timeoutChange", "$timeoutChange")
+            Log.d("#timeoutChange", "$timeoutChange")
             if (timeoutChange) {
                 exerciseViewModel.skipTimer()
+                isSkip = true
                 finishTime()
             } else {
                 exerciseViewModel.saveCount(exercise, this)
@@ -219,12 +228,12 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("destroy", "view")
+        Log.d("#destroy", "view")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("destroy", "destroy")
+        Log.d("#destroy", "destroy")
         exerciseViewModel.skipTimer()
         alarmHandler?.stopAlarm()
         alarmHandler?.cancelAlarm()
@@ -232,12 +241,12 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onDetach() {
         super.onDetach()
-        Log.d("detach", "detach")
+        Log.d("#detach", "detach")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d("save", "state $finish")
+        Log.d("#save", "state $finish")
 
         if (timer.isStart) {
             outState.putLong("time", timer.timeStartFrom)
@@ -263,7 +272,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     override fun finishTime() {
-        alarmHandler?.playAlarm()
+        playAlarm(isSkip)
         progressMax = 120_000
         exerciseViewModel.switchState()
         buttonDone.text = resources.getString(R.string.done)
@@ -271,6 +280,13 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         Log.d("finishTime", "$progressMax")
         setMaxProgressBar(progressMax.toInt())
         progressBar.progress = progressMax.toInt()
+        isSkip = false
+    }
+
+    private fun playAlarm(isSkip: Boolean) {
+        if (!isSkip) {
+            alarmHandler?.playAlarm()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
@@ -279,8 +295,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     private fun getExercise() {
-        exerciseViewModel.getPlanByWeek(if (day < 7) 1 else day / 7)
-        exerciseViewModel.getListOfCountExercise(if (day < 7) 1 else day / 7)
+        exerciseViewModel.getPlanByWeek(week)
+        exerciseViewModel.getListOfCountExercise(week)
     }
 
     private fun updateButton(change: Boolean) {
@@ -292,9 +308,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setDayAndWeek(dayTextView: TextView, week: TextView) {
+    private fun setDayAndWeek(dayTextView: TextView, weekTextView: TextView) {
         dayTextView.text = resources.getString(R.string.day) + " " + day
-        week.text = resources.getString(R.string.week) + "  ${if (day < 7) 1 else day / 7}"
+        weekTextView.text = resources.getString(R.string.week) + " " + week
     }
 
 }

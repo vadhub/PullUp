@@ -147,6 +147,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun deleteExerciseByDate(date: Long) = viewModelScope.launch {
         repository.deleteExerciseByDate(date)
+        getAllExercise()
+        getSumRepeat()
     }
 
 }
