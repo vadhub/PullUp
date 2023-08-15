@@ -71,7 +71,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     }
 
     fun switchState() {
-        Log.d("switchState", "switchState")
+        Log.d("#switchState", "switchState")
         if (listOfCount.size - 1 > state) {
             state++
         }
@@ -86,7 +86,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun getPlanByWeek(week: Int) = viewModelScope.launch {
         listOfExercise = repository.getPlanOfWeek(week)
-        Log.d("week", "$week")
+        Log.d("#week", "$week")
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
     }
 
@@ -135,7 +135,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     }
 
     fun reset() {
-        Log.d("reset", "reset $state")
+        Log.d("#reset", "reset $state")
         state = 0
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)

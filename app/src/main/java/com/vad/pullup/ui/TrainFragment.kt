@@ -181,6 +181,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 globalProgressHandle.handle()
                 setDayAndWeek(day, week)
                 finish = true
+                timeoutChange = false
                 saveInterrupted.saveState(-1)
             }
         }
@@ -208,6 +209,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         buttonDone.setOnClickListener {
+            finish = false
             Log.d("#timeoutChange", "$timeoutChange")
             if (timeoutChange) {
                 exerciseViewModel.skipTimer()
@@ -286,7 +288,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onDismiss(dialog: DialogInterface?) {
         Log.d("#dismisDialog", "update")
-        getExercise()
+        //getExercise()
     }
 
     private fun getExercise() {
