@@ -14,6 +14,7 @@ import com.vad.pullup.domain.model.TimerHandler
 import com.vad.pullup.domain.model.ObjectAndRepeat
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
+import com.vad.pullup.domain.model.entity.TotalResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -24,6 +25,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     private var listOfCount: List<Int> = listOf()
     private var listOfExercise: List<ExercisePlan> = listOf()
     private var sum = 0
+    private var max = 0
+    private var min = 100
 
     val countOfRepeat: MutableLiveData<ObjectAndRepeat<Int>> = MutableLiveData()
     val exercisePlan: MutableLiveData<ObjectAndRepeat<ExercisePlan>> = MutableLiveData()
@@ -31,7 +34,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val changeTimeout: MutableLiveData<Boolean> = MutableLiveData()
     val timer: MutableLiveData<Timer> = MutableLiveData()
     val repeat: MutableLiveData<Int> = MutableLiveData()
-    val finish: MutableLiveData<Int> = MutableLiveData()
+    val finish: MutableLiveData<TotalResult> = MutableLiveData()
     val sumRepeat: MutableLiveData<List<RepeatSum>> = MutableLiveData()
     val allProgram: MutableLiveData<List<ProgramItem>> = MutableLiveData()
     val allExercise: MutableLiveData<List<Exercise>> = MutableLiveData()
@@ -59,6 +62,14 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
         repository.writeExercise(exercise)
         sum += exercise.count
 
+        if (exercise.count > max) {
+            max = exercise.count
+        }
+
+        if (exercise.count < min) {
+            min = exercise.count
+        }
+
         Log.d("##saveCount", "$state")
 
         if (listOfCount.size - 1 > state) {
@@ -66,7 +77,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
             startTimer(120_000, timerHandler)
         } else {
             reset()
-            finish.postValue(sum)
+            finish.postValue(TotalResult(max, min, sum))
         }
     }
 

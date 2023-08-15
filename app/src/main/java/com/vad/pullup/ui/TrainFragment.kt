@@ -173,7 +173,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 val finishDialog = FinishDialog()
                 val fragmentManager = parentFragmentManager
                 val bundle = Bundle()
-                bundle.putInt("sum", it)
+                bundle.putInt("sum", it.sum)
+                bundle.putInt("min", it.min)
+                bundle.putInt("max", it.max)
                 finishDialog.arguments = bundle
                 finishDialog.setOnDismissListener(this)
                 finishDialog.show(fragmentManager, "finish dialog")

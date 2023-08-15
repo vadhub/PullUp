@@ -18,6 +18,8 @@
     <string name="your_current_progress_will_be_reset">Your current progress will be reset</string>
     <string name="set">Set</string>
     <string name="result_sum">Your Result Sum:</string>
+    <string name="result_min">min:</string>
+    <string name="result_max">max:</string>
     <string name="sum_all_repeat">Sum all repeat</string>
     <string name="skip">skip</string>
     <string name="statistics">statistics</string>
