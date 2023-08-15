@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.vad.pullup.R
 import com.vad.pullup.BaseFragment
 
@@ -58,9 +59,7 @@ class PreparationFragment : BaseFragment() {
             } else if (repeat.text.toString().toInt() > 27) {
                 configuration.saveWeek(21)
             }
-
-            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, TrainFragment()).commit()
-
+            findNavController().navigate(R.id.trainFragment)
         }
     }
 
