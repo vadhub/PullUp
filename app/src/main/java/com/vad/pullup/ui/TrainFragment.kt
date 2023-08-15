@@ -33,7 +33,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private lateinit var imageButtonAdd: ImageButton
     private lateinit var imageButtonRemove: ImageButton
     private var alarmHandler: AlarmHandler? = null
-    private var day = 0
     private var timeoutChange = false
     private var finish = false
     private var progressMax = 120_000L
@@ -41,7 +40,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
     private val saveInterrupted: SaveInterrupted by lazy { SaveInterrupted(thisContext) }
     private var isShowedDialog = false
     private var isSkip = false
-    private var week = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,9 +68,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         Log.d("#firstStartFragment", "d111ffff $finish")
 
         val globalProgressHandle = GlobalProgressHandle(configuration)
-
-        day = configuration.getDay()
-        week = configuration.getWeek()
 
         getExercise()
 
@@ -178,7 +173,9 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 val finishDialog = FinishDialog()
                 val fragmentManager = parentFragmentManager
                 val bundle = Bundle()
-                bundle.putInt("sum", it)
+                bundle.putInt("sum", it.sum)
+                bundle.putInt("min", it.min)
+                bundle.putInt("max", it.max)
                 finishDialog.arguments = bundle
                 finishDialog.setOnDismissListener(this)
                 finishDialog.show(fragmentManager, "finish dialog")
@@ -186,6 +183,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 globalProgressHandle.handle()
                 setDayAndWeek(day, week)
                 finish = true
+                timeoutChange = false
                 saveInterrupted.saveState(-1)
             }
         }
@@ -213,6 +211,7 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         }
 
         buttonDone.setOnClickListener {
+            finish = false
             Log.d("#timeoutChange", "$timeoutChange")
             if (timeoutChange) {
                 exerciseViewModel.skipTimer()
@@ -291,10 +290,11 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     override fun onDismiss(dialog: DialogInterface?) {
         Log.d("#dismisDialog", "update")
-        getExercise()
+        //getExercise()
     }
 
     private fun getExercise() {
+        val week = configuration.getWeek()
         exerciseViewModel.getPlanByWeek(week)
         exerciseViewModel.getListOfCountExercise(week)
     }
@@ -309,8 +309,8 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
 
     @SuppressLint("SetTextI18n")
     private fun setDayAndWeek(dayTextView: TextView, weekTextView: TextView) {
-        dayTextView.text = resources.getString(R.string.day) + " " + day
-        weekTextView.text = resources.getString(R.string.week) + " " + week
+        dayTextView.text = resources.getString(R.string.day) + " " + configuration.getDay()
+        weekTextView.text = resources.getString(R.string.week) + " " + configuration.getWeek()
     }
 
 }

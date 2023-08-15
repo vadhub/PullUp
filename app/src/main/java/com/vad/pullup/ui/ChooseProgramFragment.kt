@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.MainActivity
 import com.vad.pullup.R
+import com.vad.pullup.data.SaveInterrupted
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.ui.adapter.ItemOnClickListener
 import com.vad.pullup.ui.adapter.ProgramAdapter
@@ -24,6 +25,7 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListe
 
     private lateinit var listOfItemProgram: List<ProgramItem>
     private var week = 0
+    private val saveInterrupted: SaveInterrupted by lazy { SaveInterrupted(thisContext) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,40 +45,56 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListe
             listOfItemProgram = it
             val adapter = ProgramAdapter(it, this)
             recyclerView.adapter = adapter
-            Log.d("viewmodel", "recycler")
+            Log.d("#viewmodel", "recycler")
         }
 
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 progressBar.visibility = View.GONE
-                Log.d("viewTree", "ok")
+                Log.d("#viewTree", "ok")
                 recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
     }
 
     override fun onClick(position: Int) {
-        val warningDialog = WarningDialog()
-        val fragmentManager = parentFragmentManager
-        warningDialog.setOnAcceptListener(this)
-        warningDialog.show(fragmentManager, "warning fragment")
+
         week = listOfItemProgram[position].week
+
+        if (saveInterrupted.getState() != -1) {
+            val warningDialog = WarningDialog()
+            val fragmentManager = parentFragmentManager
+            warningDialog.setOnAcceptListener(this)
+            warningDialog.show(fragmentManager, "warning fragment")
+        } else {
+            configuration.saveWeek(week)
+            showSnackBar()
+        }
+
     }
 
     override fun onAccept() {
-        Log.d("onAccept", "accept")
-        val snackBarView = Snackbar.make(requireView(), "${resources.getString(R.string.set)} $week ${resources.getString(R.string.week)}", Snackbar.LENGTH_SHORT)
+        Log.d("#onAccept", "accept")
+        showSnackBar()
+        Log.d("item", "$week ${(requireActivity() as MainActivity).exerciseViewModel}")
+        saveInterrupted.saveState(-1)
+        configuration.saveWeek(week)
+        exerciseViewModel.reset()
+    }
+
+    private fun showSnackBar() {
+        val snackBarView = Snackbar.make(
+            requireView(),
+            "${resources.getString(R.string.set)} $week ${resources.getString(R.string.week)}",
+            Snackbar.LENGTH_SHORT
+        )
         val view = snackBarView.view
         val params = view.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
         view.layoutParams = params
         snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
         snackBarView.show()
-        Log.d("item", "$week ${(requireActivity() as MainActivity).exerciseViewModel}")
-        configuration.saveWeek(week)
-        exerciseViewModel.reset()
     }
-
 
 
 }
