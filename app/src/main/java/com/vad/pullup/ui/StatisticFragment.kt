@@ -23,7 +23,7 @@ class StatisticFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val tabLayout = view.findViewById(R.id.tabLayout) as TabLayout
         val viewPager2 = view.findViewById(R.id.viewPager) as ViewPager2
-        val viewPagerAdapter = ViewPagerAdapter(this)
+        val viewPagerAdapter = ViewPagerAdapter(childFragmentManager, lifecycle)
 
         viewPager2.adapter = viewPagerAdapter
 

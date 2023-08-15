@@ -1,11 +1,14 @@
 package com.vad.pullup.ui.adapter
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.vad.pullup.ui.StatisticChartFragment
 import com.vad.pullup.ui.StatisticDetailFragment
 
-class ViewPagerAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
+class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+    FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int = 2
 
