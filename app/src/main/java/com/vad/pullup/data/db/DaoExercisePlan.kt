@@ -31,7 +31,7 @@ interface DaoExercisePlan {
     @Update
     suspend fun updateExercise(exercise: Exercise)
 
-    @Query("SELECT * FROM exercise")
+    @Query("SELECT * FROM exercise ORDER BY date(date_/1000, 'unixepoch') ASC")
     suspend fun getAllExercise(): List<Exercise>
 
     @Query("SELECT * FROM exercise_plan")
