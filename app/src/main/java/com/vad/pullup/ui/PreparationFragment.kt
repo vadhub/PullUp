@@ -41,7 +41,7 @@ class PreparationFragment : BaseFragment() {
         }
 
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
-            repeat.text = "${it.repeat}"
+            repeat.text = "${it.first}"
         }
 
         buttonDone.setOnClickListener {
