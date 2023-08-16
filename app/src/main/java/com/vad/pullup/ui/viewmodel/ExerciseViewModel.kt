@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vad.pullup.data.ExerciseRepository
 import com.vad.pullup.data.SaveInterrupted
+import com.vad.pullup.domain.model.ObjectAndRepeat
+import com.vad.pullup.domain.model.Timer
+import com.vad.pullup.domain.model.TimerHandler
+import com.vad.pullup.domain.model.entity.Exercise
+import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Repeat
 import com.vad.pullup.domain.model.entity.RepeatSum
-import com.vad.pullup.domain.model.Timer
-import com.vad.pullup.domain.model.TimerHandler
-import com.vad.pullup.domain.model.ObjectAndRepeat
-import com.vad.pullup.domain.model.entity.Exercise
-import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.TotalResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -148,6 +148,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun reset() {
         Log.d("#reset", "reset $state")
         state = 0
+        sum = 0
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
     }

@@ -17,13 +17,15 @@
     <string name="warning">Warning!</string>
     <string name="your_current_progress_will_be_reset">Your current progress will be reset</string>
     <string name="set">Set</string>
-    <string name="result_sum">Your Result Sum:</string>
-    <string name="result_min">min:</string>
-    <string name="result_max">max:</string>
+    <string name="your_result">Your Result:</string>
+    <string name="result_sum">Sum:</string>
+    <string name="result_min">Min:</string>
+    <string name="result_max">Max:</string>
     <string name="sum_all_repeat">Sum all repeat</string>
     <string name="skip">skip</string>
     <string name="statistics">statistics</string>
     <string name="set_level">set level</string>
     <string name="delete">delete</string>
+    <string name="you_delete">You deleted</string>
 
 </resources>

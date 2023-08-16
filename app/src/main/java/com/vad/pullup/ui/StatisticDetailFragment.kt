@@ -54,7 +54,7 @@ class StatisticDetailFragment : BaseFragment(), ItemOnClickListenerView {
         popupMenu.setOnMenuItemClickListener { menuItem ->
 
             exerciseViewModel.deleteExerciseByDate(date.time)
-            Toast.makeText(thisContext, "You deleted " , Toast.LENGTH_SHORT).show()
+            Toast.makeText(thisContext, resources.getString(R.string.you_delete), Toast.LENGTH_SHORT).show()
             true
         }
         // Showing the popup menu

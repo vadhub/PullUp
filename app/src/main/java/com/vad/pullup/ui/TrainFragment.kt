@@ -25,7 +25,7 @@ import com.vad.pullup.domain.model.entity.Exercise
 import java.sql.Date
 import java.util.concurrent.TimeUnit
 
-class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissListener {
+class TrainFragment : BaseFragment(), TimerHandler {
 
     private lateinit var progressBar: CircularProgressIndicator
     private lateinit var buttonDone: Button
@@ -173,11 +173,10 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
                 val finishDialog = FinishDialog()
                 val fragmentManager = parentFragmentManager
                 val bundle = Bundle()
-                bundle.putInt("sum", it.sum)
-                bundle.putInt("min", it.min)
-                bundle.putInt("max", it.max)
+                bundle.putInt("sum_result", it.sum)
+                bundle.putInt("min_result", it.min)
+                bundle.putInt("max_result", it.max)
                 finishDialog.arguments = bundle
-                finishDialog.setOnDismissListener(this)
                 finishDialog.show(fragmentManager, "finish dialog")
                 configuration.saveDay(configuration.getDay() + 1)
                 globalProgressHandle.handle()
@@ -286,11 +285,6 @@ class TrainFragment : BaseFragment(), TimerHandler, DialogInterface.OnDismissLis
         if (!isSkip) {
             alarmHandler?.playAlarm()
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface?) {
-        Log.d("#dismisDialog", "update")
-        //getExercise()
     }
 
     private fun getExercise() {
