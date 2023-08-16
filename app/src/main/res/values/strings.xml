@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">PullUps</string>
+    <string name="app_name" translatable="false">WorkoutApp</string>
 
     <string name="your_max_repeat">Your max count</string>
     <string name="done">Done</string>
