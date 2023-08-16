@@ -17,6 +17,9 @@ import com.vad.pullup.domain.model.entity.Repeat
 import com.vad.pullup.ui.viewmodel.ExerciseViewModel
 import com.vad.pullup.ui.viewmodel.ExerciseViewModelFactory
 import com.vad.pullup.ui.viewmodel.ViewModelUIConfig
+import com.yandex.mobile.ads.banner.AdSize
+import com.yandex.mobile.ads.banner.BannerAdView
+import com.yandex.mobile.ads.common.AdRequest
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.BufferedReader
@@ -36,6 +39,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val mBanner = findViewById<BannerAdView>(R.id.adView)
+
+        mBanner.setAdUnitId("R-M-2613052-1")
+        mBanner.setAdSize(AdSize.stickySize(this, AdSize.FULL_SCREEN.width))
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        mBanner.loadAd(adRequest)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
