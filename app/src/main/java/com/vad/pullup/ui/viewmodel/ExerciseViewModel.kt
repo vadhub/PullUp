@@ -148,7 +148,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun reset() {
         Log.d("#reset", "reset $state")
         state = 0
-        sum = 0
         exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
         repeat.postValue(state)
     }
