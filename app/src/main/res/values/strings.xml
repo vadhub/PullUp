@@ -26,5 +26,6 @@
     <string name="statistics">statistics</string>
     <string name="set_level">set level</string>
     <string name="delete">delete</string>
+    <string name="you_delete">You deleted</string>
 
 </resources>
