@@ -33,9 +33,9 @@ class FinishDialog : DialogFragment() {
         val min = arguments?.getInt("min_result")
         Log.d("#dialogFinish", "$sum $max $min")
 
-        sumTextView.text = resources.getString(R.string.result_sum)+ " $sum"
-        maxTextView.text = resources.getString(R.string.result_max)+ " $max"
-        minTextView.text = resources.getString(R.string.result_min)+ " $min"
+        sumTextView.text = resources.getString(R.string.result_sum) + " $sum"
+        maxTextView.text = resources.getString(R.string.result_max) + " $max"
+        minTextView.text = resources.getString(R.string.result_min) + " $min"
 
         button.setOnClickListener {
             dismiss()

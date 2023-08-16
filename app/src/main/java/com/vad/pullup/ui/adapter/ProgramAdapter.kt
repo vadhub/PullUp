@@ -34,7 +34,6 @@ class ProgramAdapter(
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramViewHolder =
         ProgramViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_program, parent, false)

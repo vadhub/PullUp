@@ -15,6 +15,6 @@ class SaveInterrupted(private val context: Context) {
 
     fun getState(): Int {
         pref = context.getSharedPreferences("pull_ups", Context.MODE_PRIVATE)
-        return pref.getInt("state",-1)
+        return pref.getInt("state", -1)
     }
 }

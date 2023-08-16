@@ -21,7 +21,6 @@ import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.BufferedReader
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

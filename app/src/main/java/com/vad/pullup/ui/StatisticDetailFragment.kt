@@ -52,12 +52,11 @@ class StatisticDetailFragment : BaseFragment(), ItemOnClickListenerView {
         popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
-
             exerciseViewModel.deleteExerciseByDate(date.time)
             Toast.makeText(thisContext, resources.getString(R.string.you_delete), Toast.LENGTH_SHORT).show()
             true
         }
-        // Showing the popup menu
+
         popupMenu.show()
     }
 

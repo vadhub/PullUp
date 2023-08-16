@@ -50,11 +50,11 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     }
 
     fun increaseCount(count: Int) {
-        countOfRepeat.postValue(ObjectAndRepeat(count+1, state))
+        countOfRepeat.postValue(ObjectAndRepeat(count + 1, state))
     }
 
     fun decreaseCount(count: Int) {
-        if (count > 0) countOfRepeat.postValue(ObjectAndRepeat(count-1, state))
+        if (count > 0) countOfRepeat.postValue(ObjectAndRepeat(count - 1, state))
     }
 
     fun saveCount(exercise: Exercise, timerHandler: TimerHandler) = viewModelScope.launch {

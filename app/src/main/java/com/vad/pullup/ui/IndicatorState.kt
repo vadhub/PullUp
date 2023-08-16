@@ -12,7 +12,7 @@ class IndicatorState(
     private val state4: TextView,
     private val state5: TextView,
     private val context: Context
-    ) {
+) {
 
     fun setStates(listState: List<Int>) {
         state1.text = "${listState[0]}"
@@ -22,19 +22,27 @@ class IndicatorState(
         state5.text = "${listState[4]}"
     }
 
-    fun setIndicateRest(firstRest: ImageView, secondRest: ImageView, thirdRest: ImageView, fourthRest: ImageView, round: Int) {
+    fun setIndicateRest(
+        firstRest: ImageView,
+        secondRest: ImageView,
+        thirdRest: ImageView,
+        fourthRest: ImageView,
+        round: Int
+    ) {
 
         when (round) {
             1 -> firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
-            2 ->{
+            2 -> {
                 firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
                 secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
             }
+
             3 -> {
                 firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
                 secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
                 thirdRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
             }
+
             4 -> {
                 firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
                 secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_checked_24))
@@ -45,7 +53,12 @@ class IndicatorState(
 
     }
 
-    fun reset(firstRest: ImageView, secondRest: ImageView, thirdRest: ImageView, fourthRest: ImageView) {
+    fun reset(
+        firstRest: ImageView,
+        secondRest: ImageView,
+        thirdRest: ImageView,
+        fourthRest: ImageView
+    ) {
         firstRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_unchecked_24))
         secondRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_unchecked_24))
         thirdRest.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_radio_button_unchecked_24))

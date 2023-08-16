@@ -8,7 +8,6 @@ import com.vad.pullup.domain.model.entity.RepeatSum
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
-import java.sql.Date
 
 @Dao
 interface DaoExercisePlan {

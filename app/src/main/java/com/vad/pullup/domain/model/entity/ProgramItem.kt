@@ -28,5 +28,4 @@ data class ProgramItem(
 
     @ColumnInfo(name = "fifth")
     val fifth: Int
-) {
-}
+)
