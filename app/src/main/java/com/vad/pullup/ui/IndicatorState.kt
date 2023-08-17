@@ -22,6 +22,16 @@ class IndicatorState(
         state5.text = "${listState[4]}"
     }
 
+    fun setStateToTextView(state: Int, numberTextView: Int) {
+        when (numberTextView) {
+            1 -> state1.text = "$state"
+            2 -> state2.text = "$state"
+            3 -> state3.text = "$state"
+            4 -> state4.text = "$state"
+            5 -> state5.text = "$state"
+        }
+    }
+
     fun setIndicateRest(
         firstRest: ImageView,
         secondRest: ImageView,
