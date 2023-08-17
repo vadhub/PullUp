@@ -21,16 +21,36 @@ import kotlinx.coroutines.launch
 class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel() {
 
     private var timerHandle: Timer? = null
+
+    /* state is progress exercise or repeat
+    * example:
+    * state count
+    *   1    34
+    *   2    34
+    *  ...  ...
+    *
+    * initial zero because use in list of exercise plan
+    * */
     private var state = 0
-    private var listOfCount: List<Int> = listOf()
-    private var listOfExercise: List<ExercisePlan> = listOf()
+
+    // 34 23 20 23 12
+    private var listOfCountByWeek: List<Int> = listOf()
+
+    /* id  count week
+    *   1   32    5
+    *   2   34    5
+    *   3   20    5
+    *  ... ...   ...
+    * */
+    private var listOfPlan: List<ExercisePlan> = listOf()
+
     private var sum = 0
     private var max = 0
     private var min = 100
 
     val countOfRepeat: MutableLiveData<ObjectAndRepeat<Int>> = MutableLiveData()
     val exercisePlan: MutableLiveData<ObjectAndRepeat<ExercisePlan>> = MutableLiveData()
-    val listCount: MutableLiveData<List<Int>> = MutableLiveData()
+    val listCountByWeek: MutableLiveData<List<Int>> = MutableLiveData()
     val changeTimeout: MutableLiveData<Boolean> = MutableLiveData()
     val timer: MutableLiveData<Timer> = MutableLiveData()
     val repeat: MutableLiveData<Int> = MutableLiveData()
@@ -72,7 +92,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
         Log.d("##saveCount", "$state")
 
-        if (listOfCount.size - 1 > state) {
+        if (listOfCountByWeek.size - 1 > state) {
             changeTimeout.postValue(true)
             startTimer(120_000, timerHandler)
         } else {
@@ -83,22 +103,36 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun switchState() {
         Log.d("#switchState", "switchState")
-        if (listOfCount.size - 1 > state) {
+        if (listOfCountByWeek.size - 1 > state) {
             state++
         }
-        exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
+        exercisePlan.postValue(ObjectAndRepeat(listOfPlan[state], state))
         repeat.postValue(state)
     }
 
-    fun getListOfCountExercise(week: Int) = viewModelScope.launch {
-        listOfCount = repository.getPlanOfWeek(week).map { it.count }
-        listCount.postValue(listOfCount)
-    }
+    /* get list of count from plan program by week
+    * example:
+    * current week 5
+    * getListOfCountByWeekPlan(5) -> (from database) get program plan on 5 week
+    *
+    * count week
+    *   10   5     |
+    *   6    5     |
+    *   6    5      } <- is plan exercise
+    *   5    5     |
+    *   4    5     |
+    *
+    *  above -> get only count
+    *
+    * exercisePlan give ObjectAndRepeat(current count of plan program, repeat)
+     */
+    fun getListOfCountByWeekPlan(week: Int) = viewModelScope.launch {
 
-    fun getPlanByWeek(week: Int) = viewModelScope.launch {
-        listOfExercise = repository.getPlanOfWeek(week)
-        Log.d("#week", "$week")
-        exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
+        listOfPlan = repository.getPlanOfWeek(week)
+        listOfCountByWeek = listOfPlan.map { it.count }
+
+        listCountByWeek.postValue(listOfCountByWeek)
+        exercisePlan.postValue(ObjectAndRepeat(listOfPlan[state], state))
     }
 
     /*get all exercise for date
@@ -148,7 +182,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     fun reset() {
         Log.d("#reset", "reset $state")
         state = 0
-        exercisePlan.postValue(ObjectAndRepeat(listOfExercise[state], state))
+        exercisePlan.postValue(ObjectAndRepeat(listOfPlan[state], state))
         repeat.postValue(state)
     }
 
