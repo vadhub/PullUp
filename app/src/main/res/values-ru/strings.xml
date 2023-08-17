@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="your_max_repeat">Ваше максимальное количество</string>
+    <string name="done">OK</string>
+    <string name="week">неделя</string>
+    <string name="day">День</string>
+    <string name="well_done">Отличная работа!</string>
+    <string name="start_your_workout">Начни тренировку</string>
+    <string name="nothing_yet">Пока ничего</string>
+    <string name="chart">Диаграмма</string>
+    <string name="history">История</string>
+    <string name="training">Тренировка</string>
+    <string name="repeat">повтор</string>
+    <string name="count">количество</string>
+    <string name="warning">Предупреждение!</string>
+    <string name="your_current_progress_will_be_reset">Ваш текущий прогресс будет сброшен</string>
+    <string name="set">Установлена</string>
+    <string name="your_result">Ваш результат:</string>
+    <string name="result_sum">Сумма:</string>
+    <string name="sum_all_repeat">Сумма всех повторений</string>
+    <string name="skip">Пропустить</string>
+    <string name="statistics">статистика</string>
+    <string name="set_level">выбор уровня</string>
+    <string name="delete">удалить</string>
+    <string name="you_delete">Вы удалили</string>
+</resources>

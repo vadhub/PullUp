@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vad.pullup.R
 import com.vad.pullup.domain.model.entity.Exercise
 
-
 class ExerciseAdapter(
     private val listDateAndExercise: List<Pair<String, List<Exercise>>>,
     private val itemOnClickListener: ItemOnClickListenerView

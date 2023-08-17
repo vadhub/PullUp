@@ -47,7 +47,7 @@ class PreparationFragment : BaseFragment() {
         buttonDone.setOnClickListener {
             //3 version
             if (repeat.text.toString().toInt() < 10) {
-                 configuration.saveWeek(1)
+                configuration.saveWeek(1)
             } else if (repeat.text.toString().toInt() in 11..15) {
                 configuration.saveWeek(5)
             } else if (repeat.text.toString().toInt() in 16..20) {

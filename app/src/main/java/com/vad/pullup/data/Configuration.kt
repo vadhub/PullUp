@@ -16,7 +16,7 @@ class Configuration(private val context: Context) {
 
     fun getDay(): Int {
         pref = context.getSharedPreferences("pull_up_day", Context.MODE_PRIVATE)
-        return pref.getInt("day",1)
+        return pref.getInt("day", 1)
     }
 
     fun saveFirstStart(isFirst: Boolean) {
@@ -40,9 +40,7 @@ class Configuration(private val context: Context) {
 
     fun getWeek(): Int {
         pref = context.getSharedPreferences("pull_up_week", Context.MODE_PRIVATE)
-        return pref.getInt("week",1)
+        return pref.getInt("week", 1)
     }
-
-
 
 }

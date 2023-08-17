@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="your_max_repeat">Tu conteo máximo</string>
+    <string name="done">OK</string>
+    <string name="week">semana</string>
+    <string name="day">Día</string>
+    <string name="well_done">¡Bien hecho!</string>
+    <string name="start_your_workout">Comienza tu entrenamiento</string>
+    <string name="nothing_yet">Nada aún</string>
+    <string name="chart">Cuadro</string>
+    <string name="history">Historia</string>
+    <string name="training">Capacitación</string>
+    <string name="repeat">repetir</string>
+    <string name="count">contar</string>
+    <string name="warning">¡Advertencia!</string>
+    <string name="your_current_progress_will_be_reset">Tu progreso actual se restablecerá</string>
+    <string name="set">Establecer</string>
+    <string name="your_result">Tu resultado:</string>
+    <string name="result_sum">Suma:</string>
+    <string name="sum_all_repeat">Sumar todo repetir</string>
+    <string name="skip">saltar</string>
+    <string name="statistics">Estadísticas</string>
+    <string name="set_level">nivel</string>
+    <string name="delete">borrar</string>
+    <string name="you_delete">Tu borraste</string>
+</resources>

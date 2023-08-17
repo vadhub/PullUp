@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vad.pullup.R
 import com.vad.pullup.domain.model.entity.Exercise
 
-class ExerciseDetailAdapter(private val exercises: List<Exercise>) : RecyclerView.Adapter<ExerciseDetailAdapter.ExerciseDetailVH>() {
+class ExerciseDetailAdapter(private val exercises: List<Exercise>) :
+    RecyclerView.Adapter<ExerciseDetailAdapter.ExerciseDetailVH>() {
 
     class ExerciseDetailVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val repeat = itemView.findViewById<TextView>(R.id.repeatTextView)
@@ -21,7 +22,10 @@ class ExerciseDetailAdapter(private val exercises: List<Exercise>) : RecyclerVie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseDetailVH =
-        ExerciseDetailVH(LayoutInflater.from(parent.context).inflate(R.layout.item_repeat_and_count, parent, false))
+        ExerciseDetailVH(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_repeat_and_count, parent, false)
+        )
 
     override fun getItemCount(): Int = exercises.size
 

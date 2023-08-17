@@ -1,7 +1,6 @@
 package com.vad.pullup.ui
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.util.Log
@@ -48,16 +47,6 @@ class TrainFragment : BaseFragment(), TimerHandler {
         return inflater.inflate(R.layout.fragment_train, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("#create", "create")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("#resume", "resume")
-    }
-
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -73,7 +62,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
         Log.d("#44", "onViewCreated ${(requireActivity() as MainActivity).exerciseViewModel}")
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             Log.d("#onViewCreated", "saveinstance $progressMax")
             timeoutChange = savedInstanceState.getBoolean("timeoutChange")
             finish = savedInstanceState.getBoolean("finish")
@@ -81,7 +70,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
             Log.d("progress", "$progressMax")
             if (savedInstanceState.getBoolean("isStart")) {
                 Log.d("#onViewCreated", "isStart")
-                exerciseViewModel.startTimer(savedInstanceState.getLong("time"),this)
+                exerciseViewModel.startTimer(savedInstanceState.getLong("time"), this)
             }
         } else {
             if (saveInterrupted.getState() != -1 && !isShowedDialog) {
@@ -121,7 +110,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
         setDayAndWeek(day, week)
 
-        var exercise = Exercise(0, 0,0, Date(0))
+        var exercise = Exercise(0, 0, 0, Date(0))
         val indicator = IndicatorState(
             stateFirst,
             stateSecond,
@@ -134,13 +123,13 @@ class TrainFragment : BaseFragment(), TimerHandler {
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("#countOfRepeat", "countOfRepeat")
             textViewCount.text = "${it.first}"
-            exercise = Exercise(0, it.repeat+1, it.first, exercise.date)
+            exercise = Exercise(0, it.repeat + 1, it.first, exercise.date)
         }
 
         exerciseViewModel.exercisePlan.observe(viewLifecycleOwner) {
             Log.d("#exercisePlan", "exercisePlan")
             textViewCount.text = "${it.first.count}"
-            exercise = Exercise(0, it.repeat+1, it.first.count, Date(System.currentTimeMillis()))
+            exercise = Exercise(0, it.repeat + 1, it.first.count, Date(System.currentTimeMillis()))
         }
 
         exerciseViewModel.listCount.observe(viewLifecycleOwner) {
@@ -149,7 +138,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
         }
 
         exerciseViewModel.changeTimeout.observe(viewLifecycleOwner) {
-            Log.d("#changeTimeout","changeTimeout")
+            Log.d("#changeTimeout", "changeTimeout")
             updateButton(timeoutChange)
         }
 
@@ -160,7 +149,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
         }
 
         exerciseViewModel.repeat.observe(viewLifecycleOwner) {
-            Log.d("s#tateLiveData","stateLiveData $it")
+            Log.d("s#tateLiveData", "stateLiveData $it")
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
@@ -224,22 +213,12 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("#destroy", "view")
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Log.d("#destroy", "destroy")
         exerciseViewModel.skipTimer()
         alarmHandler?.stopAlarm()
         alarmHandler?.cancelAlarm()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d("#detach", "detach")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
