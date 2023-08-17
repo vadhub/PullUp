@@ -6,6 +6,7 @@ import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Repeat
+import java.sql.Date
 
 class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
 
@@ -30,6 +31,10 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
     suspend fun delete() {
         daoExercisePlan.deleteAll()
     }
+
+    suspend fun getRepeatBetweenDate(from: Date, to: Date) =
+       daoExercisePlan.sumGroupByDate().filter { from <= it.dateRepeat }.filter { it.dateRepeat <= to }
+
 
     suspend fun getSumRepeatGroupByDate() = daoExercisePlan.sumGroupByDate()
 
