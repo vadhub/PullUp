@@ -66,7 +66,6 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
         repository.setAllProgram(listRepeat)
-        repository.setAllProgramItem()
     }
 
     fun increaseCount(count: Int) {

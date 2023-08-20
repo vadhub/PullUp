@@ -37,7 +37,7 @@ interface DaoExercisePlan {
     suspend fun getAllProgram(): List<ExercisePlan>
 
     @Insert
-    suspend fun insertProgramLineItem(programItem: ProgramItem)
+    suspend fun insertProgramLineItem(programItem: List<ProgramItem>)
 
     @Query("SELECT * FROM program_item")
     suspend fun getAllProgramItem(): List<ProgramItem>

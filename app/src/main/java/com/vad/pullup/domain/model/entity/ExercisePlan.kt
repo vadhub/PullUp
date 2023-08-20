@@ -16,4 +16,6 @@ data class ExercisePlan(
 
     @ColumnInfo(name = "week")
     val week: Int
-)
+) {
+
+}

@@ -21,6 +21,7 @@ import com.vad.pullup.domain.model.GlobalProgressHandle
 import com.vad.pullup.domain.model.Timer
 import com.vad.pullup.domain.model.TimerHandler
 import com.vad.pullup.domain.model.entity.Exercise
+import com.vad.pullup.domain.model.entity.TotalResult
 import java.sql.Date
 import java.util.concurrent.TimeUnit
 
@@ -123,6 +124,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
         exerciseViewModel.countOfRepeat.observe(viewLifecycleOwner) {
             Log.d("#countOfRepeat", "countOfRepeat")
             textViewCount.text = "${it.first}"
+            indicator.setStateToTextView(it.first, it.repeat + 1)
             exercise = Exercise(0, it.repeat + 1, it.first, exercise.date)
         }
 
@@ -132,7 +134,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
             exercise = Exercise(0, it.repeat + 1, it.first.count, Date(System.currentTimeMillis()))
         }
 
-        exerciseViewModel.listCount.observe(viewLifecycleOwner) {
+        exerciseViewModel.listCountByWeek.observe(viewLifecycleOwner) {
             Log.d("##list count", it.toTypedArray().contentToString())
             indicator.setStates(it)
         }
@@ -159,14 +161,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
             if (!finish) {
                 indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
-                val finishDialog = FinishDialog()
-                val fragmentManager = parentFragmentManager
-                val bundle = Bundle()
-                bundle.putInt("sum_result", it.sum)
-                bundle.putInt("min_result", it.min)
-                bundle.putInt("max_result", it.max)
-                finishDialog.arguments = bundle
-                finishDialog.show(fragmentManager, "finish dialog")
+                createFinishDialog(it)
                 configuration.saveDay(configuration.getDay() + 1)
                 globalProgressHandle.handle()
                 setDayAndWeek(day, week)
@@ -211,6 +206,17 @@ class TrainFragment : BaseFragment(), TimerHandler {
             }
         }
 
+    }
+
+    private fun createFinishDialog(it: TotalResult) {
+        val finishDialog = FinishDialog()
+        val fragmentManager = parentFragmentManager
+        val bundle = Bundle()
+        bundle.putInt("sum_result", it.sum)
+        bundle.putInt("min_result", it.min)
+        bundle.putInt("max_result", it.max)
+        finishDialog.arguments = bundle
+        finishDialog.show(fragmentManager, "finish dialog")
     }
 
     override fun onDestroy() {
@@ -268,8 +274,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
 
     private fun getExercise() {
         val week = configuration.getWeek()
-        exerciseViewModel.getPlanByWeek(week)
-        exerciseViewModel.getListOfCountExercise(week)
+        exerciseViewModel.getListOfCountByWeekPlan(week)
     }
 
     private fun updateButton(change: Boolean) {

@@ -22,8 +22,6 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
         }
     }
 
-    private suspend fun getAllProgram() = daoExercisePlan.getAllProgram()
-
     suspend fun getPlanOfWeek(week: Int) = daoExercisePlan.getExerciseOnPlanFromWeek(week)
 
     suspend fun writeExercise(exercise: Exercise) = daoExercisePlan.insertExercise(exercise)
@@ -33,16 +31,11 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
     }
 
     suspend fun getRepeatBetweenDate(from: Date, to: Date) =
-       daoExercisePlan.sumGroupByDate().filter { from <= it.dateRepeat }.filter { it.dateRepeat <= to }
-
+        daoExercisePlan.sumGroupByDate()
+            .filter { from.time / 1000 <= it.dateRepeat.time / 1000 }
+            .filter { it.dateRepeat.time / 1000 <= to.time / 1000 }
 
     suspend fun getSumRepeatGroupByDate() = daoExercisePlan.sumGroupByDate()
-
-    suspend fun setAllProgramItem() {
-        ConverterProgram.convertToListProgram(getAllProgram(), 30).forEach {
-            daoExercisePlan.insertProgramLineItem(it)
-        }
-    }
 
     suspend fun getAllItemProgram(): List<ProgramItem> = daoExercisePlan.getAllProgramItem()
 
