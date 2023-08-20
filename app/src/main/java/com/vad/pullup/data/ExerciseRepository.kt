@@ -1,7 +1,6 @@
 package com.vad.pullup.data
 
 import com.vad.pullup.data.db.DaoExercisePlan
-import com.vad.pullup.domain.model.ConverterProgram
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
