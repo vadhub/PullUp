@@ -12,7 +12,6 @@ import com.vad.pullup.domain.model.TimerHandler
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
-import com.vad.pullup.domain.model.entity.Repeat
 import com.vad.pullup.domain.model.entity.RepeatSum
 import com.vad.pullup.domain.model.entity.TotalResult
 import kotlinx.coroutines.Dispatchers
@@ -56,16 +55,12 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     val repeat: MutableLiveData<Int> = MutableLiveData()
     val finish: MutableLiveData<TotalResult> = MutableLiveData()
     val sumRepeat: MutableLiveData<List<RepeatSum>> = MutableLiveData()
-    val allProgram: MutableLiveData<List<ProgramItem>> = MutableLiveData()
+    val allProgramItem: MutableLiveData<List<ProgramItem>> = MutableLiveData()
     val allExercise: MutableLiveData<List<Exercise>> = MutableLiveData()
 
     fun setState(state: Int) {
         this.state = state
         repeat.postValue(state)
-    }
-
-    fun setProgram(listRepeat: List<Repeat>) = viewModelScope.launch {
-        repository.setAllProgram(listRepeat)
     }
 
     fun increaseCount(count: Int) {
@@ -150,7 +145,7 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
     }
 
     fun getAllProgram() = viewModelScope.launch(Dispatchers.IO) {
-        allProgram.postValue(repository.getAllItemProgram())
+        allProgramItem.postValue(repository.getAllItemProgram())
     }
 
     fun setTimer(increase: Boolean, timerHandler: TimerHandler) {

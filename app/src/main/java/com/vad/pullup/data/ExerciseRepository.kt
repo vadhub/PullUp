@@ -2,24 +2,10 @@ package com.vad.pullup.data
 
 import com.vad.pullup.data.db.DaoExercisePlan
 import com.vad.pullup.domain.model.entity.Exercise
-import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
-import com.vad.pullup.domain.model.entity.Repeat
 import java.sql.Date
 
 class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
-
-    suspend fun setAllProgram(listRepeat: List<Repeat>) {
-        listRepeat.forEach {
-            daoExercisePlan.insertExerciseProgram(
-                ExercisePlan(
-                    0,
-                    it.count,
-                    it.week
-                )
-            )
-        }
-    }
 
     suspend fun getPlanOfWeek(week: Int) = daoExercisePlan.getExerciseOnPlanFromWeek(week)
 

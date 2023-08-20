@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "program_item")
 data class ProgramItem(
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "id_program_item")
     val id: Int,
 

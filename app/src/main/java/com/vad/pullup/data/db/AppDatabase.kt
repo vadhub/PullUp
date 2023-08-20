@@ -8,10 +8,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
-@Database(entities = [ExercisePlan::class, Exercise::class, ProgramItem::class], version = 4, exportSchema = false)
+@Database(
+    entities = [ExercisePlan::class, Exercise::class, ProgramItem::class],
+    version = 4,
+    exportSchema = false
+)
 
 abstract class AppDatabase : RoomDatabase() {
 
@@ -28,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "app_database"
-                ).addCallback(callback).build()
+                ).fallbackToDestructiveMigration().addCallback(callback).build()
 
                 INSTANCE = instance
                 instance
@@ -37,14 +42,15 @@ abstract class AppDatabase : RoomDatabase() {
 
         private val callback = object : Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
-                runBlocking {
-                    launch {
-                        INSTANCE?.exerciseDao()?.insertProgramLineItem(ProgramItem.items)
-                    }
+                super.onCreate(db)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        INSTANCE?.exerciseDao().let {
+                            it?.insertExerciseProgram(ExercisePlan.prepopulate)
+                            it?.insertProgramLineItem(ProgramItem.items)
+                        }
                 }
             }
         }
-
     }
 
 }
