@@ -41,7 +41,7 @@ class ChooseProgramFragment : BaseFragment(), ItemOnClickListener, OnAcceptListe
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         exerciseViewModel.getAllProgram()
-        exerciseViewModel.allProgram.observe(viewLifecycleOwner) {
+        exerciseViewModel.allProgramItem.observe(viewLifecycleOwner) {
             listOfItemProgram = it
             val adapter = ProgramAdapter(it, this)
             recyclerView.adapter = adapter

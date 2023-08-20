@@ -4,11 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-@Database(entities = [ExercisePlan::class, Exercise::class, ProgramItem::class], version = 4, exportSchema = false)
+@Database(
+    entities = [ExercisePlan::class, Exercise::class, ProgramItem::class],
+    version = 4,
+    exportSchema = false
+)
 
 abstract class AppDatabase : RoomDatabase() {
 
@@ -25,13 +33,24 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "app_database"
-                ).fallbackToDestructiveMigration().build()
+                ).fallbackToDestructiveMigration().addCallback(callback).build()
 
                 INSTANCE = instance
                 instance
             }
         }
 
+        private val callback = object : Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        INSTANCE?.exerciseDao().let {
+                            it?.insertExerciseProgram(ExercisePlan.prepopulate)
+                            it?.insertProgramLineItem(ProgramItem.items)
+                        }
+                }
+            }
+        }
     }
 
 }

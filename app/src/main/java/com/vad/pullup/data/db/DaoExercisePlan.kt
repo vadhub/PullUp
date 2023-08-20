@@ -2,12 +2,13 @@ package com.vad.pullup.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.vad.pullup.domain.model.entity.RepeatSum
-import com.vad.pullup.domain.model.entity.ProgramItem
 import com.vad.pullup.domain.model.entity.Exercise
 import com.vad.pullup.domain.model.entity.ExercisePlan
+import com.vad.pullup.domain.model.entity.ProgramItem
+import com.vad.pullup.domain.model.entity.RepeatSum
 
 @Dao
 interface DaoExercisePlan {
@@ -21,8 +22,8 @@ interface DaoExercisePlan {
     @Query("SELECT SUM(count_) as countRepeat, date_ as dateRepeat FROM exercise GROUP BY date(date_/1000, 'unixepoch')")
     suspend fun sumGroupByDate(): List<RepeatSum>
 
-    @Insert
-    suspend fun insertExerciseProgram(exerciseProgram: ExercisePlan)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExerciseProgram(exercisePrograms: List<ExercisePlan>) : LongArray
 
     @Insert
     suspend fun insertExercise(exercise: Exercise)
@@ -33,11 +34,8 @@ interface DaoExercisePlan {
     @Query("SELECT * FROM exercise ORDER BY date(date_/1000, 'unixepoch') ASC")
     suspend fun getAllExercise(): List<Exercise>
 
-    @Query("SELECT * FROM exercise_plan")
-    suspend fun getAllProgram(): List<ExercisePlan>
-
-    @Insert
-    suspend fun insertProgramLineItem(programItem: ProgramItem)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProgramLineItem(programItem: List<ProgramItem>)
 
     @Query("SELECT * FROM program_item")
     suspend fun getAllProgramItem(): List<ProgramItem>

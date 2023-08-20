@@ -1,28 +1,11 @@
 package com.vad.pullup.data
 
 import com.vad.pullup.data.db.DaoExercisePlan
-import com.vad.pullup.domain.model.ConverterProgram
 import com.vad.pullup.domain.model.entity.Exercise
-import com.vad.pullup.domain.model.entity.ExercisePlan
 import com.vad.pullup.domain.model.entity.ProgramItem
-import com.vad.pullup.domain.model.entity.Repeat
 import java.sql.Date
 
 class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
-
-    suspend fun setAllProgram(listRepeat: List<Repeat>) {
-        listRepeat.forEach {
-            daoExercisePlan.insertExerciseProgram(
-                ExercisePlan(
-                    0,
-                    it.count,
-                    it.week
-                )
-            )
-        }
-    }
-
-    private suspend fun getAllProgram() = daoExercisePlan.getAllProgram()
 
     suspend fun getPlanOfWeek(week: Int) = daoExercisePlan.getExerciseOnPlanFromWeek(week)
 
@@ -33,16 +16,11 @@ class ExerciseRepository(private val daoExercisePlan: DaoExercisePlan) {
     }
 
     suspend fun getRepeatBetweenDate(from: Date, to: Date) =
-       daoExercisePlan.sumGroupByDate().filter { from <= it.dateRepeat }.filter { it.dateRepeat <= to }
-
+        daoExercisePlan.sumGroupByDate()
+            .filter { from.time / 1000 <= it.dateRepeat.time / 1000 }
+            .filter { it.dateRepeat.time / 1000 <= to.time / 1000 }
 
     suspend fun getSumRepeatGroupByDate() = daoExercisePlan.sumGroupByDate()
-
-    suspend fun setAllProgramItem() {
-        ConverterProgram.convertToListProgram(getAllProgram(), 30).forEach {
-            daoExercisePlan.insertProgramLineItem(it)
-        }
-    }
 
     suspend fun getAllItemProgram(): List<ProgramItem> = daoExercisePlan.getAllProgramItem()
 

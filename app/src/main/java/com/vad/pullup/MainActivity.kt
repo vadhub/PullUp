@@ -13,16 +13,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vad.pullup.data.Configuration
 import com.vad.pullup.data.ExerciseRepository
-import com.vad.pullup.domain.model.entity.Repeat
 import com.vad.pullup.ui.viewmodel.ExerciseViewModel
 import com.vad.pullup.ui.viewmodel.ExerciseViewModelFactory
 import com.vad.pullup.ui.viewmodel.ViewModelUIConfig
 import com.yandex.mobile.ads.banner.AdSize
 import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdRequest
-import org.apache.commons.csv.CSVFormat
-import org.apache.commons.csv.CSVParser
-import java.io.BufferedReader
 
 class MainActivity : AppCompatActivity() {
 
@@ -69,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("d", "!!!!!!!!!!")
             if (configuration.getFirstStart()) {
                 exerciseViewModel.deleteAllProgram()
-                exerciseViewModel.setProgram(readCSVProgram())
                 Log.d("##1", "firsttt")
                 configuration.saveFirstStart(false)
                 navGraph.setStartDestination(R.id.preparationFragment)
@@ -77,6 +72,8 @@ class MainActivity : AppCompatActivity() {
                 navGraph.setStartDestination(R.id.trainFragment)
             }
         }
+
+//        exerciseViewModel.insertExercise()
 
         navController.graph = navGraph
 
@@ -88,26 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    }
-
-    private fun readCSVProgram(): List<Repeat> {
-        val bufferReader = BufferedReader(assets.open("traini.csv").reader())
-        val csvParser = CSVParser.parse(
-            bufferReader,
-            CSVFormat.DEFAULT
-        )
-
-        val listRepeat = mutableListOf<Repeat>()
-        csvParser.drop(1).forEach {
-            val repeat = Repeat(
-                week = it.get(0).toInt(),
-                count = it.get(1).toInt()
-            )
-
-            listRepeat.add(repeat)
-        }
-
-        return listRepeat
     }
 
 }
