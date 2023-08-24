@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.vad.pullup.BaseFragment
 import com.vad.pullup.MainActivity
@@ -40,6 +41,7 @@ class TrainFragment : BaseFragment(), TimerHandler {
     private val saveInterrupted: SaveInterrupted by lazy { SaveInterrupted(thisContext) }
     private var isShowedDialog = false
     private var isSkip = false
+    private lateinit var finishObserver: Observer<TotalResult>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -155,21 +157,23 @@ class TrainFragment : BaseFragment(), TimerHandler {
             indicator.setIndicateRest(firstRest, secondRest, thirdRest, fourthRest, it)
         }
 
-        exerciseViewModel.finish.observe(viewLifecycleOwner) {
+        finishObserver = Observer {
+                Log.d("#finish", "$it 1 $finish")
 
-            Log.d("#finish", "$it 1 $finish")
-
-            if (!finish) {
-                indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
-                createFinishDialog(it)
-                configuration.saveDay(configuration.getDay() + 1)
-                globalProgressHandle.handle()
-                setDayAndWeek(day, week)
-                finish = true
-                timeoutChange = false
-                saveInterrupted.saveState(-1)
-            }
+                if (!finish) {
+                    indicator.reset(firstRest, secondRest, thirdRest, fourthRest)
+                    createFinishDialog(it)
+                    configuration.saveDay(configuration.getDay() + 1)
+                    globalProgressHandle.handle()
+                    setDayAndWeek(day, week)
+                    getExercise()
+                    finish = true
+                    timeoutChange = false
+                    saveInterrupted.saveState(-1)
+                }
         }
+
+        exerciseViewModel.finish.observe(viewLifecycleOwner, finishObserver)
 
         imageButtonAdd.setOnClickListener {
             if (!timeoutChange) {
@@ -217,6 +221,12 @@ class TrainFragment : BaseFragment(), TimerHandler {
         bundle.putInt("max_result", it.max)
         finishDialog.arguments = bundle
         finishDialog.show(fragmentManager, "finish dialog")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("dddd", "onStop")
+        exerciseViewModel.finish.removeObserver(finishObserver)
     }
 
     override fun onDestroy() {
