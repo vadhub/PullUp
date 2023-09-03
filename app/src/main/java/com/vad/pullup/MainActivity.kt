@@ -73,8 +73,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        exerciseViewModel.insertExercise()
-
         navController.graph = navGraph
 
         visibleNavBar.visibleNavBar.observe(this) {

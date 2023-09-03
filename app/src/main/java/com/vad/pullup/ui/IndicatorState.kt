@@ -14,6 +14,7 @@ class IndicatorState(
     private val context: Context
 ) {
 
+    //set list count by week to each textview
     fun setStates(listState: List<Int>) {
         state1.text = "${listState[0]}"
         state2.text = "${listState[1]}"

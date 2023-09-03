@@ -49,6 +49,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
 
     val countOfRepeat: MutableLiveData<ObjectAndRepeat<Int>> = MutableLiveData()
     val exercisePlan: MutableLiveData<ObjectAndRepeat<ExercisePlan>> = MutableLiveData()
+
+    // list of count bt week ex: 23 - 15 - 15 - 12 - 10
     val listCountByWeek: MutableLiveData<List<Int>> = MutableLiveData()
     val changeTimeout: MutableLiveData<Boolean> = MutableLiveData()
     val timer: MutableLiveData<Timer> = MutableLiveData()
@@ -90,8 +92,8 @@ class ExerciseViewModel(private val repository: ExerciseRepository) : ViewModel(
             changeTimeout.postValue(true)
             startTimer(120_000, timerHandler)
         } else {
-            reset()
             finish.postValue(TotalResult(max, min, sum))
+            reset()
         }
     }
 
