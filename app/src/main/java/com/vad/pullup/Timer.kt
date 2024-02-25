@@ -38,6 +38,6 @@ class Timer {
     fun getTimerListener() = timerListener
 
     interface TimerListener {
-
+        fun showTimeInMilliseconds(milliseconds: Long)
     }
 }

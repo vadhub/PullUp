@@ -51,9 +51,22 @@ class TimerUnitTest {
 
     @Test
     fun setTimerListener() {
-        val timerListener: Timer.TimerListener = object : Timer.TimerListener {}
+        val timerListener: Timer.TimerListener = object : Timer.TimerListener {
+            override fun showTimeInMilliseconds(milliseconds: Long) {}
+        }
         timer.setTimerListener(timerListener)
         assertNotNull(timer.getTimerListener())
     }
 
+    @Test
+    fun `show time in milliseconds from listener`() {
+        val timerListener = object : Timer.TimerListener {
+            override fun showTimeInMilliseconds(milliseconds: Long) {
+                assertEquals(0, milliseconds)
+            }
+        }
+
+        timer.setTimerListener(timerListener)
+
+    }
 }
