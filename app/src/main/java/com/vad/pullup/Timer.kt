@@ -39,5 +39,6 @@ class Timer {
 
     interface TimerListener {
         fun showTimeInMilliseconds(milliseconds: Long)
+        fun finishTimer()
     }
 }

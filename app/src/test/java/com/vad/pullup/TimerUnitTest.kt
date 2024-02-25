@@ -2,6 +2,7 @@ package com.vad.pullup
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class TimerUnitTest {
@@ -53,6 +54,7 @@ class TimerUnitTest {
     fun setTimerListener() {
         val timerListener: Timer.TimerListener = object : Timer.TimerListener {
             override fun showTimeInMilliseconds(milliseconds: Long) {}
+            override fun finishTimer() {}
         }
         timer.setTimerListener(timerListener)
         assertNotNull(timer.getTimerListener())
@@ -65,6 +67,7 @@ class TimerUnitTest {
             override fun showTimeInMilliseconds(milliseconds: Long) {
                 millisecond = milliseconds
             }
+            override fun finishTimer() {}
         }
 
         timer.setTimerListener(timerListener)
@@ -79,10 +82,26 @@ class TimerUnitTest {
             override fun showTimeInMilliseconds(milliseconds: Long) {
                 millisecond = milliseconds
             }
+            override fun finishTimer() {}
         }
 
         timer.setTimerListener(timerListener)
         timerListener.showTimeInMilliseconds(1000)
         assertEquals(1000, millisecond)
     }
+
+    @Test
+    fun finishTimerCallback() {
+        var isFinish = false
+        val timerListener = object : Timer.TimerListener {
+            override fun showTimeInMilliseconds(milliseconds: Long) {}
+            override fun finishTimer() {
+                isFinish = true
+            }
+        }
+        timer.setTimerListener(timerListener)
+        assertTrue(isFinish)
+    }
+
+
 }
