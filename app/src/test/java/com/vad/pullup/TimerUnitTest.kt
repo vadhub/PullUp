@@ -1,6 +1,7 @@
 package com.vad.pullup
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -12,35 +13,35 @@ class TimerUnitTest {
     @Test
     fun isStartTimer() {
         val isStart = timer.isStart
-        assertEquals(false, isStart)
+        assertFalse(isStart)
     }
 
     @Test
     fun startTimer() {
         timer.start()
         val isStart = timer.isStart
-        assertEquals(true, isStart)
+        assertTrue(isStart)
     }
 
     @Test
     fun stopTimer() {
         timer.stop()
         val isStart = timer.isStart
-        assertEquals(false, isStart)
+        assertFalse(isStart)
     }
 
     @Test
     fun pauseTimer() {
         timer.pause()
         val isStart = timer.isStart
-        assertEquals(false, isStart)
+        assertFalse(isStart)
     }
 
     @Test
     fun restartTimer() {
         timer.restart()
         val isStart = timer.isStart
-        assertEquals(true, isStart)
+        assertTrue(isStart)
     }
 
     @Test
