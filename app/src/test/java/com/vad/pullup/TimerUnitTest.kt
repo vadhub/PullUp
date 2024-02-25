@@ -71,4 +71,18 @@ class TimerUnitTest {
         timerListener.showTimeInMilliseconds(0)
         assertEquals(0, millisecond)
     }
+
+    @Test
+    fun `show 1000 milliseconds after call listener`() {
+        var millisecond = -1L
+        val timerListener = object : Timer.TimerListener {
+            override fun showTimeInMilliseconds(milliseconds: Long) {
+                millisecond = milliseconds
+            }
+        }
+
+        timer.setTimerListener(timerListener)
+        timerListener.showTimeInMilliseconds(1000)
+        assertEquals(1000, millisecond)
+    }
 }
