@@ -16,7 +16,7 @@ import com.vad.pullup.data.ExerciseRepository
 import com.vad.pullup.ui.viewmodel.ExerciseViewModel
 import com.vad.pullup.ui.viewmodel.ExerciseViewModelFactory
 import com.vad.pullup.ui.viewmodel.ViewModelUIConfig
-import com.yandex.mobile.ads.banner.AdSize
+import com.yandex.mobile.ads.banner.BannerAdSize
 import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdRequest
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val mBanner = findViewById<BannerAdView>(R.id.adView)
 
         mBanner.setAdUnitId("R-M-2613052-1")
-        mBanner.setAdSize(AdSize.stickySize(this, AdSize.FULL_SCREEN.width))
+        mBanner.setAdSize(getAdSize(mBanner))
         val adRequest: AdRequest = AdRequest.Builder().build()
         mBanner.loadAd(adRequest)
 
@@ -85,6 +85,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun getAdSize(mBannerAdView: BannerAdView): BannerAdSize {
+        val displayMetrics = resources.displayMetrics
+        // Calculate the width of the ad, taking into account the padding in the ad container.
+        var adWidthPixels: Int = mBannerAdView.getWidth()
+        if (adWidthPixels == 0) {
+            // If the ad hasn't been laid out, default to the full screen width
+            adWidthPixels = displayMetrics.widthPixels
+        }
+        val adWidth = Math.round(adWidthPixels / displayMetrics.density)
+        return BannerAdSize.stickySize(this, adWidth)
     }
 
 }

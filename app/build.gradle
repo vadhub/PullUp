@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace 'com.vad.pullup'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.vad.pullup"
         minSdk 21
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        targetSdk 35
+        versionCode 2
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,6 +31,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildToolsVersion '35.0.0'
+    ndkVersion '26.1.10909125'
 }
 
 dependencies {
@@ -40,12 +42,12 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    implementation 'com.yandex.android:mobileads:5.10.0'
+    implementation 'com.yandex.android:mobileads:7.7.0'
 
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
-    def roomVersion = "2.5.2"
+    def roomVersion = "2.6.1"
 
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
